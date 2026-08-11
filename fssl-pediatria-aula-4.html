@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FSSL em Pediatria — Aula em Slides | Dr. André Rossanno</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --papel:#F6F7F8;
+  --carta:#FFFFFF;
+  --tinta:#151A21;
+  --tinta2:#48525E;
+  --tinta3:#7C8794;
+  --linha:#E2E6EA;
+  --linha2:#CFD6DC;
+
+  --azul:#1282A2;        /* conceito, cálculo, mecanismo */
+  --azul-fraco:#E8F4F8;
+  --verde:#1E8F5E;       /* proteção, normal, pode sair */
+  --verde-fraco:#E6F4EE;
+  --vermelho:#C0392B;    /* perigo, alto risco, erro grave */
+  --vermelho-fraco:#FBEBE9;
+  --ambar:#B07A05;       /* pegadinha, atenção */
+  --ambar-fraco:#FBF2DF;
+  --navy:#1B2A3A;
+
+  --r:14px;
+  --sombra:0 1px 2px rgba(21,26,33,.05), 0 8px 28px rgba(21,26,33,.07);
+  --fonte:'Nunito','Trebuchet MS',Arial,sans-serif;
+  --mono:'IBM Plex Mono','Courier New',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:var(--fonte);
+  background:var(--papel);
+  color:var(--tinta);
+  -webkit-font-smoothing:antialiased;
+  overflow:hidden;
+}
+body.rolar{overflow:auto}
+
+/* ====== BARRA SUPERIOR ====== */
+.topo{
+  position:fixed;top:0;left:0;right:0;height:52px;z-index:60;
+  background:rgba(246,247,248,.92);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--linha);
+  display:flex;align-items:center;gap:14px;padding:0 16px;
+}
+.marca{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--tinta3);white-space:nowrap}
+.marca b{color:var(--azul);font-weight:600}
+.topo-sep{flex:1}
+.btn{
+  font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;
+  background:var(--carta);border:1px solid var(--linha2);color:var(--tinta2);
+  padding:7px 11px;border-radius:8px;cursor:pointer;transition:.15s;white-space:nowrap;
+}
+.btn:hover{border-color:var(--azul);color:var(--azul)}
+.btn:focus-visible{outline:2px solid var(--azul);outline-offset:2px}
+.btn.on{background:var(--azul);border-color:var(--azul);color:#fff}
+.contador{font-family:var(--mono);font-size:12px;color:var(--tinta2);font-weight:500;white-space:nowrap}
+
+.progresso{position:fixed;top:52px;left:0;height:2px;background:var(--azul);z-index:61;transition:width .25s ease}
+
+/* ====== PALCO ====== */
+.palco{
+  position:fixed;top:54px;bottom:0;left:0;right:0;
+  display:flex;align-items:flex-start;justify-content:center;
+  overflow-y:auto;padding:22px 16px 90px;
+}
+.slide{
+  width:100%;max-width:1080px;background:var(--carta);
+  border:1px solid var(--linha);border-radius:var(--r);
+  box-shadow:var(--sombra);
+  display:grid;grid-template-columns:132px 1fr;
+  min-height:calc(100vh - 170px);
+  animation:entra .3s ease;
+}
+@keyframes entra{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+body.sem-mov .slide{animation:none}
+
+/* ====== TRILHO DE FONTE (assinatura do deck) ====== */
+.trilho{
+  border-right:1px solid var(--linha);
+  padding:26px 14px;display:flex;flex-direction:column;gap:14px;
+  background:#FBFCFC;border-radius:var(--r) 0 0 var(--r);
+}
+.trilho .etiq{font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--tinta3);margin-bottom:5px;display:block}
+.trilho .num{font-family:var(--mono);font-size:26px;font-weight:600;color:var(--tinta);line-height:1}
+.trilho .num small{font-size:13px;color:var(--azul)}
+.fonte-chip{
+  font-family:var(--mono);font-size:9.5px;line-height:1.45;color:var(--tinta2);
+  border-left:2px solid var(--linha2);padding-left:8px;
+}
+.fonte-chip.firme{border-left-color:var(--verde)}
+.fonte-chip.local{border-left-color:var(--ambar)}
+.fonte-chip.corr{border-left-color:var(--vermelho);color:var(--vermelho);font-weight:500}
+.grau{display:flex;flex-direction:column;gap:5px;margin-top:auto;padding-top:14px;border-top:1px solid var(--linha)}
+.grau i{font-style:normal;font-family:var(--mono);font-size:9px;letter-spacing:.06em;color:var(--tinta3);display:flex;align-items:center;gap:6px}
+.grau i::before{content:'';width:7px;height:7px;border-radius:2px;flex:none}
+.grau i.g1::before{background:var(--verde)}
+.grau i.g2::before{background:var(--ambar)}
+.grau i.g3::before{background:var(--vermelho)}
+
+/* ====== CORPO ====== */
+.corpo{padding:26px 34px 34px;min-width:0}
+.kicker{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--tinta3);margin-bottom:9px}
+.kicker.plantao{color:var(--vermelho);font-weight:600}
+h1.tit{font-size:32px;font-weight:800;line-height:1.15;letter-spacing:-.015em;margin-bottom:6px}
+h1.tit.grande{font-size:44px}
+.sub{font-size:15px;color:var(--tinta2);font-weight:400;margin-bottom:18px;line-height:1.5}
+.regua{height:3px;width:52px;background:var(--azul);border-radius:2px;margin:0 0 20px}
+.regua.r-vermelho{background:var(--vermelho)}
+.regua.r-verde{background:var(--verde)}
+.regua.r-ambar{background:var(--ambar)}
+
+.corpo p{font-size:15.5px;line-height:1.65;color:var(--tinta);margin-bottom:12px}
+.corpo ul{list-style:none;margin:0 0 14px}
+.corpo li{position:relative;padding-left:18px;font-size:15px;line-height:1.6;margin-bottom:8px}
+.corpo li::before{content:'';position:absolute;left:2px;top:9px;width:5px;height:5px;border-radius:50%;background:var(--linha2)}
+.corpo li b,.corpo p b{font-weight:800}
+.corpo strong{font-weight:800}
+.dois{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.tres{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+
+/* caixas */
+.cx{border:1px solid var(--linha);border-radius:11px;padding:15px 17px;margin-bottom:14px;background:#FDFDFE}
+.cx .cx-tit{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:9px;color:var(--tinta3)}
+.cx.azul{background:var(--azul-fraco);border-color:#BFE0EA}.cx.azul .cx-tit{color:var(--azul)}
+.cx.verde{background:var(--verde-fraco);border-color:#BFE3D2}.cx.verde .cx-tit{color:var(--verde)}
+.cx.vermelho{background:var(--vermelho-fraco);border-color:#F2C9C4}.cx.vermelho .cx-tit{color:var(--vermelho)}
+.cx.ambar{background:var(--ambar-fraco);border-color:#EBDCB0}.cx.ambar .cx-tit{color:var(--ambar)}
+.cx.escuro{background:var(--navy);border-color:var(--navy);color:#EAF0F5}
+.cx.escuro .cx-tit{color:#8FB8CE}
+.cx.escuro p,.cx.escuro li{color:#EAF0F5}
+.cx p:last-child,.cx ul:last-child,.cx li:last-child{margin-bottom:0}
+
+.frase{
+  font-size:19px;font-weight:800;line-height:1.4;color:var(--navy);
+  border-left:4px solid var(--azul);padding:4px 0 4px 16px;margin:16px 0;
+}
+.frase.alerta{border-left-color:var(--vermelho);color:var(--vermelho)}
+.frase.ouro{border-left-color:var(--ambar)}
+.placa{
+  text-align:center;font-size:30px;font-weight:900;line-height:1.25;color:var(--navy);
+  background:var(--ambar-fraco);border:2px dashed #DCC583;border-radius:12px;padding:22px;margin:18px 0;
+}
+
+/* tabelas */
+table{width:100%;border-collapse:collapse;font-size:14px;margin-bottom:14px}
+th{
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--tinta3);text-align:left;padding:8px 10px;border-bottom:1.5px solid var(--linha2);font-weight:500;
+}
+td{padding:9px 10px;border-bottom:1px solid var(--linha);vertical-align:top;line-height:1.5}
+tr:last-child td{border-bottom:none}
+td b{font-weight:800}
+td.rot{font-weight:700;color:var(--tinta);width:150px}
+tr.ruim td{background:var(--vermelho-fraco)}
+tr.bom td{background:var(--verde-fraco)}
+tr.atencao td{background:var(--ambar-fraco)}
+
+.tag{display:inline-block;font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;padding:3px 7px;border-radius:5px;font-weight:500;vertical-align:middle}
+.tag.v{background:var(--vermelho);color:#fff}
+.tag.g{background:var(--verde);color:#fff}
+.tag.a{background:var(--ambar);color:#fff}
+.tag.b{background:var(--azul);color:#fff}
+
+/* ficha do paciente */
+.ficha{
+  border:1px solid var(--linha2);border-left:4px solid var(--vermelho);border-radius:10px;
+  padding:15px 18px;margin-bottom:16px;background:#FDFDFE;
+}
+.ficha .id{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--vermelho);margin-bottom:7px;font-weight:600}
+.ficha p{font-size:15px;margin-bottom:6px}
+.ficha p:last-child{margin-bottom:0}
+.vitais{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}
+.vital{font-family:var(--mono);font-size:11.5px;background:#F1F4F6;border:1px solid var(--linha);border-radius:6px;padding:4px 9px;color:var(--tinta2)}
+.vital b{color:var(--tinta);font-weight:600}
+.vital.mau{background:var(--vermelho-fraco);border-color:#F2C9C4;color:var(--vermelho)}
+.vital.bom{background:var(--verde-fraco);border-color:#BFE3D2;color:var(--verde)}
+
+/* revelar */
+.cortina{
+  border:2px dashed var(--linha2);border-radius:12px;padding:26px;text-align:center;
+  background:#FAFBFC;cursor:pointer;transition:.18s;
+}
+.cortina:hover{border-color:var(--azul);background:var(--azul-fraco)}
+.cortina .c-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--tinta3);margin-bottom:8px}
+.cortina .c-tit{font-size:19px;font-weight:800;color:var(--navy)}
+.cortina .c-dica{font-size:13.5px;color:var(--tinta2);margin-top:8px}
+.revelado{display:none;animation:entra .3s ease}
+.revelado.on{display:block}
+
+/* perguntas 7 */
+.sete{counter-reset:q;display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.sete div{
+  counter-increment:q;position:relative;padding:10px 12px 10px 38px;
+  border:1px solid var(--linha);border-radius:9px;font-size:14px;background:#FDFDFE;line-height:1.45;
+}
+.sete div::before{
+  content:counter(q);position:absolute;left:11px;top:10px;
+  font-family:var(--mono);font-size:12px;font-weight:600;color:#fff;background:var(--azul);
+  width:19px;height:19px;border-radius:5px;display:flex;align-items:center;justify-content:center;
+}
+
+/* receita */
+pre.receita{
+  font-family:var(--mono);font-size:12.5px;line-height:1.62;background:var(--navy);color:#DDE7EE;
+  padding:19px 21px;border-radius:11px;overflow-x:auto;white-space:pre-wrap;margin-bottom:14px;
+}
+pre.receita b{color:#7FD4B5;font-weight:600}
+
+/* campos em branco (OSCE) */
+.campos{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:14px}
+.campo{border-bottom:1.5px dotted var(--linha2);padding:9px 3px 7px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--tinta3)}
+
+/* notas do professor */
+.notas{
+  max-width:1080px;margin:14px auto 0;background:var(--navy);color:#DCE6EE;
+  border-radius:var(--r);padding:18px 22px;display:none;
+}
+.notas.on{display:block}
+.notas .n-tit{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#8FB8CE;margin-bottom:9px}
+.notas p{font-size:14.5px;line-height:1.62;margin-bottom:9px;color:#DCE6EE}
+.notas p:last-child{margin-bottom:0}
+.notas em{color:#F0C674;font-style:normal;font-weight:700}
+
+/* rodapé de navegação */
+.rodape{
+  position:fixed;bottom:0;left:0;right:0;height:60px;z-index:60;
+  background:rgba(246,247,248,.93);backdrop-filter:blur(10px);border-top:1px solid var(--linha);
+  display:flex;align-items:center;justify-content:center;gap:10px;padding:0 16px;
+}
+.nav-btn{
+  width:40px;height:36px;border-radius:9px;border:1px solid var(--linha2);background:var(--carta);
+  color:var(--tinta2);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.15s;
+}
+.nav-btn:hover{border-color:var(--azul);color:var(--azul)}
+.nav-btn:disabled{opacity:.35;cursor:default}
+.nav-btn:focus-visible{outline:2px solid var(--azul);outline-offset:2px}
+.trilha{flex:1;max-width:520px;height:5px;background:var(--linha);border-radius:3px;position:relative;cursor:pointer}
+.trilha-fill{position:absolute;left:0;top:0;bottom:0;background:var(--azul);border-radius:3px;transition:width .25s}
+
+/* índice */
+.indice{
+  position:fixed;inset:0;z-index:80;background:rgba(21,26,33,.55);backdrop-filter:blur(4px);
+  display:none;padding:60px 18px 18px;overflow-y:auto;
+}
+.indice.on{display:block}
+.indice-cx{max-width:1000px;margin:0 auto;background:var(--carta);border-radius:var(--r);padding:22px}
+.indice h3{font-size:19px;margin-bottom:14px}
+.ind-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:8px}
+.ind-item{
+  text-align:left;border:1px solid var(--linha);background:#FDFDFE;border-radius:9px;padding:9px 11px;
+  cursor:pointer;font-family:var(--fonte);font-size:13px;line-height:1.35;color:var(--tinta);transition:.15s;
+}
+.ind-item:hover{border-color:var(--azul);background:var(--azul-fraco)}
+.ind-item.at{border-color:var(--azul);background:var(--azul-fraco)}
+.ind-item span{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--tinta3);margin-bottom:3px}
+.ind-item.pl span{color:var(--vermelho)}
+
+/* capa */
+.capa{grid-column:1/-1;padding:52px 56px;display:flex;flex-direction:column;justify-content:center}
+.capa .selo{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--azul);margin-bottom:20px}
+.capa h1{font-size:52px;font-weight:900;line-height:1.08;letter-spacing:-.02em;margin-bottom:14px}
+.capa .cs{font-size:19px;color:var(--tinta2);line-height:1.5;margin-bottom:30px;max-width:640px}
+.assin{font-family:'Dancing Script',cursive;font-size:32px;color:var(--navy);margin-top:6px}
+.capa .meta{font-family:var(--mono);font-size:11.5px;color:var(--tinta3);line-height:1.8;margin-top:22px;padding-top:18px;border-top:1px solid var(--linha)}
+
+/* ====== MODO APRESENTAÇÃO ====== */
+body.aprs{background:#0C1116;overflow:hidden;cursor:default}
+body.aprs.oculto{cursor:none}
+body.aprs .topo,body.aprs .rodape,body.aprs .progresso{
+  opacity:0;pointer-events:none;transition:opacity .25s;
+}
+body.aprs.mexeu .topo,body.aprs.mexeu .rodape,body.aprs.mexeu .progresso{opacity:1;pointer-events:auto}
+body.aprs .topo{background:rgba(12,17,22,.94);border-bottom-color:#26313C}
+body.aprs .rodape{background:rgba(12,17,22,.94);border-top-color:#26313C}
+body.aprs .btn,body.aprs .nav-btn{background:#18212B;border-color:#2E3A46;color:#AFC0CE}
+body.aprs .contador{color:#AFC0CE}
+body.aprs .trilha{background:#26313C}
+
+body.aprs .palco{
+  position:fixed;inset:0;padding:0;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+body.aprs .slide{
+  width:1280px;height:720px;max-width:none;min-height:0;
+  flex:none;overflow:hidden;border:none;border-radius:6px;
+  box-shadow:0 24px 80px rgba(0,0,0,.55);
+  transform-origin:center center;
+  grid-template-columns:1fr;
+}
+body.aprs .trilho{display:none}
+body.aprs .kn{display:none}
+body.aprs .corpo{padding:46px 62px;height:100%;overflow:hidden}
+body.aprs h1.tit{font-size:40px}
+body.aprs h1.tit.grande{font-size:52px}
+body.aprs .sub{font-size:18px}
+body.aprs .kicker{font-size:12px}
+body.aprs .corpo p,body.aprs .corpo li,body.aprs td{font-size:16.5px}
+body.aprs .frase{font-size:22px}
+#ajusta{transform-origin:top left}
+body.aprs .cortina{padding:34px}
+body.aprs .notas{
+  position:fixed;left:0;right:0;bottom:0;z-index:70;max-width:none;margin:0;
+  border-radius:0;border-top:2px solid #1282A2;max-height:34vh;overflow-y:auto;
+}
+body.aprs .assin{font-size:38px}
+
+.cronom{
+  font-family:var(--mono);font-size:12px;color:var(--tinta2);
+  background:var(--carta);border:1px solid var(--linha2);border-radius:8px;
+  padding:7px 11px;cursor:pointer;user-select:none;white-space:nowrap;
+}
+body.aprs .cronom{background:#18212B;border-color:#2E3A46;color:#AFC0CE}
+.cronom.rodando{border-color:var(--azul);color:var(--azul)}
+
+@media (max-width:820px){
+
+  .slide{grid-template-columns:1fr}
+  .trilho{flex-direction:row;flex-wrap:wrap;align-items:center;border-right:none;border-bottom:1px solid var(--linha);border-radius:var(--r) var(--r) 0 0;padding:14px 18px;gap:12px}
+  .grau{flex-direction:row;margin-top:0;padding-top:0;border-top:none;gap:12px;width:100%}
+  .corpo{padding:20px 20px 28px}
+  h1.tit{font-size:25px}h1.tit.grande{font-size:30px}
+  .capa{padding:34px 24px}.capa h1{font-size:34px}.capa .cs{font-size:16px}
+  .dois,.tres,.sete,.campos{grid-template-columns:1fr}
+  .placa{font-size:21px;padding:16px}
+  table{font-size:13px}td.rot{width:auto}
+  .marca{display:none}
+}
+@media print{
+  body{overflow:visible}
+  .topo,.rodape,.progresso,.indice{display:none}
+  .palco{position:static;padding:0;display:block}
+  .slide{page-break-after:always;box-shadow:none;min-height:auto;margin-bottom:0}
+  .revelado{display:block!important}.cortina{display:none}
+}
+</style>
+</head>
+<body>
+
+<header class="topo">
+  <div class="marca">FSSL em Pediatria · <b>SBP 2025</b></div>
+  <div class="topo-sep"></div>
+  <span class="contador" id="contador">1 / 1</span>
+  <span class="cronom" id="cronom" title="Clique para iniciar/pausar. Duplo clique zera.">00:00</span>
+  <button class="btn" id="btnNotas">Notas de fala</button>
+  <button class="btn" id="btnIndice">Índice</button>
+  <button class="btn" id="btnAprs">Apresentar</button>
+</header>
+<div class="progresso" id="progresso" style="width:0"></div>
+
+<main class="palco" id="palco">
+  <section class="slide" id="slide"></section>
+</main>
+<div class="notas" id="notas"></div>
+
+<footer class="rodape">
+  <button class="nav-btn" id="btnAnt" aria-label="Slide anterior">&#8592;</button>
+  <div class="trilha" id="trilha"><div class="trilha-fill" id="trilhaFill" style="width:0"></div></div>
+  <button class="nav-btn" id="btnProx" aria-label="Próximo slide">&#8594;</button>
+</footer>
+
+<div class="indice" id="indice">
+  <div class="indice-cx">
+    <h3>Índice da aula</h3>
+    <div class="ind-grid" id="indGrid"></div>
+  </div>
+</div>
+
+<script>
+const S = [];
+
+/* ===================== CAPA E ABERTURA ===================== */
+S.push({k:'capa', n:'—', t:'Capa',
+body:`<div class="capa">
+  <div class="selo">Módulo de Saúde da Criança · AES 22</div>
+  <h1>Febre sem Sinais<br>Localizatórios</h1>
+  <div class="cs">Manejo, estratificação de risco por faixa etária e treinamento de decisão de plantão — 19 conceitos, 19 prescrições.</div>
+  <div class="assin">Dr. André Rossanno</div>
+  <div class="meta">SOCIEDADE BRASILEIRA DE PEDIATRIA · DOCUMENTO CIENTÍFICO Nº 206 · MAIO/2025<br>Abordagem da Febre Aguda em Pediatria e Reflexões sobre a febre nas arboviroses</div>
+</div>`,
+notas:`<p>Abertura curta. <em>"Hoje ninguém vai decorar fluxograma. Vocês vão prescrever 19 vezes."</em></p>
+<p>Avisar a regra do jogo: em cada par de slides, o segundo é um paciente de verdade, com peso, e a turma escreve a conduta antes da resposta aparecer.</p>`});
+
+S.push({k:'aviso', n:'00', t:'Como esta aula funciona', sub:'Conceito, e logo em seguida o paciente. Sem intervalo entre saber e decidir.',
+fontes:[{c:'',txt:'Arquitetura da aula'}],
+body:`<p>Cada conceito é seguido imediatamente por um plantão. O aluno escreve a prescrição <b>antes</b> de o slide revelar a resposta. São 19 pares — 38 slides, mas metade em simulação.</p>
+<div class="cx azul"><div class="cx-tit">As 7 perguntas obrigatórias de todo caso</div>
+<div class="sete">
+<div>Precisa de antibiótico?</div>
+<div>Hidratação EV ou mantém VO / aleitamento?</div>
+<div>Quais exames realmente pedir?</div>
+<div>O que monitorizar?</div>
+<div>Casa, observação, enfermaria ou UTI?</div>
+<div>Quais sinais de alarme explicar aos pais?</div>
+<div>Quando e em que condições pode receber alta?</div>
+</div></div>
+<div class="cx"><div class="cx-tit">Trilho de fonte — a coluna à esquerda de cada slide</div>
+<p style="font-size:14.5px">Cada slide declara de onde vem a informação e com que firmeza. <span class="tag g">Diretriz</span> é recomendação nacional. <span class="tag a">Protocolo local</span> muda de serviço para serviço — sempre confirme no seu. <span class="tag v">Correção</span> marca os pontos em que o material antigo estava errado.</p></div>`,
+notas:`<p>Este slide é o contrato com a turma. Deixe claro que <em>errar no papel aqui é de graça</em>.</p>
+<p>Se a turma for grande, peça que escrevam em folha e recolha duas ou três ao acaso no fim.</p>`});
+
+S.push({k:'aviso', n:'25', t:'O que realmente mudou em 2025', sub:'A definição de febre desceu. O gatilho para tratar, não.',
+fontes:[{c:'firme',txt:'SBP DC 206/2025'},{c:'firme',txt:'Declaração dos autores à imprensa, out/2025'}],
+body:`<table>
+<tr><th></th><th>Antes</th><th>Documento de 2025</th></tr>
+<tr class="atencao"><td class="rot">Febre — axilar</td><td>≥ 37,8 °C</td><td><b>≥ 37,5 °C</b></td></tr>
+<tr><td class="rot">Febre — oral ou retal</td><td>—</td><td><b>≥ 38,0 °C</b>, aferida por 3 minutos</td></tr>
+</table>
+<div class="cx vermelho"><div class="cx-tit">A ressalva que os autores fizeram questão de dar</div>
+<p style="font-size:15px">A mudança serve para <b>definição e estudos clínicos</b>. <b>Não é gatilho para medicar</b> nem para correr à emergência. Quem responde quando dar o antitérmico é a criança, não o termômetro.</p></div>
+<div class="cx azul"><div class="cx-tit">O que mais o documento de 2025 reforça</div>
+<ul><li>A temperatura isolada <b>não define</b> a febre nem a gravidade — o contexto clínico entra junto</li><li><b>Variação circadiana</b> de até 1 °C ao longo do dia, mesmo em lactente saudável</li><li>Febre é <b>sinal fisiológico de defesa</b>, não doença</li><li>Cerca de <b>90%</b> dos quadros febris são infecções virais autolimitadas, sem antibiótico</li><li>Capítulo novo sobre <b>febre nas arboviroses</b></li></ul></div>
+<div class="frase alerta">Baixar a definição de febre não é ampliar a indicação de antitérmico.</div>`,
+notas:`<p>Este slide existe porque a mudança saiu na imprensa leiga em outubro de 2025 e as famílias chegaram sabendo. A turma vai ser perguntada sobre isso.</p>
+<p>O risco real da notícia é o oposto do que a SBP quis: baixar o corte pode aumentar a febrefobia e o consumo de antitérmico. Diga isso explicitamente — <em>mudou a régua da definição, não a régua do tratamento</em>.</p>
+<p>Repare que os cortes desta aula (38 °C retal no neonato, 39 °C para pesquisar ITU) não mudaram por causa disso.</p>`});
+
+/* ===================== BLOCO 1 ===================== */
+S.push({k:'conceito', n:'01', t:'O que é FSSL?', sub:'Doença sem endereço — não criança sem doença.',
+fontes:[{c:'firme',txt:'SBP DC 206/2025'},{c:'',txt:'Definições clássicas de IBG'}],
+body:`<p><b>FSSL:</b> febre com <b>menos de 7 dias</b> de duração em criança na qual a anamnese e o exame físico minuciosos <b>não revelam foco</b>.</p>
+<p>Não é diagnóstico de exclusão preguiçoso. É um <b>estado de vigilância ativa</b>: estamos caçando a fração de crianças em que a febre é a única manifestação visível de uma infecção bacteriana grave.</p>
+<div class="dois">
+<div class="cx"><div class="cx-tit">Infecção bacteriana grave (IBG / SBI)</div><p style="font-size:14.5px">Bacteremia · meningite · <b>ITU</b> · pneumonia · osteomielite · artrite séptica · enterite grave.</p></div>
+<div class="cx"><div class="cx-tit">Bacteremia oculta</div><p style="font-size:14.5px">Bactéria no sangue, criança com <b>bom estado geral</b> e sem foco primário. Rara na era das vacinas conjugadas — mas o conceito organiza o raciocínio.</p></div>
+</div>
+<div class="frase">FSSL não é "criança sem doença". É "doença sem endereço".</div>`,
+notas:`<p>Ancorar os 7 dias: acima disso o raciocínio muda (febre prolongada, Kawasaki, causas não infecciosas entram).</p>
+<p>Frase para repetir: <em>"exame físico minucioso" inclui pele, ossos, articulações e otoscopia — o foco que ninguém procura é o que fica oculto.</em></p>`});
+
+S.push({k:'plantao', n:'01A', t:'Ele tem febre. Onde está a doença?',
+fontes:[{c:'firme',txt:'SBP DC 206/2025 — conforto, não eutermia'}],
+body:`<div class="ficha"><div class="id">Caso 1A · pronto atendimento</div>
+<p>Menino, <b>4 anos, 18 kg</b>. T 38,6 °C há 8 h. Coriza discreta ontem. Hoje exame <b>completamente normal</b>, ativo, brincando, hidratado. Vacinação em dia.</p>
+<div class="vitais"><span class="vital bom">SpO₂ <b>99%</b></span><span class="vital bom">TEC <b>2 s</b></span><span class="vital bom">TAP <b>normal</b></span><span class="vital">T <b>38,6 °C</b></span></div></div>`,
+reveal:`<table>
+<tr><td class="rot">Dieta</td><td>Livre, conforme aceitação. Não forçar alimentação.</td></tr>
+<tr><td class="rot">Hidratação</td><td>VO, oferta ativa e fracionada. <b>Sem EV.</b></td></tr>
+<tr><td class="rot">Antitérmico</td><td><b>Só se desconforto.</b> Paracetamol 10–15 mg/kg = <b>180–270 mg/dose</b>, 6/6h. Frasco 200 mg/mL → <b>0,9–1,35 mL</b>.</td></tr>
+<tr class="ruim"><td class="rot">Antibiótico</td><td><b>NÃO.</b> Nenhuma indicação.</td></tr>
+<tr><td class="rot">Exames</td><td><b>Nenhum</b> neste momento.</td></tr>
+<tr><td class="rot">Monitorização</td><td>Sinais vitais na admissão + reavaliação clínica seriada.</td></tr>
+<tr class="bom"><td class="rot">Destino</td><td><b>Casa</b>, com orientação escrita.</td></tr>
+<tr><td class="rot">Reavaliação</td><td>Retorno programado se febre &gt; 72 h; imediato se sinal de alarme.</td></tr>
+</table>
+<div class="cx ambar"><div class="cx-tit">Orientações e retorno — o campo que nunca pode faltar</div>
+<p style="font-size:14.5px">Prostração que não melhora com a febre baixando · dificuldade respiratória · manchas que não somem à digitopressão · recusa persistente de líquidos · queda importante da diurese · convulsão · qualquer piora percebida pelos pais.</p></div>
+<div class="frase">Bom estado geral não é diagnóstico. É autorização de vigilância.</div>`,
+notas:`<p>Pergunte antes de revelar e espere o silêncio. A resposta certa é <em>"ainda não sabemos"</em> — e é exatamente isso que caracteriza FSSL.</p>
+<p>Aqui já se ensina a escrever "se desconforto" na receita, nunca "se T ≥ 38".</p>`});
+
+S.push({k:'conceito', n:'02', t:'FSSL × IBG × bacteremia oculta', sub:'O termômetro mede temperatura, não gravidade.',
+fontes:[{c:'firme',txt:'SBP DC 206/2025'}],
+body:`<p>A <b>magnitude da febre isoladamente não diferencia</b> infecção viral de bacteriana grave. 39,5 °C numa criança vacinada e brincando não é pior que 38,3 °C numa criança prostrada.</p>
+<div class="cx azul"><div class="cx-tit">O que realmente estratifica risco</div>
+<p style="font-size:15px"><b>Idade</b> · aparência e responsividade · perfusão · hidratação · <b>FC</b> · <b>FR</b> · <b>SpO₂</b> · status vacinal.</p></div>
+<p>A era das vacinas conjugadas (pneumocócica e meningocócica) derrubou a bacteremia oculta e <b>mudou a probabilidade pré-teste de tudo</b>. O que valia nos anos 1990 não vale hoje.</p>
+<div class="frase alerta">"39 não é antibiograma."</div>`,
+notas:`<p>Ponto de virada da aula: a turma precisa desaprender o gatilho numérico.</p>
+<p>Se perguntarem por um número: <em>não existe temperatura que, sozinha, indique antibiótico</em>. Existe temperatura que aumenta a chance de ITU — e isso é pedir urina, não prescrever.</p>`});
+
+S.push({k:'plantao', n:'02A', t:'"Doutor, 39 graus! Não vai passar antibiótico?"',
+fontes:[{c:'firme',txt:'SBP DC 206/2025'},{c:'corr',txt:'Dose de dipirona corrigida'}],
+body:`<div class="ficha"><div class="id">Caso 2A · consultório</div>
+<p>Menina, <b>20 meses, 11 kg</b>. T <b>39,1 °C</b>. Vacinação atualizada. Ativa, sorridente, hidratada, sem foco ao exame completo.</p>
+<div class="vitais"><span class="vital">T <b>39,1 °C</b></span><span class="vital bom">TAP <b>normal</b></span><span class="vital bom">Vacina <b>em dia</b></span><span class="vital">Febre há <b>&lt; 24 h</b></span></div></div>`,
+reveal:`<table>
+<tr><td class="rot">Dieta e hidratação</td><td>Conforme aceitação; líquidos VO. Sem EV.</td></tr>
+<tr><td class="rot">Antitérmico</td><td>Se desconforto: paracetamol 110–165 mg/dose <b>ou</b> dipirona 10–12 mg/kg = <b>110–132 mg</b> → 500 mg/mL = <b>0,22–0,26 mL ≈ 4–5 gotas</b>.</td></tr>
+<tr class="ruim"><td class="rot">Antibiótico</td><td><b>NÃO</b> — nenhum antimicrobiano indicado pelo valor da temperatura.</td></tr>
+<tr class="atencao"><td class="rot">Exames</td><td>Considerar <b>EAS + urocultura</b> se a febre sem foco persistir <b>≥ 48 h</b> ou houver fator de risco para ITU. Agora, opcional.</td></tr>
+<tr><td class="rot">Monitorização</td><td>Estado geral, aceitação de líquidos, diurese, curva térmica.</td></tr>
+<tr class="bom"><td class="rot">Destino</td><td>Casa.</td></tr>
+<tr><td class="rot">Reavaliação</td><td>Retorno em 48 h se febre mantida — aí a urina deixa de ser opcional.</td></tr>
+</table>
+<div class="cx vermelho"><div class="cx-tit">Repare no número de gotas</div>
+<p style="font-size:14.5px">A regra antiga daria <b>11 gotas</b> nesta criança de 11 kg — <b>275 mg</b>, mais que o dobro da dose. A dose correta é <b>4 a 5 gotas</b>. Este é o erro mais frequente e mais silencioso da pediatria de plantão.</p></div>`,
+notas:`<p>Faça a conta das 11 gotas na frente da turma. É o momento em que o slide anterior deixa de ser teoria.</p>
+<p>Sobre a mãe: valide o medo antes de corrigir. <em>"A senhora está certa em se preocupar — só que o que me preocupa não é o número, é como ela está entre as febres."</em></p>`});
+
+S.push({k:'conceito', n:'03', t:'Triângulo de Avaliação Pediátrica', sub:'Diagnóstico em 30 segundos, sem tocar na criança.',
+fontes:[{c:'firme',txt:'TAP — avaliação inicial pediátrica'},{c:'firme',txt:'SBP DC 206/2025 — sinais de risco'}],
+body:`<div class="tres">
+<div class="cx azul"><div class="cx-tit">Aparência</div><p style="font-size:14.5px"><b>TICOC</b><br>Tônus · Interatividade · Consolabilidade · Olhar · Fala/Choro</p></div>
+<div class="cx azul"><div class="cx-tit">Trabalho respiratório</div><p style="font-size:14.5px">FR · tiragens · gemência · batimento de asa nasal · posição de tripé</p></div>
+<div class="cx azul"><div class="cx-tit">Circulação cutânea</div><p style="font-size:14.5px">Palidez · moteado · cianose · tempo de enchimento capilar</p></div>
+</div>
+<div class="cx vermelho"><div class="cx-tit">Regra de ouro</div>
+<p style="font-size:15px">Qualquer vértice alterado = criança <b>toxemiada</b> = conduta de alto risco imediata, <b>independentemente da idade e do fluxograma</b>.</p></div>
+<div class="frase alerta">TAP vermelho atropela o fluxograma da idade.</div>`,
+notas:`<p>Ensine a fazer o TAP <em>da porta</em>, antes de lavar as mãos. É o único exame que não precisa de encostar na criança.</p>
+<p>A SBP lista responsividade, perfusão, hidratação, FC, FR e SpO₂ como elementos de risco — o TAP é a forma rápida de olhar para os três primeiros.</p>`});
+
+S.push({k:'plantao', n:'03A', t:'Sala vermelha', sub:'O fluxograma etário acabou de perder a vez.',
+fontes:[{c:'firme',txt:'SBP DC 206/2025'},{c:'local',txt:'Antibiótico e doses conforme protocolo do serviço'}],
+body:`<div class="ficha"><div class="id">Caso 3A · emergência</div>
+<p>Menino, <b>8 meses, 8 kg</b>. T 39 °C. <b>Hipoativo, gemente</b>, olhar parado, extremidades frias.</p>
+<div class="vitais"><span class="vital mau">TEC <b>4 s</b></span><span class="vital mau">FC <b>180</b></span><span class="vital mau">FR <b>60</b></span><span class="vital mau">SpO₂ <b>92%</b></span><span class="vital mau">TAP <b>alterado</b></span></div></div>`,
+reveal:`<table>
+<tr class="ruim"><td class="rot">Local</td><td><b>Sala de emergência.</b> ABCDE.</td></tr>
+<tr><td class="rot">Acesso</td><td>Venoso periférico ×2; <b>intraósseo</b> se 2 tentativas ou 90 s sem sucesso.</td></tr>
+<tr><td class="rot">Oxigênio</td><td>Suplementar para SpO₂ ≥ 94%.</td></tr>
+<tr><td class="rot">Volume</td><td>Cristaloide balanceado <b>10–20 mL/kg = 80–160 mL</b> em alíquotas, <b>reavaliando perfusão, FC, fígado e ausculta após cada bolus</b>.</td></tr>
+<tr class="atencao"><td class="rot">Glicemia</td><td><b>Capilar imediata.</b> Hipoglicemia é causa reversível de "criança que não responde".</td></tr>
+<tr><td class="rot">Exames</td><td>Hemograma · PCR/PCT · <b>hemocultura</b> · EAS + urocultura por cateterismo · eletrólitos · função renal · <b>lactato e gasometria</b> · coagulograma se púrpura. LCR conforme estabilidade.</td></tr>
+<tr class="ruim"><td class="rot">Antibiótico</td><td><b>SIM, na primeira hora.</b> Ceftriaxona 100 mg/kg/dia EV = <b>800 mg/dia</b> ± vancomicina conforme suspeita e epidemiologia local. <b>Se a coleta demora, o antibiótico entra.</b></td></tr>
+<tr><td class="rot">Monitorização</td><td>Monitor cardíaco e oximetria contínuos · PA seriada · diurese · consciência · temperatura.</td></tr>
+<tr class="ruim"><td class="rot">Destino</td><td><b>UTI pediátrica</b> ou unidade de alta vigilância.</td></tr>
+</table>
+<div class="frase alerta">Nenhum critério de baixo risco resgata uma criança com aparência ruim.</div>`,
+notas:`<p>Contraste deliberado com o caso anterior: mesma febre, mundos diferentes. Diga isso em voz alta.</p>
+<p>Insista no <em>"não atrase o antibiótico esperando a punção lombar"</em> em criança instável — colhe hemocultura, trata, e o LCR sai quando der.</p>`});
+
+S.push({k:'conceito', n:'04', t:'O pilar: a idade dita a conduta', sub:'Imaturidade imunológica, resposta inflamatória atípica e risco basal completamente diferente.',
+fontes:[{c:'firme',txt:'SBP — estratificação até 36 meses'}],
+body:`<table>
+<tr><th>Grupo</th><th>Risco de IBG</th><th>Lógica</th></tr>
+<tr class="ruim"><td><b>Neonato · 0 a 28 dias</b></td><td>≈ 10–20%</td><td><b>Alto risco universal.</b> Não existe neonato febril de baixo risco.</td></tr>
+<tr class="atencao"><td><b>Lactente jovem · 29 a 90 dias</b></td><td>Intermediário</td><td><b>Estratificar</b>: baixo × alto risco, por critérios clínicos <b>e</b> laboratoriais.</td></tr>
+<tr class="bom"><td><b>Lactente maior · 3 a 36 meses</b></td><td>Baixo, se vacinado</td><td>Estado geral + vacinação + <b>caça à ITU</b>.</td></tr>
+</table>
+<div class="cx"><div class="cx-tit">Por que a idade e não a febre</div>
+<p style="font-size:15px">O neonato não monta resposta inflamatória confiável, não localiza infecção e pode estar bacterêmico com exame físico normal. Aos 18 meses, vacinado, a mesma febre tem outra história natural.</p></div>`,
+notas:`<p>Aqui é onde a turma para de olhar para o termômetro e passa a olhar para a certidão de nascimento.</p>`});
+
+S.push({k:'plantao', n:'04A', t:'Três portas', sub:'Mesma temperatura. Mesma conduta?',
+fontes:[{c:'firme',txt:'SBP — estratificação por faixa etária'}],
+body:`<p>Três crianças chegam juntas. <b>Todas com T 38,3 °C. Todas em bom estado geral. Todas sem foco.</b></p>
+<div class="tres">
+<div class="cx"><div class="cx-tit">Criança A</div><p style="font-size:16px"><b>18 dias</b> · 3,5 kg<br><span style="color:#48525E;font-size:14px">TAP normal</span></p></div>
+<div class="cx"><div class="cx-tit">Criança B</div><p style="font-size:16px"><b>65 dias</b> · 5,2 kg<br><span style="color:#48525E;font-size:14px">TAP normal</span></p></div>
+<div class="cx"><div class="cx-tit">Criança C</div><p style="font-size:16px"><b>18 meses</b> · 11 kg<br><span style="color:#48525E;font-size:14px">TAP normal</span></p></div>
+</div>
+<div class="frase">Antes de pedir qualquer exame: em qual trilho cada uma entra?</div>`,
+reveal:`<table>
+<tr class="ruim"><td class="rot">A · 18 dias</td><td><b>Internação obrigatória</b> + investigação completa de sepse + antibiótico empírico parenteral. Sem exceção.</td></tr>
+<tr class="atencao"><td class="rot">B · 65 dias</td><td><b>Estratificar.</b> Culturas + laboratório → se preencher baixo risco, existe caminho ambulatorial com reavaliação em 24 h.</td></tr>
+<tr class="bom"><td class="rot">C · 18 meses</td><td>Manejo sintomático + decidir se investiga ITU. Casa com orientação escrita.</td></tr>
+</table>
+<div class="frase alerta">Pedir hemograma antes de saber a idade é pedir exame para se acalmar, não para decidir.</div>`,
+notas:`<p>Não revele antes de alguém tentar. O erro típico é querer "pedir logo um hemograma nas três".</p>
+<p>Feche com a ordem correta: <em>idade → aparência → exames → destino</em>. Nunca exame primeiro.</p>`});
+
+/* ===================== BLOCO 2 — NEONATO ===================== */
+S.push({k:'conceito', n:'05', t:'Neonato febril = alto risco universal', sub:'Aparência normal não protege.',
+fontes:[{c:'firme',txt:'SBP — conduta no neonato febril'},{c:'corr',txt:'Ceftriaxona excluída'},{c:'local',txt:'Esquema empírico segue o protocolo do serviço'}],
+body:`<p><b>T ≥ 38,0 °C</b> em criança com menos de 28 dias = <b>alto risco, sempre</b>. Internação obrigatória.</p>
+<div class="cx azul"><div class="cx-tit">Investigação completa de sepse</div>
+<p style="font-size:14.5px">Hemograma · PCR/procalcitonina · <b>hemocultura</b> · <b>urocultura por cateterismo vesical</b> (nunca saco coletor para cultura) · <b>LCR</b> — citológico, bioquímica, bacterioscopia e cultura · considerar HSV e painel viral conforme quadro.</p></div>
+<div class="cx"><div class="cx-tit">Antibiótico empírico parenteral</div>
+<p style="font-size:14.5px"><b>Ampicilina 100–200 mg/kg/dia</b> (6/6h) <b>+ gentamicina 4–5 mg/kg/dia</b> (1×/dia)<br>ou <b>ampicilina + cefotaxima 150–200 mg/kg/dia</b> (6/6h) — preferir se meningite suspeita.</p></div>
+<div class="cx vermelho"><div class="cx-tit">Não use</div>
+<p style="font-size:14.5px"><b>Ceftriaxona</b> — desloca bilirrubina e precipita com cálcio. <b>Dipirona e ibuprofeno</b> — abaixo de 1 mês, só paracetamol.</p></div>
+<div class="frase alerta">No neonato, febre é sepse até prova em contrário — e a prova são as culturas, não a cara do bebê.</div>`,
+notas:`<p>Este é o slide que você defende com mais firmeza. Não há espaço para julgamento clínico individual aqui: a regra é etária.</p>
+<p>Se a turma perguntar por que 28 dias: é um corte pragmático, não biológico. O risco cai de forma contínua, e o corte existe para tornar a decisão segura e reprodutível.</p>`});
+
+S.push({k:'plantao', n:'05A', t:'"Mas ele está sorrindo."', sub:'A armadilha é exatamente essa.',
+fontes:[{c:'firme',txt:'SBP — neonato febril'},{c:'local',txt:'Doses conforme protocolo neonatal'},{c:'corr',txt:'Paracetamol, não dipirona'}],
+body:`<div class="ficha"><div class="id">Caso 5A · R.S., pronto-socorro</div>
+<p><b>19 dias, 3,6 kg.</b> T retal <b>38,3 °C</b> aferida em casa há 3 h. Sem tosse, sem diarreia, mamando bem.</p>
+<p>Exame: reativo, corado, eupneico, fontanela normotensa, ausculta normal, abdome inocente, pele sem lesões.</p>
+<div class="vitais"><span class="vital bom">FR <b>42</b></span><span class="vital bom">FC <b>142</b></span><span class="vital bom">TEC <b>2 s</b></span><span class="vital bom">Aparência <b>excelente</b></span></div></div>`,
+reveal:`<table>
+<tr class="ruim"><td class="rot">Internação</td><td><b>Obrigatória.</b> Enfermaria pediátrica/neonatal.</td></tr>
+<tr><td class="rot">Dieta</td><td><b>Aleitamento materno sob livre demanda</b>, mantido enquanto houver estabilidade e sucção eficaz.</td></tr>
+<tr><td class="rot">Hidratação</td><td>VO pelo aleitamento. <b>EV só</b> se recusa alimentar, vômitos, instabilidade ou jejum para procedimento — aí manutenção ≈ 360 mL/dia (Holliday-Segar para 3,6 kg).</td></tr>
+<tr><td class="rot">Exames</td><td>Hemograma · PCR/PCT · <b>hemocultura</b> · <b>EAS + urocultura por cateterismo</b> · <b>punção lombar</b> completa · glicemia · eletrólitos.</td></tr>
+<tr class="ruim"><td class="rot">Antibiótico</td><td><b>Ampicilina 200 mg/kg/dia = 720 mg/dia → 180 mg EV 6/6h</b><br><b>+ gentamicina 4 mg/kg/dia = 14,4 mg EV 1×/dia</b><br><span style="color:#48525E">Se LCR alterado: trocar por cefotaxima 200 mg/kg/dia = 180 mg EV 6/6h.</span></td></tr>
+<tr class="atencao"><td class="rot">Antitérmico</td><td><b>Paracetamol</b> 10–15 mg/kg = <b>36–54 mg/dose</b>, 6/6h, só se desconforto. <b>Não dipirona. Não ibuprofeno.</b></td></tr>
+<tr><td class="rot">Monitorização</td><td>FC, FR, SpO₂, PA, temperatura e perfusão a cada 4–6 h · diurese · aceitação alimentar · atividade · glicemia se sonolência.</td></tr>
+<tr><td class="rot">Alta</td><td>Culturas negativas em 36–48 h · afebril e estável · sucção plena · LCR normal · retorno garantido. <b>Quem dá alta é a cultura.</b></td></tr>
+</table>
+<div class="placa">"Ele continua tendo 19 dias."</div>`,
+notas:`<p>Pergunte à turma antes de revelar: <em>"quem aqui mandaria pra casa com retorno em 24 h?"</em> Sempre há mãos. É o momento pedagógico do bloco.</p>
+<p>Faça a conta da ampicilina em voz alta: 200 × 3,6 = 720 mg/dia ÷ 4 doses = 180 mg. A turma precisa ver que a dose nasce do peso.</p>`});
+
+S.push({k:'conceito', n:'06', t:'Lactente jovem (29–90 dias): quem é baixo risco?', sub:'Critérios de Rochester / SBP modificado — tudo precisa estar presente.',
+fontes:[{c:'firme',txt:'Critérios de Rochester'},{c:'local',txt:'Marcadores e cortes variam com o protocolo adotado'}],
+body:`<div class="dois">
+<div class="cx verde"><div class="cx-tit">Critérios clínicos</div>
+<ul><li>Previamente hígido, <b>nascido a termo</b></li><li>Sem antibiótico prévio, sem internação prévia</li><li>Sem hiperbilirrubinemia inexplicada</li><li><b>TAP normal</b>, bom estado geral</li><li><b>Sem foco</b> ao exame — inclui pele, ossos, articulações, otoscopia</li></ul></div>
+<div class="cx verde"><div class="cx-tit">Critérios laboratoriais</div>
+<ul><li>Leucócitos <b>5.000–15.000/mm³</b>, bastões <b>&lt; 1.500</b></li><li>EAS com <b>&lt; 10 leucócitos/campo</b></li><li>Fezes sem leucócitos, se houver diarreia</li><li>Marcadores inflamatórios baixos (PCR/PCT), conforme protocolo</li></ul></div>
+</div>
+<div class="cx ambar"><div class="cx-tit">A ressalva que define tudo</div>
+<p style="font-size:15px"><b>Baixo risco não é "sem risco".</b> É "risco baixo o suficiente para vigiar de perto em vez de internar" — e <b>só vale com seguimento confiável</b>.</p></div>`,
+notas:`<p>Os critérios laboratoriais só são lidos <em>depois</em> dos clínicos. Um lactente prematuro ou com internação prévia já saiu do baixo risco antes de qualquer exame.</p>
+<p>Existem outras estratégias em uso (Step-by-Step, protocolos com procalcitonina). Diga que existem, e que o serviço adota uma — a incoerência é misturar.</p>`});
+
+S.push({k:'plantao', n:'06A', t:'As cartas viram uma a uma', sub:'Só classifique quando a última abrir.',
+fontes:[{c:'firme',txt:'Critérios de Rochester'},{c:'local',txt:'Estratégia A ou B conforme serviço'}],
+body:`<div class="ficha"><div class="id">Caso 6A · M.E., pronto-socorro</div>
+<p><b>70 dias, 5,3 kg.</b> Nascida a termo, previamente hígida, sem internações nem antibiótico prévio. Febre 38,4 °C há 6 h. <b>Mamando normalmente ao peito.</b></p>
+<p>Exame: alerta, sorri ao estímulo, boa perfusão. Otoscopia, oroscopia e exame segmentar normais. Sem foco.</p>
+<div class="vitais"><span class="vital bom">TAP <b>normal</b></span><span class="vital bom">Termo</span><span class="vital bom">Sem ATB prévio</span></div></div>
+<div class="cx"><div class="cx-tit">As cartas, em ordem</div>
+<p style="font-size:15px">Leucócitos <b>9.500/mm³</b> sem desvio → PCR <b>3 mg/L</b> → EAS <b>sem leucocitúria, nitrito negativo</b> → antecedentes <b>íntegros</b>.</p></div>`,
+reveal:`<div class="cx verde"><div class="cx-tit">Classificação</div><p style="font-size:16px"><b>BAIXO RISCO</b> — todos os critérios preenchidos.</p></div>
+<table>
+<tr><td class="rot">Dieta / hidratação</td><td>Aleitamento sob livre demanda. VO exclusiva, <b>sem EV</b>.</td></tr>
+<tr><td class="rot">Exames</td><td>Já colhidos. <b>Hemocultura e urocultura antes da alta — inegociável.</b></td></tr>
+<tr class="atencao"><td class="rot">Antibiótico</td><td>Duas estratégias legítimas, ambas com <b>retorno obrigatório em 24 h</b>:<br><b>A)</b> observação sem antimicrobiano<br><b>B)</b> ceftriaxona 50 mg/kg IM = <b>265 mg</b> dose única<br><span style="color:#48525E">A escolha depende da confiabilidade do seguimento, distância e transporte — não do gosto do plantonista.</span></td></tr>
+<tr><td class="rot">Antitérmico</td><td>Paracetamol 10–15 mg/kg = <b>53–80 mg/dose</b>, 6/6h, se desconforto. <b>Dipirona ainda não</b> (&lt; 3 meses). <b>Ibuprofeno não</b> (&lt; 6 meses).</td></tr>
+<tr><td class="rot">Monitorização em casa</td><td>Temperatura · número de mamadas · <b>fraldas molhadas</b> · atividade e resposta ao estímulo.</td></tr>
+<tr class="bom"><td class="rot">Destino</td><td>Observação, ou alta <b>condicionada</b> a seguimento garantido.</td></tr>
+<tr><td class="rot">Reavaliação</td><td><b>Retorno presencial em 24 h</b> + culturas em 48–72 h.</td></tr>
+</table>
+<div class="frase ouro">Baixo risco não é alta simples — é alta com correia curta.</div>`,
+notas:`<p>Segure a revelação de cada carta. A ideia é impedir a classificação precoce.</p>
+<p>Frase para levar: <em>se a família não consegue voltar em 24 h, essa criança não é de baixo risco na prática.</em> Isso é medicina real de Maranhão, de interior, de transporte difícil.</p>`});
+
+S.push({k:'conceito', n:'07', t:'Perdeu um critério, perdeu o trilho', sub:'Não existe "quase baixo risco".',
+fontes:[{c:'firme',txt:'Critérios de Rochester'},{c:'firme',txt:'SBP DC 206/2025 — sinais de risco'}],
+body:`<div class="cx vermelho"><div class="cx-tit">Gatilhos que fecham a porta de saída</div>
+<ul><li><b>TAP alterado</b> ou irritabilidade não consolável</li><li>Leucócitos <b>&lt; 5.000 ou &gt; 15.000</b>, ou bastões ≥ 1.500</li><li><b>PCR / procalcitonina elevadas</b></li><li><b>EAS alterado</b> — leucocitúria, nitrito</li><li>Prematuridade, comorbidade, internação ou antibiótico prévios</li><li><b>Seguimento não confiável</b></li></ul></div>
+<div class="dois">
+<div class="cx verde"><div class="cx-tit">Verde</div><p style="font-size:15px"><b>Baixo risco pode sair</b> — com correia curta.</p></div>
+<div class="cx vermelho"><div class="cx-tit">Vermelho</div><p style="font-size:15px"><b>Perdeu baixo risco, perdeu a porta de saída.</b></p></div>
+</div>
+<div class="frase">Baixo risco é um cadeado de cinco chaves. Perdeu uma, o cadeado não abre.</div>`,
+notas:`<p>Este slide previne o erro mais comum da faixa: "o hemograma está um pouquinho alterado, mas ela está tão bem…".</p>`});
+
+S.push({k:'plantao', n:'07A', t:'A mesma M.E., seis horas depois',
+fontes:[{c:'firme',txt:'Critérios de Rochester'},{c:'local',txt:'Dose e esquema conforme protocolo'}],
+body:`<div class="ficha"><div class="id">Caso 7A · retorno em 6 h</div>
+<p>Mesma paciente, <b>70 dias, 5,3 kg</b>. Volta <b>irritada, difícil de consolar</b>, mamou pouco.</p>
+<div class="vitais"><span class="vital mau">TAP <b>alterado</b></span><span class="vital mau">PCR <b>68 mg/L</b></span><span class="vital mau">Leuco <b>19.800</b> c/ desvio</span><span class="vital mau">EAS <b>leucocitúria + nitrito</b></span></div></div>
+<div class="frase">Continua no caminho verde?</div>`,
+reveal:`<table>
+<tr class="ruim"><td class="rot">Internação</td><td><b>Sim.</b></td></tr>
+<tr><td class="rot">Dieta</td><td>Aleitamento se sucção eficaz e estabilidade; suspender se rebaixamento, taquipneia importante ou instabilidade.</td></tr>
+<tr><td class="rot">Hidratação</td><td>EV se aceitação ruim: manutenção ≈ <b>530 mL/dia</b> (Holliday-Segar para 5,3 kg). Expansão 10–20 mL/kg se má perfusão.</td></tr>
+<tr><td class="rot">Exames</td><td>Repetir hemograma e PCR · <b>nova hemocultura</b> · <b>urocultura por cateterismo</b> · <b>punção lombar</b> — nesta idade, com TAP alterado e marcadores elevados, o LCR entra · eletrólitos, função renal, glicemia.</td></tr>
+<tr class="ruim"><td class="rot">Antibiótico</td><td><b>Parenteral.</b> Ceftriaxona 50–100 mg/kg/dia = <b>265–530 mg/dia</b>. Se LCR alterado, 100 mg/kg/dia e associação conforme protocolo local.</td></tr>
+<tr><td class="rot">Monitorização</td><td>Sinais vitais 4/4h · perfusão · diurese · consciência · resposta clínica em 48 h · culturas.</td></tr>
+<tr class="ruim"><td class="rot">Destino</td><td>Enfermaria. <b>UTI se instabilidade</b> hemodinâmica ou respiratória.</td></tr>
+<tr><td class="rot">Alta</td><td>Afebril, melhora clínica, antimicrobiano guiado pela cultura, transição segura para VO e plano de seguimento.</td></tr>
+</table>`,
+notas:`<p>Aqui a ceftriaxona é permitida — ela tem 70 dias, não é neonato. Explicite essa diferença, senão a turma generaliza a proibição do slide 05.</p>`});
+
+/* ===================== BLOCO 3 — 3 A 36 MESES ===================== */
+S.push({k:'conceito', n:'08', t:'Lactente maior: abordagem racional', sub:'A vacina conjugada mudou o denominador.',
+fontes:[{c:'firme',txt:'SBP — 3 a 36 meses'},{c:'local',txt:'Corte de 39 °C para pesquisa de ITU varia entre protocolos'}],
+body:`<div class="cx verde"><div class="cx-tit">Bom estado geral + vacinação em dia (pneumo e meningo)</div>
+<p style="font-size:15px">Febre <b>&lt; 39,0 °C</b> → manejo sintomático, observação domiciliar, orientação escrita.<br>Febre <b>≥ 39,0 °C</b> → <b>pesquisa ativa de ITU</b> (EAS + urocultura), conforme sexo, idade e duração.</p></div>
+<div class="cx vermelho"><div class="cx-tit">Toxemiada ou vacinação incompleta</div>
+<p style="font-size:15px">Internação, exames admissionais e cobertura antibiótica empírica. O status vacinal muda a probabilidade pré-teste, não a regra do TAP.</p></div>
+<p>O que valia em 1995 — bacteremia oculta em torno de 5% — não vale hoje. A vacinação conjugada retirou do cenário a maior parte do que justificava hemograma de rotina nesta faixa.</p>`,
+notas:`<p>Cuidado ao apresentar o corte de 39 °C: ele não é gatilho de antibiótico, é gatilho de <em>pedir urina</em>. A turma confunde os dois o tempo todo.</p>`});
+
+S.push({k:'plantao', n:'08A', t:'39,3 °C e correndo pelo consultório', sub:'Assusta mais o médico ou a bactéria?',
+fontes:[{c:'firme',txt:'SBP DC 206/2025'},{c:'corr',txt:'Doses recalculadas'}],
+body:`<div class="ficha"><div class="id">Caso 8A · consultório</div>
+<p>Menino, <b>15 meses, 10,5 kg</b>. T <b>39,3 °C</b>, febre há 12 h. Vacinação completa. <b>Correndo pelo consultório</b>, hidratado, exame segmentar normal, sem foco.</p>
+<div class="vitais"><span class="vital">T <b>39,3 °C</b></span><span class="vital bom">TAP <b>normal</b></span><span class="vital bom">Vacina <b>completa</b></span><span class="vital">Febre <b>12 h</b></span></div></div>`,
+reveal:`<table>
+<tr><td class="rot">Dieta / hidratação</td><td>Normal conforme tolerância; líquidos VO abundantes e fracionados. Sem EV.</td></tr>
+<tr><td class="rot">Antitérmico<br><span style="font-weight:400;color:#7C8794">se desconforto</span></td><td>Paracetamol <b>105–158 mg</b> (200 mg/mL → 0,5–0,8 mL) · <b>ou</b> dipirona <b>105–126 mg</b> (500 mg/mL → <b>≈ 5 gotas</b>) · <b>ou</b> ibuprofeno <b>53–105 mg</b>, 8/8h.<br><b>Escolher um. Não alternar.</b></td></tr>
+<tr class="ruim"><td class="rot">Antibiótico</td><td><b>NÃO</b> pela temperatura. Menino, 15 meses, vacinado, TAP normal, febre &lt; 24 h.</td></tr>
+<tr class="atencao"><td class="rot">Exames</td><td>Não obrigatórios agora. Se a febre passar de <b>48 h sem foco</b> → EAS + urocultura.</td></tr>
+<tr><td class="rot">Monitorização</td><td>Curva térmica, <b>atividade entre os picos</b>, aceitação de líquidos, diurese.</td></tr>
+<tr class="bom"><td class="rot">Destino</td><td>Casa.</td></tr>
+<tr><td class="rot">Reavaliação</td><td>Retorno em 48 h se febre mantida; imediato se sinal de alarme.</td></tr>
+</table>
+<div class="frase">O comportamento entre os picos vale mais que o pico.</div>`,
+notas:`<p>Ensine a pergunta que resolve a consulta: <em>"quando a febre baixa, ele volta a brincar?"</em> Resposta sim é informação clínica potente e gratuita.</p>`});
+
+S.push({k:'conceito', n:'09', t:'O foco oculto mais frequente: ITU', sub:'Febre sem foco em lactente? Pergunte à urina antes de culpar o vírus.',
+fontes:[{c:'firme',txt:'SBP — ITU na infância'},{c:'local',txt:'Escolha do antibiótico depende do antibiograma local'}],
+body:`<div class="cx azul"><div class="cx-tit">Quando pesquisar</div>
+<ul><li><b>Meninas &lt; 24 meses</b></li><li><b>Meninos não circuncidados &lt; 12 meses</b> (circuncidados &lt; 6 meses)</li><li><b>Febre ≥ 39 °C</b> ou <b>febre sem foco &gt; 48 h</b> em criança pequena</li></ul></div>
+<div class="cx vermelho"><div class="cx-tit">A coleta é tudo</div>
+<p style="font-size:15px"><b>Cateterismo vesical</b> ou <b>punção suprapúbica</b>. Saco coletor serve para triagem/EAS, <b>nunca para urocultura</b> — a contaminação é altíssima e gera antibiótico desnecessário por 10 dias.</p></div>
+<p><b>Urocultura é o padrão-ouro.</b> Colher <b>antes</b> do antibiótico sempre que a estabilidade permitir. Cobertura empírica orientada por <i>E. coli</i> e pelo perfil de resistência do seu serviço.</p>`,
+notas:`<p>O ponto que mais rende: urocultura "polimicrobiana" em saco coletor <em>não é ITU, é contaminação</em>. Repetir direito antes de tratar.</p>
+<p>Se a turma perguntar qual antibiótico: a resposta honesta é "depende do seu antibiograma". Em muitos serviços amoxicilina e sulfametoxazol-trimetoprima já não servem para empirismo.</p>`});
+
+S.push({k:'plantao', n:'09A', t:'A ITU escondida',
+fontes:[{c:'firme',txt:'SBP — ITU na infância'},{c:'local',txt:'Antibiótico conforme resistência local'}],
+body:`<div class="ficha"><div class="id">Caso 9A · pronto atendimento</div>
+<p>Menina, <b>14 meses, 10 kg</b>. T <b>39,2 °C há 36 h</b>. Sem tosse, sem diarreia, sem vômitos. Vacinação em dia.</p>
+<p>Exame segmentar completo <b>sem foco</b>. Irritada no pico, consolável e interativa após antitérmico.</p>
+<div class="vitais"><span class="vital">Febre <b>36 h</b></span><span class="vital bom">TAP <b>normal</b></span><span class="vital">Sem foco</span></div></div>
+<div class="frase">Antes de revelar a urina: o que está escondido?</div>`,
+reveal:`<div class="cx ambar"><div class="cx-tit">EAS por cateterismo</div><p style="font-size:15px">Leucocitúria acentuada · <b>esterase positiva</b> · <b>nitrito positivo</b>. Urocultura colhida, em andamento.</p></div>
+<table>
+<tr><td class="rot">Exames</td><td><b>EAS + urocultura por cateterismo, colhidos ANTES do antibiótico.</b> Hemograma/PCR opcionais se TAP normal.</td></tr>
+<tr class="atencao"><td class="rot">Antibiótico VO<br><span style="font-weight:400;color:#7C8794">&gt; 3 meses, estável, aceita VO</span></td><td>Cefuroxima axetil 30 mg/kg/dia = <b>300 mg/dia → 150 mg VO 12/12h por 7–10 dias</b><br>ou amoxicilina-clavulanato 50 mg/kg/dia 8/8h · ou cefalexina 50–100 mg/kg/dia 6/6h<br><b>A escolha final depende do antibiograma local.</b></td></tr>
+<tr><td class="rot">Antitérmico</td><td>Se desconforto: paracetamol 100–150 mg/dose · ou dipirona 100–120 mg = <b>4–5 gotas</b>, não 10.</td></tr>
+<tr><td class="rot">Monitorização</td><td>Curva térmica — esperar <b>defervescência em 48–72 h</b> · aceitação VO · diurese · dor lombar.</td></tr>
+<tr class="bom"><td class="rot">Destino</td><td><b>Casa com VO</b>, pois está estável e aceita. <b>Internaria se</b>: &lt; 3 meses, toxemia, vômitos incoercíveis, desidratação, má aceitação VO ou seguimento não confiável.</td></tr>
+<tr><td class="rot">Reavaliação</td><td><b>48–72 h</b> para checar urocultura e antibiograma, confirmar defervescência e ajustar.</td></tr>
+</table>`,
+notas:`<p>Chame atenção para "colher antes de tratar". Depois do antibiótico a urocultura perde valor e a criança fica sem diagnóstico e com 10 dias de droga.</p>`});
+
+/* ===================== BLOCO 4 — ANTITÉRMICOS ===================== */
+S.push({k:'conceito', n:'10', t:'Antitérmico: o objetivo é conforto', sub:'Não é normalizar o termômetro.',
+fontes:[{c:'firme',txt:'SBP DC 206/2025 — antitérmicos'}],
+body:`<div class="cx verde"><div class="cx-tit">Indicação</div>
+<p style="font-size:15px">Desconforto evidente — choro intenso, irritabilidade, queda de atividade, prostração, redução do apetite, alteração do sono. <b>Não existe número-gatilho.</b></p></div>
+<div class="cx vermelho"><div class="cx-tit">Mitos derrubados</div>
+<ul><li>Antitérmico <b>não previne</b> crise convulsiva febril — depende da vulnerabilidade individual e do pico inicial, não do valor absoluto</li><li><b>Métodos físicos não são recomendados de rotina</b>: duração curta, causam calafrio e tremor, aumentam o desconforto — o oposto do objetivo</li><li><b>Não alternar</b> antitérmicos: mais risco de superdosagem e confusão da família, sem ganho comprovado</li><li>Febre não "queima o cérebro". A <b>febrefobia</b> é o que precisa de tratamento — com empatia e informação</li></ul></div>`,
+notas:`<p>A convulsão febril é benigna, ocorre entre 6 meses e 6 anos, é autolimitada e não deixa sequela. Diga isso com todas as letras — é a maior fonte de angústia familiar.</p>
+<p>Sobre banho: não proíba com arrogância. Explique que o calafrio <em>aumenta</em> a produção de calor e o desconforto.</p>`});
+
+S.push({k:'plantao', n:'10A', t:'Você está tratando 38,9 ou está tratando o Pedro?',
+fontes:[{c:'firme',txt:'SBP DC 206/2025 — conforto'}],
+body:`<div class="ficha"><div class="id">Caso 10A · consultório</div>
+<p>Pedro, <b>3 anos, 14 kg</b>. T <b>38,9 °C</b>. Está sentado no chão <b>brincando com um carrinho</b>, conversando, bebendo suco. Sem foco ao exame.</p>
+<div class="vitais"><span class="vital">T <b>38,9 °C</b></span><span class="vital bom">Confortável</span><span class="vital bom">Aceitando líquidos</span></div></div>
+<div class="placa" style="font-size:26px">"Você está tratando 38,9<br>ou está tratando o Pedro?"</div>`,
+reveal:`<table>
+<tr class="bom"><td class="rot">Antitérmico</td><td><b>Não obrigatório agora</b> — Pedro está confortável. Prescrever <b>"se desconforto"</b>, nunca "se T ≥ 38 °C". Se vier: paracetamol 10–15 mg/kg = <b>140–210 mg/dose</b>, 6/6h.</td></tr>
+<tr class="ruim"><td class="rot">Método físico</td><td>Não indicado de rotina.</td></tr>
+<tr><td class="rot">Dieta / hidratação</td><td>Livre, com oferta ativa de líquidos.</td></tr>
+<tr class="ruim"><td class="rot">Antibiótico / exames</td><td>Não.</td></tr>
+<tr><td class="rot">Monitorização</td><td><b>Estado geral e comportamento</b> — não a curva térmica.</td></tr>
+<tr class="bom"><td class="rot">Destino</td><td>Casa.</td></tr>
+</table>
+<div class="cx azul"><div class="cx-tit">O que dizer à família, exatamente</div>
+<p style="font-size:15px">"Se ele está brincando, não precisa de remédio. O remédio é para quando ele estiver incomodado — não para o termômetro ficar bonito."</p></div>
+<div class="frase">Resposta: o Pedro.</div>`,
+notas:`<p>Esta frase deveria estar colada na parede de toda sala de emergência pediátrica. Repita-a duas vezes.</p>`});
+
+S.push({k:'conceito', n:'11', t:'A nova tabela de prescrição', sub:'A regra "1 gota/kg" saiu da aula.',
+fontes:[{c:'firme',txt:'SBP DC 206/2025 e Diretriz 177/2024'},{c:'corr',txt:'Tabela antiga substituída'}],
+body:`<table>
+<tr><th>Fármaco</th><th>Idade mínima</th><th>Dose</th><th>Intervalo</th><th>Máx. diária</th></tr>
+<tr><td><b>Paracetamol</b></td><td><b>Qualquer idade</b><br><span style="color:#7C8794">único abaixo de 1 mês</span></td><td><b>10–15 mg/kg/dose</b></td><td>4–6/6h</td><td><b>75 mg/kg/dia</b></td></tr>
+<tr><td><b>Dipirona</b></td><td><b>≥ 3 meses ou &gt; 5 kg</b></td><td><b>10–12 mg/kg/dose</b></td><td>6/6h</td><td>conforme bula/faixa</td></tr>
+<tr><td><b>Ibuprofeno</b></td><td><b>≥ 6 meses</b></td><td><b>5–10 mg/kg/dose</b><br><span style="color:#7C8794">anti-inflamatório 15–20</span></td><td>6–8/8h</td><td><b>40 mg/kg/dia</b></td></tr>
+</table>
+<div class="cx azul"><div class="cx-tit">O algoritmo obrigatório</div>
+<p style="font-size:17px;font-weight:700;text-align:center;color:#1282A2">PESO → mg/kg → mg necessários → concentração do frasco → mL ou gotas</p></div>
+<div class="placa">"mg/kg primeiro.<br>mL ou gotas depois."</div>
+<p style="font-size:14.5px;color:#48525E">A concentração muda por fabricante e por apresentação: dipirona existe em 500 e 50 mg/mL, ibuprofeno em 50 e 100 mg/mL, paracetamol em 100 e 200 mg/mL. Decorar equivalência em gotas é decorar um erro móvel.</p>`,
+notas:`<p>Se você só puder salvar um slide desta aula, é este.</p>
+<p>Diga que a receita deve trazer <em>a concentração do frasco</em> escrita. "3 mL de dipirona" sem concentração é uma dose indefinida.</p>`});
+
+S.push({k:'plantao', n:'11A', t:'Calcule você — 20 kg, três frascos', sub:'Todos com conta-gotas de 20 gotas por mL.',
+fontes:[{c:'corr',txt:'A armadilha das gotas'}],
+body:`<div class="ficha"><div class="id">Caso 11A · exercício de cálculo</div>
+<p>Criança de <b>20 kg</b>, febril e <b>claramente desconfortável</b>. Você tem três frascos na mão.</p>
+<div class="vitais"><span class="vital">Paracetamol <b>200 mg/mL</b></span><span class="vital">Dipirona <b>500 mg/mL</b></span><span class="vital">Ibuprofeno <b>50 mg/mL</b></span></div></div>
+<div class="frase">Faça a conta antes de virar o slide. Dose, volume e gotas.</div>`,
+reveal:`<table>
+<tr><th>Fármaco</th><th>Dose alvo</th><th>mg da dose</th><th>Volume</th><th>Gotas</th></tr>
+<tr><td>Paracetamol</td><td>10–15 mg/kg</td><td><b>200–300 mg</b></td><td><b>1,0–1,5 mL</b></td><td>20–30</td></tr>
+<tr><td>Dipirona</td><td>10–12 mg/kg</td><td><b>200–240 mg</b></td><td><b>0,4–0,5 mL</b></td><td><b>8–10</b></td></tr>
+<tr><td>Ibuprofeno</td><td>5–10 mg/kg</td><td><b>100–200 mg</b></td><td><b>2,0–4,0 mL</b></td><td>40–80</td></tr>
+</table>
+<div class="cx vermelho"><div class="cx-tit">A armadilha revelada — se aplicasse "1 gota/kg" (20 gotas)</div>
+<table>
+<tr class="bom"><td>Paracetamol · 10 mg/gota</td><td>200 mg = 10 mg/kg</td><td><b>funciona por coincidência</b></td></tr>
+<tr class="ruim"><td><b>Dipirona · 25 mg/gota</b></td><td><b>500 mg = 25 mg/kg</b></td><td><b>mais que o dobro</b></td></tr>
+<tr class="atencao"><td><b>Ibuprofeno · 2,5 mg/gota</b></td><td><b>50 mg = 2,5 mg/kg</b></td><td><b>metade do mínimo — a criança continua incomodada</b></td></tr>
+</table></div>
+<div class="cx ambar"><div class="cx-tit">E o teto diário</div>
+<p style="font-size:14.5px">Com 20 kg, o paracetamol não passa de <b>1.500 mg/dia</b>. Quatro doses de 300 mg = 1.200 mg, dentro do limite — mas some com "gotinhas de gripe" que também contêm paracetamol e o teto estoura sem ninguém perceber.</p></div>
+<div class="frase alerta">A mesma gota, três drogas, três erros diferentes.</div>`,
+notas:`<p>Dê 2 minutos reais de silêncio para a conta. Se revelar rápido, o slide não ensina nada.</p>
+<p>Pergunte quem chegou em 20 gotas de dipirona. Costuma ser a maioria — e é exatamente o ponto.</p>`});
+
+/* ===================== BLOCO 5 — INTEGRADORES ===================== */
+S.push({k:'conceito', n:'12', t:'Regra do bloco: prescreva antes de ver', sub:'A partir daqui, os exames só aparecem depois da sua folha.',
+fontes:[{c:'',txt:'Metodologia da estação'}],
+body:`<p>O aluno recebe <b>apenas história e exame físico</b>, escreve a prescrição em folha em branco, e só então o slide seguinte revela o laboratório.</p>
+<div class="cx azul"><div class="cx-tit">Os 9 campos obrigatórios de toda folha</div>
+<div class="campos">
+<div class="campo">Dieta</div><div class="campo">Hidratação</div>
+<div class="campo">Medicações</div><div class="campo">Exames</div>
+<div class="campo">Culturas</div><div class="campo">Monitorização</div>
+<div class="campo">Destino</div><div class="campo">Reavaliação</div>
+<div class="campo" style="grid-column:1/-1">Orientações aos responsáveis</div>
+</div></div>
+<div class="frase">Falta um campo, falta a conduta. Prescrição incompleta é prescrição errada.</div>`,
+notas:`<p>Distribua as folhas antes deste slide. O campo que a turma mais esquece é <em>reavaliação</em> — e é justamente o que torna a alta segura.</p>`});
+
+S.push({k:'plantao', n:'12A', t:'Integrador 1 — parte 1', sub:'Cinco minutos. Folha em branco. Sem consultar.',
+fontes:[{c:'firme',txt:'SBP — neonato febril'}],
+body:`<div class="ficha"><div class="id">Caso integrador 1 · às cegas</div>
+<p><b>Neonato, 22 dias, 3,4 kg.</b> T retal 38,4 °C há 4 h. Mamando ao peito, sem tosse, sem diarreia. Parto a termo, sem intercorrências. Cultura materna para estreptococo do grupo B <b>desconhecida</b>.</p>
+<p>Exame: ativo, corado, fontanela normotensa, sem lesões cutâneas.</p>
+<div class="vitais"><span class="vital bom">FR <b>44</b></span><span class="vital bom">FC <b>150</b></span><span class="vital bom">TEC <b>2 s</b></span></div></div>
+<div class="campos">
+<div class="campo">Dieta</div><div class="campo">Hidratação</div>
+<div class="campo">Medicações</div><div class="campo">Exames</div>
+<div class="campo">Culturas</div><div class="campo">Monitorização</div>
+<div class="campo">Destino</div><div class="campo">Reavaliação</div>
+<div class="campo" style="grid-column:1/-1">Orientações aos responsáveis</div>
+</div>
+<div class="frase alerta">O professor não responde perguntas neste slide.</div>`,
+notas:`<p>Cronometre de verdade. Cinco minutos, sem consulta, sem conversa.</p>
+<p>Enquanto escrevem, circule e observe quem escreveu "dipirona" ou "ceftriaxona" — você vai citar isso no gabarito.</p>`});
+
+S.push({k:'conceito', n:'13', t:'Gabarito comentado — integrador 1', sub:'O que era obrigatório, e o que reprova a folha.',
+fontes:[{c:'firme',txt:'SBP — neonato febril'},{c:'corr',txt:'Erros marcados em vermelho'}],
+body:`<div class="dois">
+<div class="cx verde"><div class="cx-tit">Tinha de aparecer</div>
+<ul><li>Internação</li><li>Aleitamento mantido</li><li>Hemocultura + urocultura por cateterismo + <b>LCR</b></li><li>Hemograma + PCR/PCT</li><li><b>Ampicilina + gentamicina</b> (ou cefotaxima)</li><li>Paracetamol <b>só se desconforto</b></li><li>Monitorização de FC, FR, SpO₂, temperatura, diurese</li><li>Orientação aos pais</li></ul></div>
+<div class="cx vermelho"><div class="cx-tit">Reprova a folha</div>
+<ul><li><b>Dipirona</b> em neonato</li><li><b>Ceftriaxona</b> em neonato</li><li>Alta com retorno em 24 h</li><li>"Aguardar exames para iniciar antibiótico"</li><li>Urocultura em <b>saco coletor</b></li></ul></div>
+</div>
+<div class="frase alerta">Neonato febril não tem versão ambulatorial.</div>`,
+notas:`<p>Corrija sem constrangimento individual: fale dos erros, não de quem os cometeu.</p>`});
+
+S.push({k:'plantao', n:'13A', t:'Integrador 1 — parte 2', sub:'Os exames chegaram. Mantenho, amplio ou retiro?',
+fontes:[{c:'firme',txt:'SBP — neonato febril'},{c:'local',txt:'Tempo de terapia conforme protocolo'}],
+body:`<div class="ficha"><div class="id">Mesmo neonato · 12 horas depois</div>
+<div class="vitais"><span class="vital mau">Leuco <b>21.400</b> c/ desvio</span><span class="vital mau">PCR <b>96 mg/L</b></span><span class="vital mau">EAS <b>leucocitúria</b>, nitrito neg.</span><span class="vital bom">LCR <b>8 células, normal</b></span><span class="vital">Culturas <b>em andamento</b></span><span class="vital bom">Afebril há <b>6 h</b>, mamando</span></div></div>
+<div class="frase">Mantenho? Amplio? Retiro? E quando consigo dar alta?</div>`,
+reveal:`<table>
+<tr class="bom"><td class="rot">Mantenho</td><td><b>Ampicilina + gentamicina.</b> LCR normal permite manter o esquema sem cefotaxima.</td></tr>
+<tr class="ruim"><td class="rot">Amplio?</td><td><b>Não.</b> Sem sinal de meningite nem instabilidade. Ampliar por PCR alta isolada é reflexo, não raciocínio.</td></tr>
+<tr class="ruim"><td class="rot">Retiro?</td><td><b>Ainda não.</b> Culturas pendentes. Melhora em 12 h não exclui bacteremia.</td></tr>
+<tr class="atencao"><td class="rot">Alvo provável</td><td><b>ITU neonatal</b> — leucocitúria + PCR elevada. Aguardar urocultura para direcionar.</td></tr>
+<tr><td class="rot">Alta</td><td>Culturas negativas em 36–48 h (ou urocultura positiva com esquema ajustado e tempo mínimo de EV cumprido) · afebril · sucção plena · exame normal · <b>retorno garantido</b>.</td></tr>
+<tr><td class="rot">Se urocultura +</td><td>Ajustar pelo antibiograma, completar o curso e programar <b>investigação de imagem do trato urinário</b> conforme o serviço.</td></tr>
+</table>
+<div class="frase alerta">"Melhorou" não é "curou". No neonato, quem dá alta é a cultura.</div>`,
+notas:`<p>O reflexo de "ampliar porque a PCR está alta" é comum e caro. Nomeie o reflexo para que a turma o reconheça em si mesma.</p>`});
+
+S.push({k:'conceito', n:'14', t:'O campo que mais se erra é "reavaliação"', sub:'Nos 29–90 dias, o antibiótico não é o problema.',
+fontes:[{c:'firme',txt:'Critérios de Rochester'},{c:'local',txt:'Viabilidade do retorno é realidade do serviço'}],
+body:`<p>A estratégia de baixo risco <b>só existe</b> se houver quatro coisas simultaneamente:</p>
+<div class="cx verde"><div class="cx-tit">As quatro condições</div>
+<ul><li>Retorno <b>em 24 h</b> viável e combinado</li><li>Meio de contato funcionando</li><li>Família capaz de reconhecer sinais de alarme</li><li>Culturas <b>já colhidas</b></li></ul></div>
+<div class="cx vermelho"><div class="cx-tit">Sem os quatro</div>
+<p style="font-size:15px">"Baixo risco" vira <b>alta às cegas</b> — e o nome bonito não protege ninguém.</p></div>`,
+notas:`<p>Aqui vale falar da sua realidade: transporte, distância, o retorno que não acontece. Isso torna a aula sua e não da diretriz.</p>`});
+
+S.push({k:'plantao', n:'14A', t:'Integrador 2 — parte 1', sub:'Escreva os nove campos. Ainda sem exames.',
+fontes:[{c:'firme',txt:'Critérios de Rochester'}],
+body:`<div class="ficha"><div class="id">Caso integrador 2 · às cegas</div>
+<p><b>Lactente, 68 dias, 5,1 kg.</b> Nascida a termo, previamente hígida, sem internação ou antibiótico prévios. Febre 38,5 °C há 5 h.</p>
+<p>Exame: alerta, sorri, mama bem, boa perfusão. Otoscopia, oroscopia, pele, ossos e articulações normais. <b>Sem foco.</b></p>
+<div class="vitais"><span class="vital bom">TAP <b>normal</b></span><span class="vital bom">Termo</span><span class="vital bom">Mamando bem</span></div></div>
+<div class="frase">Antibiótico: sim ou não? Justifique com o que você ainda não tem.</div>`,
+notas:`<p>A pegadinha é decidir o antibiótico antes de abrir os exames. Nesta faixa etária a decisão é <em>sequencial</em>.</p>`});
+
+S.push({k:'conceito', n:'15', t:'Gabarito — integrador 2, parte 1', sub:'O erro típico e o que se esperava.',
+fontes:[{c:'firme',txt:'Critérios de Rochester'},{c:'corr',txt:'Antitérmicos por faixa etária'}],
+body:`<div class="cx verde"><div class="cx-tit">Esperado na folha</div>
+<p style="font-size:15px">Aleitamento sob livre demanda · sem EV · hemograma + PCR/PCT + EAS + <b>hemocultura e urocultura por cateterismo</b> · paracetamol <b>51–77 mg/dose</b> se desconforto (<b>sem dipirona, sem ibuprofeno</b>) · <b>classificar antes de decidir antibiótico</b> · destino condicionado ao resultado · <b>retorno em 24 h obrigatório</b>.</p></div>
+<div class="cx vermelho"><div class="cx-tit">Erro típico</div>
+<p style="font-size:15px">Decidir o antibiótico <b>antes</b> de abrir os exames — em qualquer direção. Prescrever "porque tem 68 dias" e não prescrever "porque está bem" são o mesmo erro de método.</p></div>`,
+notas:`<p>Reforce a aritmética: 5,1 kg × 10–15 mg = 51 a 77 mg. Ela ainda não tem 3 meses nem 5 kg de folga — dipirona está fora.</p>`});
+
+S.push({k:'plantao', n:'15A', t:'Integrador 2 — parte 2', sub:'Ela é mesmo de baixo risco. Prescrição de alta.',
+fontes:[{c:'firme',txt:'Critérios de Rochester'},{c:'local',txt:'Estratégia A ou B conforme serviço'}],
+body:`<div class="ficha"><div class="id">Exames de M.E. · 68 dias, 5,1 kg</div>
+<div class="vitais"><span class="vital bom">Leuco <b>8.900</b> s/ desvio</span><span class="vital bom">PCR <b>4 mg/L</b></span><span class="vital bom">EAS <b>normal</b></span><span class="vital">Culturas <b>colhidas</b></span><span class="vital bom">TAP <b>normal</b>, mamando</span></div></div>
+<div class="cx verde"><div class="cx-tit">Classificação</div><p style="font-size:16px"><b>BAIXO RISCO CONFIRMADO.</b></p></div>`,
+reveal:`<table>
+<tr><td class="rot">Dieta / hidratação</td><td>Aleitamento sob livre demanda. VO exclusiva.</td></tr>
+<tr><td class="rot">Antitérmico</td><td>Paracetamol 10–15 mg/kg = <b>51–77 mg/dose</b>, até 6/6h, <b>só se desconforto</b>. Frasco 200 mg/mL → 0,25–0,38 mL.</td></tr>
+<tr class="atencao"><td class="rot">Antibiótico</td><td>Conforme estratégia pactuada: <b>nenhum</b> + retorno em 24 h, <b>ou</b> ceftriaxona 50 mg/kg IM = <b>255 mg</b> dose única + retorno em 24 h.</td></tr>
+<tr class="ruim"><td class="rot">Proibido</td><td>Automedicação com antibiótico · dipirona · ibuprofeno · alternar antitérmicos.</td></tr>
+<tr><td class="rot">Monitorização em casa</td><td>Temperatura · número de mamadas · <b>fraldas molhadas</b> · atividade e resposta ao estímulo.</td></tr>
+<tr><td class="rot">Contato</td><td>Telefone da unidade <b>anotado na receita</b>.</td></tr>
+<tr class="bom"><td class="rot">Reavaliação</td><td><b>Retorno presencial em 24 h</b> + culturas em 48–72 h.</td></tr>
+<tr class="ruim"><td class="rot">Retorno imediato se</td><td>Recusa alimentar · prostração ou irritabilidade não consolável · gemência ou dificuldade respiratória · manchas na pele · redução de fraldas molhadas · convulsão · <b>qualquer piora percebida pelos pais</b>.</td></tr>
+</table>
+<div class="cx azul"><div class="cx-tit">A frase que fecha a consulta</div>
+<p style="font-size:15px">"A senhora vai voltar amanhã no mesmo horário, mesmo que ele esteja ótimo. Esse retorno faz parte do tratamento."</p></div>`,
+notas:`<p>Ensine a frase literal. Sem ela, o retorno de 24 h vira sugestão — e ninguém volta com o filho bem.</p>`});
+
+S.push({k:'conceito', n:'16', t:'O que está escondido?', sub:'Treino de hipótese antes do exame.',
+fontes:[{c:'firme',txt:'SBP — ITU e febre sem foco'}],
+body:`<p>Menina lactente, febre <b>sem foco há 48 h</b>. Ordem mental correta:</p>
+<table>
+<tr class="atencao"><td class="rot">1 · ITU</td><td>A mais frequente das ocultas. Vai na frente.</td></tr>
+<tr><td class="rot">2 · Pneumonia</td><td>Sem sinais claros — avaliar FR, esforço e SpO₂ antes de descartar.</td></tr>
+<tr><td class="rot">3 · Viral com exantema tardio</td><td>Roséola: febre alta 3–5 dias e o exantema aparece <b>quando a febre cede</b>.</td></tr>
+<tr><td class="rot">4 · Bacteremia oculta</td><td>Rara em vacinados.</td></tr>
+<tr><td class="rot">5 · Não infecciosa</td><td><b>Kawasaki</b> entra em cena quando a febre passa de 5 dias.</td></tr>
+</table>
+<div class="frase">Hipótese antes do exame. O exame confirma, não descobre.</div>`,
+notas:`<p>A roséola é útil para acalmar famílias: quando o exantema aparece, a criança já está melhorando.</p>
+<p>Kawasaki não é tema desta aula, mas plante a semente: febre &gt; 5 dias muda a pergunta.</p>`});
+
+S.push({k:'plantao', n:'16A', t:'Integrador 3 — parte 1', sub:'Hipótese principal, exame que confirma, coleta correta.',
+fontes:[{c:'firme',txt:'SBP — ITU na infância'}],
+body:`<div class="ficha"><div class="id">Caso integrador 3 · às cegas</div>
+<p>Menina, <b>14 meses, 10 kg</b>. T <b>39,2 °C há 48 h</b>. Sem tosse, coriza, diarreia ou vômitos. Vacinação em dia.</p>
+<p>Na chegada T 38,7 °C, <b>irritada no pico, consolável e interativa após o antitérmico</b>. Exame segmentar completo sem foco.</p>
+<div class="vitais"><span class="vital bom">TEC <b>2 s</b></span><span class="vital bom">FR <b>30</b></span><span class="vital bom">SpO₂ <b>98%</b></span><span class="vital">Hidratada</span></div></div>
+<div class="frase">Escreva três linhas: hipótese · exame · como coletar.</div>`,
+reveal:`<div class="cx ambar"><div class="cx-tit">Resposta</div>
+<p style="font-size:16px"><b>ITU até prova em contrário.</b><br>EAS + <b>urocultura por cateterismo vesical</b>, colhidos <b>antes</b> do antibiótico.</p></div>
+<div class="cx vermelho"><div class="cx-tit">Pegadinha clássica</div>
+<p style="font-size:14.5px">Urocultura colhida em saco coletor com resultado "polimicrobiano" <b>não é ITU — é contaminação</b>. Repita direito antes de tratar 10 dias à toa.</p></div>`,
+notas:`<p>Três linhas apenas. Este slide treina velocidade de hipótese, não completude.</p>`});
+
+S.push({k:'conceito', n:'17', t:'A prescrição de alta tem oito campos', sub:'Falta um, perde ponto.',
+fontes:[{c:'local',txt:'Antibiótico e duração conforme protocolo'}],
+body:`<div class="cx azul"><div class="cx-tit">Checklist</div>
+<ul><li>Antibiótico <b>pelo protocolo local</b>, em mg/kg/dia</li><li><b>Conversão em mL</b> — depois de declarar a concentração do frasco</li><li><b>Duração</b> definida em dias</li><li>Antitérmico <b>se desconforto</b></li><li>Hidratação e dieta</li><li><b>Data da reavaliação clínica</b></li><li><b>Conferência da urocultura e do antibiograma</b></li><li><b>Sinais de alarme por escrito</b></li></ul></div>
+<div class="frase alerta">"3 mL de cefuroxima" sem dizer qual suspensão é uma dose indefinida.</div>`,
+notas:`<p>Mostre uma receita real sua, se tiver, com a concentração escrita. A turma copia o que vê.</p>`});
+
+S.push({k:'plantao', n:'17A', t:'Integrador 3 — parte 2', sub:'A urina fala. Escreva a receita completa.',
+fontes:[{c:'firme',txt:'SBP — ITU na infância'},{c:'local',txt:'Antibiótico conforme antibiograma local'}],
+body:`<div class="ficha"><div class="id">EAS por cateterismo · G.H., 14 meses, 10 kg</div>
+<div class="vitais"><span class="vital mau">Leucocitúria <b>acentuada</b></span><span class="vital mau">Esterase <b>positiva</b></span><span class="vital mau">Nitrito <b>positivo</b></span><span class="vital">Urocultura <b>em andamento</b></span></div></div>`,
+reveal:`<pre class="receita"><b>PACIENTE:</b> G.H., 14 meses, 10 kg
+<b>DIAGNÓSTICO:</b> Infecção do trato urinário febril (provável pielonefrite)
+
+1. Dieta habitual, conforme aceitação.
+2. Oferta ativa de líquidos por via oral.
+
+3. <b>Cefuroxima axetil suspensão 250 mg/5 mL</b>
+   Dose: 30 mg/kg/dia = 300 mg/dia, divididos 12/12h
+   -> 150 mg por dose = 3 mL VO de 12/12h
+   Duração: 7 a 10 dias
+   (Ajustar conforme antibiograma e resistência local)
+
+4. <b>Paracetamol 200 mg/mL</b>
+   Dose: 10-15 mg/kg = 100-150 mg por dose
+   -> 0,5 a 0,75 mL VO ate 6/6h, SOMENTE SE DESCONFORTO
+   Máximo: 750 mg/dia
+
+5. Não alternar antitérmicos.
+   Não usar antibiótico por conta própria.
+
+6. <b>RETORNO EM 48-72 HORAS</b> para:
+   - checagem da urocultura e do antibiograma
+   - confirmação da defervescência
+   - reavaliação clínica
+
+7. <b>ORIENTAÇÕES E RETORNO IMEDIATO SE:</b>
+   vômitos que impeçam o antibiótico · prostração ·
+   febre mantida após 72h de tratamento · dor lombar intensa ·
+   redução da diurese · manchas na pele · piora do estado geral</pre>
+<div class="frase">O detalhe que o aluno esquece: escrever a concentração do frasco na receita.</div>`,
+notas:`<p>Projete a receita e leia em voz alta, linha a linha. É o modelo que eles vão copiar no plantão.</p>`});
+
+/* ===================== BLOCO 6 — FAMÍLIA E FECHAMENTO ===================== */
+S.push({k:'conceito', n:'18', t:'"Doutor, quando eu volto?"', sub:'A alta transfere a vigilância para a família — e só funciona se ela souber o que observar.',
+fontes:[{c:'firme',txt:'SBP DC 206/2025 — sinais de alarme'}],
+body:`<div class="cx vermelho"><div class="cx-tit">Red flags — retorno imediato</div>
+<div class="dois">
+<ul><li>Prostração ou sonolência <b>que persiste depois que a febre cede</b></li><li>Irritabilidade que não consola no colo</li><li>Dificuldade respiratória — gemência, tiragem, asa nasal</li><li><b>Manchas que não somem à digitopressão</b></li></ul>
+<ul><li>Má perfusão — pele fria, moteada, pálida</li><li>Recusa de líquidos / <b>queda importante da diurese</b></li><li>Convulsão</li><li>Febre persistente <b>&gt; 72 h</b></li></ul>
+</div></div>
+<div class="placa" style="font-size:24px">Todo caso desta aula termina<br>com o mesmo campo na receita:<br><span style="color:#C0392B">ORIENTAÇÕES E RETORNO</span></div>`,
+notas:`<p>Entregue por escrito. Orientação verbal a família assustada às 3 da manhã não sobrevive ao trajeto até em casa.</p>`});
+
+S.push({k:'plantao', n:'18A', t:'Oito ligações no plantão', sub:'Quais exigem retorno imediato?',
+fontes:[{c:'firme',txt:'SBP DC 206/2025 — sinais de alarme'}],
+body:`<table>
+<tr><th>#</th><th>A mãe diz</th></tr>
+<tr><td><b>1</b></td><td>"A febre voltou 6 horas depois do remédio."</td></tr>
+<tr><td><b>2</b></td><td>"Ele dormiu a tarde toda e não acordou direito <b>nem sem febre</b>."</td></tr>
+<tr><td><b>3</b></td><td>"Apareceram manchinhas vermelhas na perna que <b>não somem quando eu aperto</b>."</td></tr>
+<tr><td><b>4</b></td><td>"Ele está com o nariz escorrendo."</td></tr>
+<tr><td><b>5</b></td><td>"Faz <b>8 horas</b> que a fralda está seca."</td></tr>
+<tr><td><b>6</b></td><td>"Ela está <b>gemendo</b> e o peito afunda quando respira."</td></tr>
+<tr><td><b>7</b></td><td>"Está com febre há <b>4 dias</b>."</td></tr>
+<tr><td><b>8</b></td><td>"Comeu menos no almoço, mas brincou a tarde toda."</td></tr>
+</table>`,
+reveal:`<div class="tres">
+<div class="cx vermelho"><div class="cx-tit">Retorno imediato</div><p style="font-size:15px"><b>2</b> · responsividade alterada <b>sem febre</b><br><b>3</b> · petéquias/púrpura<br><b>5</b> · oligúria<br><b>6</b> · desconforto respiratório</p></div>
+<div class="cx ambar"><div class="cx-tit">Retorno programado</div><p style="font-size:15px"><b>7</b> · febre &gt; 72 h — precisa de reavaliação e provável investigação</p></div>
+<div class="cx verde"><div class="cx-tit">Apenas orientar</div><p style="font-size:15px"><b>1</b> · recorrência no fim do efeito é <b>esperada</b><br><b>4</b> · coriza isolada<br><b>8</b> · apetite reduzido com atividade preservada</p></div>
+</div>
+<div class="cx escuro"><div class="cx-tit">O par que importa</div>
+<p style="font-size:15px">O item <b>1</b> é o que mais gera ida desnecessária ao pronto-socorro. O item <b>2</b> é o que mais gera <b>chegada tardia</b>. Ensinar a família a diferenciar esses dois salva vidas e desafoga a emergência.</p></div>`,
+notas:`<p>Peça votação com a mão levantada em cada item antes de revelar. O item 1 costuma dividir a turma.</p>
+<p>Explique o item 1 pela farmacologia: o antitérmico tem duração de 4 a 6 horas; a febre voltar é o remédio acabando, não a doença piorando.</p>`});
+
+S.push({k:'conceito', n:'19', t:'O software mental do plantão', sub:'FSSL = I.D.A.D.E.',
+fontes:[{c:'',txt:'Síntese da aula'}],
+body:`<table>
+<tr><td class="rot" style="font-size:22px;font-weight:900;color:#1282A2;width:60px">I</td><td><b>Idade primeiro</b> — neonato · 29–90 dias · 3–36 meses. O trilho vem antes do exame.</td></tr>
+<tr><td class="rot" style="font-size:22px;font-weight:900;color:#1282A2">D</td><td><b>Doente ou bom estado geral?</b> — TAP. Toxemia atropela qualquer fluxograma.</td></tr>
+<tr><td class="rot" style="font-size:22px;font-weight:900;color:#1282A2">A</td><td><b>Ache a infecção bacteriana escondida</b> — ITU em primeiro lugar.</td></tr>
+<tr><td class="rot" style="font-size:22px;font-weight:900;color:#1282A2">D</td><td><b>Defina exames e destino</b> — casa · observação · enfermaria · UTI.</td></tr>
+<tr><td class="rot" style="font-size:22px;font-weight:900;color:#1282A2">E</td><td><b>Escreva a prescrição e explique o retorno</b> — mg/kg, e o campo ORIENTAÇÕES E RETORNO sempre preenchido.</td></tr>
+</table>
+<div class="cx escuro"><div class="cx-tit">Os cinco mandamentos do plantonista</div>
+<p style="font-size:15px">1 · A idade dita a conduta.<br>2 · Trate o doente, não o termômetro.<br>3 · Lembre-se da ITU.<br>4 · Prescreva em mg/kg — e nunca 1 gota/kg de dipirona.<br>5 · Oriente a alta por escrito.</p></div>`,
+notas:`<p>Peça que a turma recite o I.D.A.D.E. em voz alta uma vez. Constrangedor por três segundos, memorável por anos.</p>`});
+
+S.push({k:'plantao', n:'19A', t:'Estação final — 5 minutos, folha em branco',
+fontes:[{c:'firme',txt:'Critérios de Rochester'},{c:'corr',txt:'Antitérmico por faixa etária'},{c:'local',txt:'Destino conforme estratégia do serviço'}],
+body:`<div class="ficha"><div class="id">OSCE final</div>
+<p>Menina, <b>47 dias, 4,7 kg</b>. Febre <b>38,2 °C há 5 h</b>, aferida em casa e confirmada na unidade. Nascida a termo, previamente hígida, sem internação ou antibiótico prévios. Mamando ao peito.</p>
+<p>Exame: alerta, sorri ao estímulo, boa perfusão. Otoscopia, oroscopia, pele, ossos e articulações <b>normais</b>. Sem foco.</p>
+<div class="vitais"><span class="vital bom">FR <b>40</b></span><span class="vital bom">FC <b>148</b></span><span class="vital bom">TEC <b>2 s</b></span><span class="vital bom">SpO₂ <b>98%</b></span></div></div>
+<div class="campos">
+<div class="campo">Dieta</div><div class="campo">Hidratação</div>
+<div class="campo">Medicações — com mg/kg e volume</div><div class="campo">Exames</div>
+<div class="campo">Culturas</div><div class="campo">Monitorização</div>
+<div class="campo">Destino</div><div class="campo">Reavaliação</div>
+<div class="campo" style="grid-column:1/-1">Orientações aos responsáveis</div>
+</div>`,
+reveal:`<table>
+<tr><th>Campo</th><th>Resposta esperada</th><th>Erro que reprova</th></tr>
+<tr><td class="rot">Dieta</td><td>Aleitamento materno sob livre demanda</td><td></td></tr>
+<tr><td class="rot">Hidratação</td><td>VO exclusiva; sem EV — hidratada e aceitando</td><td></td></tr>
+<tr class="atencao"><td class="rot">Medicações</td><td>Paracetamol 10–15 mg/kg = <b>47–70 mg/dose</b>; 200 mg/mL → <b>0,25–0,35 mL</b>, até 6/6h, se desconforto</td><td><b>Dipirona ou ibuprofeno</b> — tem 47 dias</td></tr>
+<tr><td class="rot">Exames</td><td>Hemograma · PCR e/ou procalcitonina · EAS</td><td></td></tr>
+<tr class="atencao"><td class="rot">Culturas</td><td><b>Hemocultura + urocultura por cateterismo</b> — obrigatórias</td><td>Saco coletor para cultura</td></tr>
+<tr><td class="rot">Monitorização</td><td>Sinais vitais, aceitação, diurese, estado geral; em casa: mamadas, fraldas, atividade</td><td></td></tr>
+<tr class="atencao"><td class="rot">Destino</td><td><b>Depende da estratificação.</b> Baixo risco → observação ou alta com correia curta. Não preencheu → internação + LCR + antibiótico parenteral</td><td>Decidir o destino <b>antes</b> dos exames</td></tr>
+<tr class="ruim"><td class="rot">Reavaliação</td><td><b>Retorno em 24 h</b> + culturas em 48–72 h</td><td><b>Faltar este campo reprova a folha</b></td></tr>
+<tr><td class="rot">Orientações</td><td>Os oito sinais de alarme por escrito, com telefone de contato</td><td></td></tr>
+</table>
+<div class="placa"><span style="color:#1282A2">I</span>dade · <span style="color:#1282A2">D</span>oente? · <span style="color:#1282A2">A</span>che a bactéria escondida · <span style="color:#1282A2">D</span>efina exames e destino · <span style="color:#1282A2">E</span>screva e explique</div>`,
+notas:`<p>Recolha as folhas. Se der tempo, leia uma boa e uma incompleta em voz alta, sem identificar.</p>
+<p>Encerre com a estação: a aula inteira cabe nesses nove campos.</p>`});
+
+S.push({k:'aviso', n:'—', t:'Referências', sub:'De onde veio cada afirmação desta aula.',
+fontes:[{c:'firme',txt:'Fontes primárias'}],
+body:`<div class="cx verde"><div class="cx-tit">Fonte central</div>
+<p style="font-size:15px">Sociedade Brasileira de Pediatria. <b>Abordagem da Febre Aguda em Pediatria e Reflexões sobre a febre nas arboviroses.</b> Documento Científico nº 206, Departamentos Científicos de Pediatria Ambulatorial e Infectologia. Maio de 2025.</p></div>
+<div class="cx"><div class="cx-tit">Complementares</div>
+<p style="font-size:15px">SBP, <i>Dores comuns em pediatria: avaliação e abordagem</i> — Diretriz nº 177, 2024 (faixas etárias e doses dos antitérmicos)<br>Critérios de Rochester para lactentes de baixo risco<br>Protocolo HU-USP para febre sem sinais localizatórios até 36 meses<br>SBP Nefrologia — infecção do trato urinário na infância</p></div>
+<div class="cx ambar"><div class="cx-tit">O que sempre depende do seu serviço</div>
+<p style="font-size:15px">Escolha e dose do antibiótico empírico · perfil de resistência da <i>E. coli</i> · estratégia adotada para lactentes de 29 a 90 dias · disponibilidade de procalcitonina · tempo mínimo de terapia parenteral. <b>Confirme no protocolo institucional antes de aplicar.</b></p></div>
+<div style="text-align:center;margin-top:26px"><div class="assin">Dr. André Rossanno</div>
+<div style="font-family:var(--mono);font-size:11px;color:#7C8794;margin-top:8px">memoriapotencial.com.br</div></div>`,
+notas:`<p>Deixe este slide no telão durante as perguntas finais. Quem quiser conferir, confere.</p>`});
+
+/* ===================== MOTOR ===================== */
+let i = 0, notasOn = false;
+const el = id => document.getElementById(id);
+const palco = el('palco'), slideEl = el('slide'), notasEl = el('notas');
+
+const GRAU = `<div class="grau">
+  <i class="g1">Diretriz</i><i class="g2">Protocolo local</i><i class="g3">Correção</i></div>`;
+
+function trilho(s){
+  if(s.k === 'capa') return '';
+  const chips = (s.fontes || []).map(f =>
+    `<div class="fonte-chip ${f.c}">${f.txt}</div>`).join('');
+  const rot = s.k === 'plantao' ? 'Plantão' : (s.k === 'conceito' ? 'Conceito' : 'Aula');
+  return `<aside class="trilho">
+    <div><span class="etiq">${rot}</span><div class="num">${s.n}</div></div>
+    <div><span class="etiq">Fonte</span>${chips}</div>
+    ${GRAU}
+  </aside>`;
+}
+
+function render(){
+  const s = S[i];
+  window.scrollTo(0,0); palco.scrollTop = 0;
+
+  if(s.k === 'capa'){
+    slideEl.innerHTML = s.body;
+  } else {
+    const kick = s.k === 'plantao'
+      ? `<div class="kicker plantao">▲ Você está no plantão</div>`
+      : `<div class="kicker">${s.k === 'aviso' ? 'Aula' : 'Conceito <span class="kn">' + s.n + '</span>'}</div>`;
+    const cor = s.k === 'plantao' ? 'r-vermelho' : (s.k === 'aviso' ? 'r-ambar' : '');
+    const sub = s.sub ? `<div class="sub">${s.sub}</div>` : '';
+    const cortina = s.reveal
+      ? `<div class="cortina" id="cortina" tabindex="0" role="button">
+           <div class="c-eyebrow">Prescrição fechada</div>
+           <div class="c-tit">Escreva a sua conduta primeiro</div>
+           <div class="c-dica">Toque aqui, ou aperte R, para revelar a resposta comentada</div>
+         </div>
+         <div class="revelado" id="revelado">${s.reveal}</div>` : '';
+    slideEl.innerHTML = trilho(s) +
+      `<div class="corpo"><div id="ajusta">${kick}<h1 class="tit">${s.t}</h1>${sub}
+       <div class="regua ${cor}"></div>${s.body}${cortina}</div></div>`;
+    const c = el('cortina');
+    if(c){ c.addEventListener('click', revelar);
+           c.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' '){e.preventDefault();revelar();} }); }
+  }
+
+  const proc = (s.fontes || []).map(f => f.txt).join(' · ');
+  notasEl.innerHTML = (s.notas
+    ? `<div class="n-tit">Notas de fala · slide ${s.n}</div>${s.notas}`
+    : `<div class="n-tit">Notas de fala</div><p>Sem notas para este slide.</p>`)
+    + (proc ? `<p style="border-top:1px solid #2E3A46;padding-top:9px;margin-top:11px;font-family:var(--mono);font-size:11.5px;color:#8FB8CE">FONTE · ${proc}</p>` : '');
+
+  el('contador').textContent = (i+1) + ' / ' + S.length;
+  const pct = ((i+1)/S.length*100) + '%';
+  el('progresso').style.width = pct;
+  el('trilhaFill').style.width = pct;
+  el('btnAnt').disabled = i === 0;
+  el('btnProx').disabled = i === S.length - 1;
+  document.querySelectorAll('.ind-item').forEach((b,n) => b.classList.toggle('at', n === i));
+  ajustar();
+}
+
+/* ---- ajuste do palco 16:9 e do conteúdo ---- */
+function ajustar(){
+  const ajusta = el('ajusta');
+  if(!document.body.classList.contains('aprs')){
+    slideEl.style.transform = '';
+    if(ajusta){ ajusta.style.transform = ''; ajusta.style.width = ''; }
+    return;
+  }
+  const escala = Math.min(window.innerWidth / 1300, window.innerHeight / 740);
+  slideEl.style.transform = 'scale(' + escala + ')';
+  if(!ajusta) return;
+  ajusta.style.transform = ''; ajusta.style.width = '';
+  const caixa = ajusta.parentElement;
+  const cs = window.getComputedStyle(caixa);
+  const disp = caixa.clientHeight - parseFloat(cs.paddingTop || 0) - parseFloat(cs.paddingBottom || 0);
+  const alt = ajusta.scrollHeight;
+  if(alt > disp && disp > 0){
+    const k = Math.max(0.42, disp / alt);
+    ajusta.style.transform = 'scale(' + k + ')';
+    ajusta.style.width = (100 / k) + '%';
+  }
+}
+window.addEventListener('resize', ajustar);
+
+function revelar(){
+  const r = el('revelado'), c = el('cortina');
+  if(r){ r.classList.add('on'); if(c) c.style.display = 'none'; ajustar(); }
+}
+function ir(n){ if(n >= 0 && n < S.length){ i = n; render(); } }
+function prox(){ ir(i+1); } function ant(){ ir(i-1); }
+
+el('btnProx').addEventListener('click', prox);
+el('btnAnt').addEventListener('click', ant);
+
+el('btnNotas').addEventListener('click', () => {
+  notasOn = !notasOn;
+  notasEl.classList.toggle('on', notasOn);
+  el('btnNotas').classList.toggle('on', notasOn);
+  ajustar();
+});
+el('btnIndice').addEventListener('click', () => el('indice').classList.toggle('on'));
+el('indice').addEventListener('click', e => { if(e.target === el('indice')) el('indice').classList.remove('on'); });
+/* ---- modo apresentação ---- */
+let aprs = false;
+function apresentar(ligar){
+  aprs = (ligar === undefined) ? !aprs : ligar;
+  document.body.classList.toggle('aprs', aprs);
+  el('btnAprs').classList.toggle('on', aprs);
+  el('btnAprs').textContent = aprs ? 'Sair' : 'Apresentar';
+  if(aprs){
+    const r = document.documentElement.requestFullscreen;
+    if(r) r.call(document.documentElement).catch(()=>{});
+    mexer();
+  } else {
+    if(document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(()=>{});
+    document.body.classList.remove('oculto');
+  }
+  ajustar();
+}
+el('btnAprs').addEventListener('click', () => apresentar());
+document.addEventListener('fullscreenchange', () => {
+  if(!document.fullscreenElement && aprs) apresentar(false);
+});
+
+let tOculto = null;
+function mexer(){
+  if(!aprs) return;
+  document.body.classList.add('mexeu');
+  document.body.classList.remove('oculto');
+  clearTimeout(tOculto);
+  tOculto = setTimeout(() => {
+    document.body.classList.remove('mexeu');
+    document.body.classList.add('oculto');
+  }, 2600);
+}
+document.addEventListener('mousemove', mexer);
+document.addEventListener('touchstart', mexer, {passive:true});
+
+/* ---- cronômetro da aula ---- */
+let seg = 0, tick = null;
+function mostrarTempo(){
+  const m = String(Math.floor(seg/60)).padStart(2,'0'), s = String(seg%60).padStart(2,'0');
+  el('cronom').textContent = m + ':' + s;
+}
+el('cronom').addEventListener('click', () => {
+  if(tick){ clearInterval(tick); tick = null; el('cronom').classList.remove('rodando'); }
+  else { tick = setInterval(() => { seg++; mostrarTempo(); }, 1000); el('cronom').classList.add('rodando'); }
+});
+el('cronom').addEventListener('dblclick', () => { seg = 0; mostrarTempo(); });
+el('trilha').addEventListener('click', e => {
+  const r = e.currentTarget.getBoundingClientRect();
+  ir(Math.min(S.length-1, Math.max(0, Math.round((e.clientX - r.left)/r.width * (S.length-1)))));
+});
+
+document.addEventListener('keydown', e => {
+  if(e.key === 'ArrowRight' || e.key === 'PageDown'){ e.preventDefault(); prox(); }
+  else if(e.key === 'ArrowLeft' || e.key === 'PageUp'){ e.preventDefault(); ant(); }
+  else if(e.key === ' '){ e.preventDefault(); el('revelado') && !el('revelado').classList.contains('on') ? revelar() : prox(); }
+  else if(e.key === 'r' || e.key === 'R'){ revelar(); }
+  else if(e.key === 'n' || e.key === 'N'){ el('btnNotas').click(); }
+  else if(e.key === 'p' || e.key === 'P'){ e.preventDefault(); apresentar(); }
+  else if(e.key === 'Escape'){
+    if(el('indice').classList.contains('on')) el('indice').classList.remove('on');
+    else if(aprs) apresentar(false);
+  }
+  else if(e.key === 'Home'){ ir(0); }
+  else if(e.key === 'End'){ ir(S.length-1); }
+});
+
+let tx = 0, ty = 0;
+palco.addEventListener('touchstart', e => { tx = e.changedTouches[0].clientX; ty = e.changedTouches[0].clientY; }, {passive:true});
+palco.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - tx, dy = e.changedTouches[0].clientY - ty;
+  if(Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy) * 1.6){ dx < 0 ? prox() : ant(); }
+}, {passive:true});
+
+/* índice */
+el('indGrid').innerHTML = S.map((s,n) => {
+  const rot = s.k === 'plantao' ? 'Plantão ' + s.n : (s.k === 'conceito' ? 'Conceito ' + s.n : 'Aula');
+  return `<button class="ind-item ${s.k === 'plantao' ? 'pl' : ''}" data-n="${n}"><span>${rot}</span>${s.t}</button>`;
+}).join('');
+el('indGrid').addEventListener('click', e => {
+  const b = e.target.closest('.ind-item');
+  if(b){ ir(+b.dataset.n); el('indice').classList.remove('on'); }
+});
+
+try{
+  if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+    document.body.classList.add('sem-mov');
+}catch(e){}
+render();
+</script>
+</body>
+</html>
