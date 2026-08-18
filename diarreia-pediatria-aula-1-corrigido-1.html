@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Diarreia Aguda em Pediatria — Do manejo à prescrição | Dr. André Rossanno</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400&family=IBM+Plex+Mono:wght@400;600&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#10243f; --navy2:#1b3a5f; --azul:#1282A2; --azul-soft:#e6f3f7; --azul-deep:#0b6178;
+  --verde:#1e8f5e; --verde-soft:#e8f6ef; --ambar:#b7791f; --ambar-soft:#fdf4e3;
+  --verm:#c0392b; --verm-soft:#fdecea; --bg:#f4f6f9; --card:#ffffff;
+  --linha:#e2e8f0; --texto:#1c2b3a; --suave:#5a6b7d;
+  --disp:'Nunito','Trebuchet MS',Arial,sans-serif;
+  --mono:'IBM Plex Mono','Courier New',monospace;
+  --assin:'Dancing Script',cursive;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:var(--disp);background:var(--bg);color:var(--texto);overflow:hidden;-webkit-font-smoothing:antialiased}
+/* ---------- BARRA SUPERIOR ---------- */
+#topo{position:fixed;top:0;left:0;right:0;height:38px;background:var(--navy);color:#fff;display:flex;align-items:center;gap:14px;padding:0 14px;z-index:60;font-size:12px}
+#topo .marca{font-weight:900;letter-spacing:.4px}
+#topo .marca span{color:#7fd1e6}
+#topo .tema{opacity:.72;font-family:var(--mono);font-size:11px;flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+#topo button{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);color:#fff;font-family:var(--mono);font-size:11px;padding:4px 9px;border-radius:6px;cursor:pointer}
+#topo button:hover{background:rgba(255,255,255,.22)}
+#topo button:focus-visible,.rv:focus-visible,#grade button:focus-visible{outline:3px solid #7fd1e6;outline-offset:2px}
+/* ---------- PROGRESSO ---------- */
+#prog{position:fixed;top:38px;left:0;right:0;height:6px;background:#dde5ee;z-index:59;cursor:pointer}
+#prog i{display:block;height:100%;background:linear-gradient(90deg,var(--azul),var(--verde));width:0;transition:width .18s}
+/* ---------- PALCO ---------- */
+#palco{position:absolute;top:44px;left:0;right:0;bottom:0;overflow:hidden}
+.slide{position:absolute;inset:0;display:none;padding:20px 26px 26px;overflow-y:auto}
+.slide.on{display:flex;gap:20px;animation:entra .28s ease}
+@keyframes entra{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+/* ---------- TRILHO DE FONTE ---------- */
+.rail{width:158px;flex:0 0 158px;border-right:2px solid var(--linha);padding-right:12px;display:flex;flex-direction:column;gap:7px}
+.rail .kn{font-family:var(--mono);font-size:26px;font-weight:600;color:#c3cede;line-height:1}
+.rail .rl{font-family:var(--mono);font-size:9px;letter-spacing:1.4px;color:#94a3b4;text-transform:uppercase;margin-top:4px}
+.chip{font-size:10.5px;line-height:1.35;padding:5px 7px;border-radius:6px;border-left:3px solid;background:#fff}
+.chip b{display:block;font-family:var(--mono);font-size:8.5px;letter-spacing:1px;text-transform:uppercase;opacity:.85}
+.chip.D{border-color:var(--verde);background:var(--verde-soft);color:#12603f}
+.chip.P{border-color:var(--ambar);background:var(--ambar-soft);color:#7a5310}
+.chip.C{border-color:var(--verm);background:var(--verm-soft);color:#8e2a1e}
+/* ---------- CORPO DO SLIDE ---------- */
+.corpo{flex:1;min-width:0;display:flex;flex-direction:column}
+.kicker{font-family:var(--mono);font-size:10.5px;letter-spacing:2px;text-transform:uppercase;color:var(--azul);font-weight:600;margin-bottom:6px}
+.kicker .kn{color:#b9c5d4}
+h1{font-size:44px;line-height:1.06;font-weight:900;letter-spacing:-.8px;color:var(--navy)}
+h2{font-size:30px;line-height:1.12;font-weight:900;letter-spacing:-.5px;color:var(--navy);margin-bottom:10px}
+h3{font-size:15px;font-weight:800;color:var(--navy2);margin-bottom:5px}
+p{font-size:15px;line-height:1.5;margin-bottom:9px}
+.sub{font-size:16px;color:var(--suave);line-height:1.45}
+ul{margin:0 0 10px 17px}
+li{font-size:14.5px;line-height:1.48;margin-bottom:5px}
+b,strong{font-weight:800}
+.mono{font-family:var(--mono)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.cx{background:var(--card);border:1px solid var(--linha);border-radius:10px;padding:12px 14px;box-shadow:0 1px 2px rgba(16,36,63,.05)}
+.cx.az{border-left:4px solid var(--azul)} .cx.vd{border-left:4px solid var(--verde)}
+.cx.am{border-left:4px solid var(--ambar);background:var(--ambar-soft)} .cx.vm{border-left:4px solid var(--verm);background:var(--verm-soft)}
+.cx.nv{background:var(--navy);color:#e8f1f8;border-color:var(--navy)}
+.cx.nv h3{color:#7fd1e6}
+.tag{display:inline-block;font-family:var(--mono);font-size:9.5px;letter-spacing:1.2px;text-transform:uppercase;padding:3px 7px;border-radius:4px;font-weight:600;margin-bottom:6px}
+.tag.az{background:var(--azul-soft);color:var(--azul-deep)} .tag.vd{background:var(--verde-soft);color:#12603f}
+.tag.am{background:#f7e6c2;color:#7a5310} .tag.vm{background:#fadbd6;color:#8e2a1e}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:var(--navy);color:#fff;font-size:11px;letter-spacing:.6px;text-transform:uppercase;padding:7px 8px;text-align:left}
+td{padding:7px 8px;border-bottom:1px solid var(--linha);vertical-align:top;line-height:1.35}
+tr:nth-child(even) td{background:#f8fafc}
+td.g{color:#8e2a1e;font-weight:700} td.m{color:#7a5310;font-weight:700} td.s{color:#12603f;font-weight:700}
+.dose{font-family:var(--mono);font-size:13px;background:#eef4f8;border:1px dashed #b9d3de;border-radius:6px;padding:2px 6px;display:inline-block;color:var(--azul-deep);font-weight:600}
+.frase{font-size:17px;font-weight:800;color:var(--navy);border-left:5px solid var(--azul);padding:8px 0 8px 13px;background:linear-gradient(90deg,var(--azul-soft),transparent);border-radius:0 8px 8px 0;margin-top:auto}
+.assin{font-family:var(--assin);font-size:22px;color:var(--azul-deep)}
+/* ---------- CASO / CORTINA ---------- */
+.slide.caso{background:linear-gradient(180deg,#fff8f4,var(--bg) 220px)}
+.caso h2{color:#8e2a1e}
+.perg{counter-reset:p;margin:0;padding:0;list-style:none}
+.perg li{counter-increment:p;font-size:13.2px;line-height:1.4;margin-bottom:4px;padding-left:22px;position:relative}
+.perg li::before{content:counter(p);position:absolute;left:0;top:1px;width:16px;height:16px;border-radius:50%;background:var(--navy);color:#fff;font-family:var(--mono);font-size:9.5px;display:flex;align-items:center;justify-content:center;font-weight:600}
+.cort{position:relative;border-radius:10px;overflow:hidden;flex:1;min-height:120px}
+.cort .painel{border:1px solid var(--linha);border-left:4px solid var(--verde);background:#fff;border-radius:10px;padding:12px 14px;height:100%;overflow:auto}
+.cort .veu{position:absolute;inset:0;background:repeating-linear-gradient(135deg,#12304f,#12304f 12px,#173a5e 12px,#173a5e 24px);color:#dfeaf4;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:16px;border-radius:10px}
+.cort.aberta .veu{display:none}
+.veu .t{font-size:19px;font-weight:900;color:#fff}
+.veu .s{font-size:12.5px;opacity:.82;max-width:440px;line-height:1.45}
+.rv{background:#fff;color:var(--navy);border:0;border-radius:8px;padding:9px 16px;font-family:var(--disp);font-weight:800;font-size:14px;cursor:pointer}
+.rv:hover{background:#7fd1e6}
+.presc{list-style:none;margin:0}
+.presc li{font-size:13.4px;line-height:1.42;margin-bottom:6px;padding-left:20px;position:relative}
+.presc li::before{content:"℞";position:absolute;left:0;color:var(--verde);font-weight:800;font-size:13px}
+/* ---------- NOTAS ---------- */
+#notas{position:fixed;left:0;right:0;bottom:0;max-height:46%;overflow:auto;background:var(--navy);color:#dce8f3;padding:14px 20px 16px;z-index:70;transform:translateY(102%);transition:transform .22s;border-top:3px solid var(--azul)}
+#notas.on{transform:none}
+#notas h4{font-family:var(--mono);font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#7fd1e6;margin-bottom:7px}
+#notas p{font-size:14px;line-height:1.55;color:#dce8f3}
+#notas .fon{margin-top:9px;padding-top:8px;border-top:1px solid rgba(255,255,255,.16);font-family:var(--mono);font-size:10.5px;color:#9db6cc;line-height:1.6}
+/* ---------- GRADE ---------- */
+#grade{position:fixed;inset:0;background:rgba(9,20,35,.96);z-index:80;display:none;padding:56px 24px 24px;overflow:auto}
+#grade.on{display:block}
+#grade h3{color:#fff;font-size:19px;margin-bottom:14px}
+#gwrap{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:9px}
+#grade button{text-align:left;background:#16324f;border:1px solid #26476b;color:#dbe8f4;border-radius:8px;padding:9px 10px;cursor:pointer;font-family:var(--disp);font-size:12.4px;line-height:1.3}
+#grade button:hover{background:#1f4467;border-color:#7fd1e6}
+#grade button i{font-family:var(--mono);font-style:normal;color:#7fd1e6;font-size:10px;display:block;margin-bottom:3px}
+#grade button.cs i{color:#f0a58e}
+/* ---------- MODO APRESENTAÇÃO ---------- */
+body.aprs #topo{opacity:.14} body.aprs #topo:hover{opacity:1}
+body.aprs .rail{display:none}
+body.aprs .slide{padding:26px 46px 34px}
+body.aprs .kicker .kn{display:none}
+body.aprs h1{font-size:56px} body.aprs h2{font-size:40px}
+body.aprs p,body.aprs li{font-size:16.5px} body.aprs .perg li{font-size:15px}
+body.aprs .presc li{font-size:15.5px} body.aprs table{font-size:14.5px}
+body.aprs .frase{font-size:20px}
+/* ---------- RESPONSIVO ---------- */
+@media (max-width:900px){
+  .rail{display:none}
+  .slide{padding:14px 15px 22px}
+  h1{font-size:31px} h2{font-size:23px}
+  .grid2,.grid3,.grid4{grid-template-columns:1fr}
+  p,li{font-size:14px}
+  #topo .tema{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* ---------- IMPRESSÃO ---------- */
+@media print{
+  body{overflow:visible;background:#fff}
+  #topo,#prog,#notas,#grade{display:none!important}
+  #palco{position:static}
+  .slide{position:static!important;display:flex!important;page-break-after:always;min-height:96vh;border-bottom:1px solid #ccc}
+  .cort .veu{display:none!important}
+}
+</style>
+</head>
+<body>
+<header id="topo">
+  <div class="marca">Memória<span>Potencial</span></div>
+  <div class="tema">Diarreia Aguda em Pediatria — do manejo à prescrição · base SBP / MS / OMS</div>
+  <button onclick="toggleNotas()" title="Notas do professor (N)">N · notas</button>
+  <button onclick="toggleGrade()" title="Índice (G)">G · índice</button>
+  <button onclick="toggleAprs()" title="Modo apresentação (P)">P · projetar</button>
+  <button onclick="fullscreen()" title="Tela cheia (F)">F · tela cheia</button>
+  <span class="mono" id="contador" style="opacity:.7"></span>
+</header>
+<div id="prog" onclick="pularPara(event)"><i id="progi"></i></div>
+<main id="palco">
+<!-- ================= ABERTURA ================= -->
+<section class="slide" data-t="Capa" data-src="D:SBP · Guia Prático de Atualização — Diarreia aguda;D:MS · Manejo da criança com diarreia aguda;D:OMS · Diarrhoeal disease / IMCI" data-nt="Abrir dizendo o combinado: esta aula não é sobre o vírus, é sobre a decisão. Em diarreia aguda o diagnóstico etiológico quase nunca muda a conduta — o que muda tudo é o grau de desidratação. Prometa aos alunos que ao final eles vão saber prescrever, em números, os três planos.">
+  <div class="corpo">
+    <div class="kicker">Pediatria Clínica · Módulo de Saúde da Criança</div>
+    <h1>Diarreia aguda:<br>a doença não mata.<br>A desidratação, sim.</h1>
+    <p class="sub" style="margin-top:14px;max-width:640px">Do manejo clínico à prescrição — Planos A, B e C com cálculo aberto, caso a caso, base SBP · Ministério da Saúde · OMS.</p>
+    <div class="grid4" style="margin-top:18px">
+      <div class="cx az"><div class="tag az">o que decide</div><p style="margin:0">Grau de desidratação — não o agente etiológico.</p></div>
+      <div class="cx vd"><div class="tag vd">o que salva</div><p style="margin:0">SRO de osmolaridade reduzida, oferecido de colher em colher.</p></div>
+      <div class="cx am"><div class="tag am">o que engana</div><p style="margin:0">A criança que "bebe avidamente" já está desidratada.</p></div>
+      <div class="cx vm"><div class="tag vm">o que mata</div><p style="margin:0">Soro de manutenção hipotônico e potássio sem diurese.</p></div>
+    </div>
+    <div style="margin-top:auto;padding-top:16px"><span class="assin">Dr. André Rossanno</span><span style="font-family:var(--mono);font-size:11px;color:#94a3b4;margin-left:12px">memoriapotencial.com.br</span></div>
+  </div>
+</section>
+
+<section class="slide" data-t="Como esta aula funciona" data-src="P:Formato pedagógico — Método André Rossanno (N1–N7)" data-nt="Explique o pacto: cada conceito vem seguido de um plantão. Nos slides vermelhos, o aluno escreve a conduta ANTES de ver a resposta. Se ele só assistir, não aprende; a cortina existe para forçar a geração ativa (efeito de teste).">
+  <div class="corpo">
+    <div class="kicker">Combinado de sala</div>
+    <h2>Um conceito. Um plantão. Sempre nessa ordem.</h2>
+    <div class="grid2">
+      <div class="cx az">
+        <div class="tag az">slide claro</div><h3>Conceito</h3>
+        <p style="margin:0">Curto, com número, com a fonte visível no trilho à esquerda. Chip <b style="color:#12603f">verde</b> = diretriz. <b style="color:#7a5310">Âmbar</b> = ponto onde os serviços divergem. <b style="color:#8e2a1e">Vermelho</b> = correção de algo que circula errado.</p>
+      </div>
+      <div class="cx vm">
+        <div class="tag vm">slide de plantão</div><h3>Você está no plantão</h3>
+        <p style="margin:0">A criança chega. Antes de clicar, <b>escreva a sua conduta</b>. Só depois a prescrição aparece — com o cálculo aberto, não só o resultado.</p>
+      </div>
+    </div>
+    <div class="cx nv" style="margin-top:14px">
+      <h3>As 7 perguntas que todo caso responde</h3>
+      <ol class="perg" style="columns:2;column-gap:26px;margin-top:6px">
+        <li>Qual o grau de desidratação?</li><li>Qual o plano — A, B ou C — e onde trato?</li>
+        <li>Que volume, por qual via, em quanto tempo?</li><li>Que medicações, com dose calculada?</li>
+        <li>Como fica a alimentação e o SRO de manutenção?</li><li>Que exames e que monitorização?</li>
+        <li>Critérios de alta, retorno e sinais de alarme.</li>
+      </ol>
+    </div>
+    <div class="frase">Teclas: <span class="mono">← →</span> navega · <span class="mono">R</span> revela a prescrição · <span class="mono">N</span> notas do professor · <span class="mono">G</span> índice · <span class="mono">P</span> modo projeção.</div>
+  </div>
+</section>
+
+<section class="slide" data-t="O mapa: 5 decisões" data-src="D:MS/OMS — planos A, B e C;D:SBP — Diarreia aguda: diagnóstico e manejo" data-nt="Este slide é o esqueleto da aula inteira. Volte a ele quando a turma se perder. Insista: toda a complexidade da diarreia aguda cabe em cinco perguntas, e quatro delas já estão respondidas quando você classifica a hidratação.">
+  <div class="corpo">
+    <div class="kicker">Mapa da aula</div>
+    <h2>Toda diarreia aguda cabe em cinco decisões</h2>
+    <div class="grid2" style="gap:12px">
+      <div class="cx az"><h3>1 · A criança está desidratada?</h3><p style="margin:0">Cinco sinais decidem. Nada de exame para isso.</p></div>
+      <div class="cx az"><h3>2 · Qual plano?</h3><p style="margin:0">Sem desidratação → <b>A</b>. Com desidratação → <b>B</b>. Grave/choque → <b>C</b>.</p></div>
+      <div class="cx az"><h3>3 · Quanto líquido, por onde, em quanto tempo?</h3><p style="margin:0">Volume por peso, sempre calculado.</p></div>
+      <div class="cx az"><h3>4 · Preciso de alguma droga?</h3><p style="margin:0">Zinco quase sempre. Ondansetrona às vezes. Antibiótico quase nunca.</p></div>
+      <div class="cx vd" style="grid-column:1/-1"><h3>5 · Quando reavaliar e quando devolver para casa?</h3><p style="margin:0">Sem critério de retorno escrito, a alta é incompleta. O erro que mais mata não é o da primeira consulta — é a criança que piora em casa e ninguém disse à mãe o que olhar.</p></div>
+    </div>
+    <div class="frase">Nenhuma dessas cinco perguntas exige saber qual vírus é.</div>
+  </div>
+</section>
+
+<!-- ================= PAR 1 ================= -->
+<section class="slide" data-t="Definição e tempo" data-src="D:OMS — 3 ou mais evacuações líquidas em 24 h;D:SBP — aguda até 14 dias · persistente 14–30 d;C:O material de origem não define o número de evacuações nem separa persistente de crônica" data-nt="O ponto crítico aqui é o denominador: o que importa é a MUDANÇA em relação ao hábito da criança. Lactente em aleitamento materno exclusivo pode evacuar a cada mamada, fezes amarelas e grumosas — isso é normal e já rendeu muita internação desnecessária e muito desmame.">
+  <div class="corpo">
+    <div class="kicker"><span class="kn">Par 1</span> · Conceito</div>
+    <h2>O que é — e o que só parece</h2>
+    <div class="grid2">
+      <div class="cx az">
+        <h3>Definição</h3>
+        <p>Três ou mais evacuações líquidas ou amolecidas em 24 h, <b>ou</b> qualquer aumento de frequência com perda de consistência <b>em relação ao hábito daquela criança</b>.</p>
+        <p style="margin:0"><b>A consistência pesa mais que o número.</b></p>
+      </div>
+      <div class="cx vd">
+        <h3>O relógio</h3>
+        <ul style="margin-bottom:0">
+          <li><b>Aguda:</b> até 14 dias — autolimitada, é a desta aula.</li>
+          <li><b>Persistente:</b> 14 a 30 dias — reavaliar nutrição, investigar.</li>
+          <li><b>Crônica:</b> mais de 30 dias — outra doença, outro raciocínio.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="cx am" style="margin-top:12px">
+      <div class="tag am">pegadinha</div>
+      <p style="margin:0">Lactente em aleitamento materno exclusivo pode evacuar <b>a cada mamada</b>, fezes amarelas, líquidas e grumosas, com bom ganho de peso: isso é fisiológico. Chamar isso de diarreia gera suspensão do leite materno — que é justamente o que aumenta o risco de diarreia de verdade.</p>
+    </div>
+    <div class="frase">Diarreia é desvio do próprio padrão da criança, não de um número universal.</div>
+  </div>
+</section>
+
+<section class="slide caso" data-t="Plantão: 8 evacuações por dia" data-src="D:SBP — padrão evacuatório do lactente em AME;D:MS — Plano A / orientação domiciliar" data-nt="Caso propositalmente 'não-caso'. A conduta certa é NÃO tratar e proteger o aleitamento. Peça a eles que escrevam o que diriam à mãe — a habilidade aqui é comunicação, não prescrição.">
+  <div class="corpo">
+    <div class="kicker"><span class="kn">Par 1</span> · Você está no plantão</div>
+    <h2>Lactente, 2 meses, 5,1 kg</h2>
+    <div class="grid2" style="flex:1;min-height:0">
+      <div style="display:flex;flex-direction:column;gap:10px;min-height:0">
+        <div class="cx">
+          <div class="tag vm">vinheta</div>
+          <p style="margin-bottom:6px"><b>HDA:</b> mãe traz preocupada — "faz 8 cocôs por dia, moles e amarelos, há duas semanas". Aleitamento materno exclusivo. Sem febre, sem vômito, sem sangue.</p>
+          <p style="margin-bottom:6px"><b>Exame:</b> ativo, sorridente, mucosas úmidas, prega desfaz imediatamente, diurese abundante.</p>
+          <p style="margin:0"><b>Peso:</b> nasceu com 3,3 kg — hoje 5,1 kg. A vizinha disse para dar chá e suspender o peito.</p>
+        </div>
+        <div class="cx nv"><h3>Responda as 7 antes de virar</h3>
+          <ol class="perg" style="margin-top:5px"><li>Hidratação?</li><li>Plano e local?</li><li>Volume/via/tempo?</li><li>Medicações?</li><li>Alimentação?</li><li>Exames/monitorização?</li><li>Alta e sinais de alarme?</li></ol>
+        </div>
+      </div>
+      <div class="cort" onclick="revelar(this)">
+        <div class="painel">
+          <div class="tag vd">conduta</div>
+          <h3 style="margin-bottom:8px">Isto não é diarreia. É um lactente saudável.</h3>
+          <ul class="presc">
+            <li><b>Hidratação:</b> sem desidratação. Ganho ponderal ~30 g/dia — excelente.</li>
+            <li><b>Nada de SRO, nada de zinco, nada de exame de fezes.</b> Tratar aqui é iatrogenia.</li>
+            <li><b>Manter aleitamento materno exclusivo</b> em livre demanda. <b>Não</b> ofertar chá, água ou fórmula.</li>
+            <li>Explicar à mãe o reflexo gastrocólico: o lactente evacua porque mamou, e isso vai espaçar por volta dos 2–3 meses.</li>
+            <li><b>Retorno imediato se:</b> fezes com sangue, vômitos repetidos, febre, redução da diurese, criança prostrada ou parada de ganho de peso.</li>
+            <li>Puericultura no prazo habitual, com peso.</li>
+          </ul>
+          <div class="cx am" style="margin-top:8px;padding:8px 10px"><p style="margin:0;font-size:12.8px"><b>O erro caro:</b> "diagnosticar" diarreia aqui costuma terminar em suspensão do peito e fórmula sem lactose — trocando um bebê saudável por um bebê em risco.</p></div>
+        </div>
+        <div class="veu"><div class="t">Escreva a sua conduta primeiro</div><div class="s">O que você diria à mãe, com essas palavras? Clique ou aperte R quando tiver a sua resposta pronta.</div><button class="rv" onclick="event.stopPropagation();revelar(this.closest('.cort'))">Revelar a conduta</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ================= PAR 2 ================= -->
+<section class="slide" data-t="Fisiopatologia útil" data-src="D:SBP — mecanismos osmótico, secretor e inflamatório;D:Nelson — Tratado de Pediatria, diarreia aguda;P:A leitura clínica 'aquosa × disentérica' é simplificação de ensino, útil à beira do leito" data-nt="Não se prenda ao mecanismo pelo mecanismo. O que a turma precisa levar é: mecanismo osmótico melhora com jejum, secretor não; e o inflamatório é o único fenótipo que muda a prescrição, porque abre a porta do antibiótico. Peça que amarrem cada mecanismo a uma imagem: esponja, torneira, ferida.">
+  <div class="corpo">
+    <div class="kicker"><span class="kn">Par 2</span> · Conceito</div>
+    <h2>Três mecanismos, três imagens</h2>
+    <div class="grid3">
+      <div class="cx az"><div class="tag az">esponja</div><h3>Osmótica</h3><p style="margin-bottom:4px">Soluto não absorvido segura água na luz intestinal.</p><p style="margin:0;font-size:13px"><b>Marca:</b> melhora quando a criança fica sem comer. Ex.: intolerância transitória à lactose pós-rotavírus.</p></div>
+      <div class="cx az"><div class="tag az">torneira aberta</div><h3>Secretora</h3><p style="margin-bottom:4px">Enterotoxina liga a bomba de cloro; o intestino secreta água mesmo em jejum.</p><p style="margin:0;font-size:13px"><b>Marca:</b> fezes em água de arroz, volume enorme. Ex.: cólera, <i>E. coli</i> enterotoxigênica.</p></div>
+      <div class="cx az"><div class="tag az">ferida</div><h3>Inflamatória</h3><p style="margin-bottom:4px">Invasão e lesão da mucosa, com exsudato.</p><p style="margin:0;font-size:13px"><b>Marca:</b> sangue, muco, febre alta, tenesmo. Ex.: <i>Shigella</i>, <i>Salmonella</i>, <i>Campylobacter</i>.</p></div>
+    </div>
+    <div class="cx vd" style="margin-top:12px">
+      <h3>Por que isso importa na prescrição</h3>
+      <p style="margin:0">Mesmo no mecanismo secretor, o <b>cotransportador sódio-glicose (SGLT1) continua funcionando</b> — é por isso que o SRO, que traz sódio <i>e</i> glicose juntos, reidrata mesmo quando o intestino está "com a torneira aberta". É esta molécula que faz a via oral vencer a veia na maioria dos casos.</p>
+    </div>
+    <div class="frase">Só o fenótipo inflamatório muda a receita. Os outros dois mudam apenas o quanto de líquido você repõe.</div>
+  </div>
+</section>
+
+<section class="slide caso" data-t="Plantão: sangue nas fezes" data-src="D:SBP — disenteria: indicação de coprocultura e antibiótico;D:MS — Shigella como principal agente de disenteria em pediatria;C:O material de origem indica antibiótico na disenteria sem alertar para STEC/SHU" data-nt="Este caso existe para ensinar a hesitação certa. Disenteria não é sinônimo de ceftriaxona. Se houver diarreia sanguinolenta com pouca ou nenhuma febre, dor intensa e história de carne malpassada, pense em E. coli produtora de toxina Shiga: antibiótico e antiespasmódico aumentam o risco de síndrome hemolítico-urêmica.">
+  <div class="corpo">
+    <div class="kicker"><span class="kn">Par 2</span> · Você está no plantão</div>
+    <h2>Pré-escolar, 4 anos, 16 kg</h2>
+    <div class="grid2" style="flex:1;min-height:0">
+      <div style="display:flex;flex-direction:column;gap:10px;min-height:0">
+        <div class="cx">
+          <div class="tag vm">vinheta</div>
+          <p style="margin-bottom:6px"><b>HDA:</b> 3 dias de febre 39,4 °C, dor abdominal em cólica, 10 evacuações/dia de pequeno volume <b>com muco e sangue vivo</b>, vontade constante de evacuar.</p>
+          <p style="margin-bottom:6px"><b>Exame:</b> irritada, olhos discretamente encovados, boca seca, bebe água com avidez, prega desfaz lentamente. Diurese reduzida. Sem petéquias, sem palidez.</p>
+          <p style="margin:0"><b>Contexto:</b> dois colegas da creche com o mesmo quadro. Comeu em casa; sem carne malpassada.</p>
+        </div>
+        <div class="cx nv"><h3>Antes de virar</h3><p style="margin:0;font-size:13px">Classifique, escolha o plano, calcule o volume e decida — com uma frase de justificativa — se entra ou não antibiótico.</p></div>
+      </div>
+      <div class="cort" onclick="revelar(this)">
+        <div class="painel">
+          <div class="tag vd">conduta</div>
+          <h3 style="margin-bottom:8px">Disenteria + desidratação → Plano B e antibiótico justificado</h3>
+          <ul class="presc">
+            <li><b>1 · Hidratação:</b> com desidratação (não grave) — sede ávida, olhos encovados, prega lenta.</li>
+            <li><b>2 · Plano B</b>, na unidade, sob supervisão.</li>
+            <li><b>3 · SRO 75 mL/kg em 4 h = <span class="dose">1.200 mL</span></b>, de colher/copo, pequenos volumes, reavaliando de hora em hora.</li>
+            <li><b>4 · Antibiótico:</b> disenteria febril com aspecto de shigelose e surto em creche é uma das poucas indicações formais. <b>Azitromicina 12 mg/kg no D1 = <span class="dose">192 mg</span></b>, depois 6 mg/kg/dia (≈96 mg) do D2 ao D5. Alternativa: ceftriaxona 50–100 mg/kg/dia se aceitação oral ruim ou toxemia.</li>
+            <li><b>5 · Zinco 20 mg/dia por 10–14 dias</b> (≥6 meses) e dieta habitual mantida.</li>
+            <li><b>6 · Exames:</b> coprocultura <b>antes</b> do antibiótico (disenteria é indicação clássica); hemograma, ureia/creatinina e sódio/potássio se piora, palidez ou queda da diurese.</li>
+            <li><b>7 · Alarme:</b> palidez súbita, urina cor de coca-cola, edema ou queda da diurese → investigar <b>SHU</b>.</li>
+          </ul>
+          <div class="cx vm" style="margin-top:8px;padding:8px 10px"><p style="margin:0;font-size:12.8px"><b>Trave aqui:</b> se o quadro fosse sangue abundante com febre baixa ou ausente e dor intensa (suspeita de <i>E. coli</i> produtora de toxina Shiga), <b>não se prescreve antibiótico nem antiespasmódico</b> — ambos aumentam o risco de síndrome hemolítico-urêmica.</p></div>
+        </div>
+        <div class="veu"><div class="t">Escreva a sua conduta primeiro</div><div class="s">Dá antibiótico ou não? Escreva a sua justificativa em uma linha antes de revelar.</div><button class="rv" onclick="event.stopPropagation();revelar(this.closest('.cort'))">Revelar a conduta</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PAR 3 ================= -->
+<section class="slide" data-t="Quem causa e o que previne" data-src="D:SBP/OMS — predomínio viral na diarreia aguda da infância;D:PNI/MS — VORH monovalente, 2 doses (2 e 4 meses) com janelas etárias rígidas;P:Percentuais de etiologia variam por região e sazonalidade" data-nt="Aqui entra a única intervenção da aula que não é tratamento: a vacina. Cobre as janelas com rigor, porque perder o prazo é definitivo — não existe dose de resgate fora da janela por causa do risco de intussuscepção em lactentes mais velhos.">
+  <div class="corpo">
+    <div class="kicker"><span class="kn">Par 3</span> · Conceito</div>
+    <h2>A maioria é vírus. E o principal deles tem vacina.</h2>
+    <div class="grid3">
+      <div class="cx az"><h3>Vírus</h3><p style="margin:0;font-size:13.5px">Maioria dos casos em menores de 5 anos. Rotavírus (vômitos que precedem, diarreia aquosa profusa, desidratação rápida) e norovírus (surtos, vômito dominante).</p></div>
+      <div class="cx az"><h3>Bactérias</h3><p style="margin:0;font-size:13.5px"><i>Shigella</i>, <i>Salmonella</i>, <i>Campylobacter</i>, <i>E. coli</i> (várias cepas), <i>Vibrio cholerae</i>. Mais ligadas a febre alta e disenteria.</p></div>
+      <div class="cx az"><h3>Parasitas</h3><p style="margin:0;font-size:13.5px"><i>Giardia</i> e <i>Entamoeba</i>. Costumam dar quadro arrastado ou persistente, não a diarreia aguda clássica de 3 dias.</p></div>
+    </div>
+    <div class="cx vd" style="margin-top:12px">
+      <h3>Vacina oral de rotavírus (VORH) — as janelas são rígidas</h3>
+      <table style="margin-top:6px"><tr><th>Dose</th><th>Idade recomendada</th><th>Idade mínima</th><th>Idade máxima</th></tr>
+      <tr><td><b>1ª</b></td><td>2 meses</td><td>1 mês e 15 dias</td><td class="g">3 meses e 15 dias</td></tr>
+      <tr><td><b>2ª</b></td><td>4 meses</td><td>3 meses e 15 dias</td><td class="g">7 meses e 29 dias</td></tr></table>
+      <p style="margin:6px 0 0;font-size:13px">Intervalo mínimo de 30 dias. <b>Fora da janela não se aplica</b> — e dose regurgitada não se repete.</p>
+    </div>
+    <div class="frase">Saneamento, aleitamento materno, higiene das mãos e vacina: o tratamento mais eficaz da diarreia é o que acontece antes dela.</div>
+  </div>
+</section>
+
+<section class="slide caso" data-t="Plantão: lactente não vacinado" data-src="D:PNI — janelas da VORH;D:MS — Plano B e reavaliação horária;C:Material de origem não aborda prevenção nem vacinação" data-nt="Dois aprendizados: reconhecer o padrão clínico do rotavírus e ter a conversa vacinal sem culpar a mãe. Aproveite para checar o calendário inteiro — a criança que perdeu rotavírus costuma ter perdido outras.">
+  <div class="corpo">
+    <div class="kicker"><span class="kn">Par 3</span> · Você está no plantão</div>
+    <h2>Lactente, 9 meses, 8,4 kg</h2>
+    <div class="grid2" style="flex:1;min-height:0">
+      <div style="display:flex;flex-direction:column;gap:10px;min-height:0">
+        <div class="cx">
+          <div class="tag vm">vinheta</div>
+          <p style="margin-bottom:6px"><b>HDA:</b> começou com vômitos há 2 dias, depois diarreia aquosa explosiva, sem sangue, ~8 episódios/dia. Febre 38,2 °C.</p>
+          <p style="margin-bottom:6px"><b>Exame:</b> inquieto, chorando <b>sem lágrimas</b>, olhos encovados, bebe com avidez o copo que a mãe oferece, prega desfaz lentamente. Fontanela deprimida.</p>
+          <p style="margin:0"><b>Caderneta:</b> nenhuma dose de rotavírus. A mãe pergunta se dá para "tomar agora".</p>
+        </div>
+        <div class="cx nv"><h3>Antes de virar</h3><p style="margin:0;font-size:13px">Calcule o volume em mL e responda à mãe sobre a vacina — com a justificativa.</p></div>
+      </div>
+      <div class="cort" onclick="revelar(this)">
+        <div class="painel">
+          <div class="tag vd">conduta</div>
+          <h3 style="margin-bottom:8px">Plano B + janela vacinal perdida</h3>
+          <ul class="presc">
+            <li><b>1 ·</b> Com desidratação (sem lágrimas, olhos encovados, sede ávida, prega lenta) — quadro típico de rotavírus.</li>
+            <li><b>2 ·</b> <b>Plano B</b> na unidade, com reavaliação de hora em hora.</li>
+            <li><b>3 ·</b> SRO 75 mL/kg em 4 h = <span class="dose">630 mL</span>, oferecidos de 5 em 5 minutos, em pequenos volumes.</li>
+            <li><b>4 ·</b> <b>Zinco 20 mg/dia (≥6 meses) por 10–14 dias</b>, iniciado após a fase de reidratação. Nenhum antibiótico — quadro viral.</li>
+            <li><b>5 ·</b> Manter aleitamento materno durante toda a TRO; retomar dieta habitual assim que hidratado. Não diluir leite, não trocar fórmula.</li>
+            <li><b>6 ·</b> Sem exames de rotina. Reavaliar diurese, peso e estado geral.</li>
+            <li><b>7 ·</b> <b>Vacina:</b> aos 9 meses a janela está fechada — não se aplica VORH após 7 meses e 29 dias, pelo risco de intussuscepção. Atualizar o restante do calendário e reforçar higiene das mãos e da água em casa.</li>
+          </ul>
+          <div class="cx am" style="margin-top:8px;padding:8px 10px"><p style="margin:0;font-size:12.8px"><b>Sinal de alarme desta idade:</b> vômito com sangue ou bilioso, dor em crise com choro inconsolável, massa abdominal ou fezes em "geleia de framboesa" → pensar em <b>intussuscepção</b>, não em piora da diarreia.</p></div>
+        </div>
+        <div class="veu"><div class="t">Escreva a sua conduta primeiro</div><div class="s">Quantos mL de SRO e em quanto tempo? E o que você responde sobre a vacina?</div><button class="rv" onclick="event.stopPropagation();revelar(this.closest('.cort'))">Revelar a conduta</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ================= PAR 4 ================= -->
+<section class="slide" data-t="A mão dos 5 dedos" data-src="D:MS/OMS — quadro de avaliação do estado de hidratação;D:SBP — classificação em duas colunas (com desidratação / desidratação grave);C:O material de origem chama a coluna do meio de 'moderada' e não diz que a classificação exige 2 ou mais sinais" data-nt="Este é o slide mais importante da aula. Duas coisas para gravar: (1) classifica-se pela COLUNA em que a criança tem dois ou mais sinais, e não por um sinal isolado; (2) na dúvida entre duas colunas, sobe-se para a mais grave. Peça que abram a própria mão e nomeiem os cinco dedos em voz alta.">
+  <div class="corpo">
+    <div class="kicker"><span class="kn">Par 4</span> · Conceito</div>
+    <h2>Cinco sinais decidem o plano — e cabem numa mão</h2>
+    <table>
+      <tr><th style="width:19%">Dedo / parâmetro</th><th style="width:27%">Sem desidratação</th><th style="width:27%">Com desidratação</th><th style="width:27%">Desidratação grave</th></tr>
+      <tr><td><b>Polegar</b> · estado geral</td><td class="s">Bem, alerta</td><td class="m">Irritado, inquieto</td><td class="g">Letárgico, hipotônico, inconsciente</td></tr>
+      <tr><td><b>Indicador</b> · olhos</td><td class="s">Normais</td><td class="m">Encovados</td><td class="g">Muito encovados e secos</td></tr>
+      <tr><td><b>Médio</b> · lágrimas e mucosas</td><td class="s">Lágrimas presentes, boca úmida</td><td class="m">Ausentes, boca seca</td><td class="g">Ausentes, boca muito seca</td></tr>
+      <tr><td><b>Anelar</b> · sede</td><td class="s">Bebe normalmente</td><td class="m">Sedento, bebe com avidez</td><td class="g">Bebe mal ou não consegue beber</td></tr>
+      <tr><td><b>Mínimo</b> · prega cutânea</td><td class="s">Desfaz rápido</td><td class="m">Desfaz lentamente (&lt; 2 s)</td><td class="g">Desfaz muito lentamente (&gt; 2 s)</td></tr>
+      <tr><td colspan="2" style="background:var(--navy);color:#fff"><b>Conduta</b></td><td style="background:var(--verde-soft)"><b>PLANO A</b> (nenhum ou 1 sinal) e <b>PLANO B</b> quando há 2 ou mais sinais desta coluna</td><td style="background:var(--verm-soft)"><b>PLANO C</b> — 2 ou mais sinais, incluindo alteração de consciência ou incapacidade de beber</td></tr>
+    </table>
+    <div class="grid2" style="margin-top:12px">
+      <div class="cx vm"><div class="tag vm">correção do material de origem</div><p style="margin:0;font-size:13.2px">A coluna do meio costuma aparecer como "moderada". A nomenclatura do MS/OMS é <b>"com desidratação"</b> × <b>"desidratação grave"</b>, e a regra é <b>2 ou mais sinais na mesma coluna</b>. Um sinal isolado não classifica ninguém.</p></div>
+      <div class="cx am"><div class="tag am">onde a prega mente</div><p style="margin:0;font-size:13.2px">Na criança <b>desnutrida grave</b> a prega é lenta mesmo hidratada; na <b>obesa</b> e na <b>hipernatrêmica</b> ela desfaz rápido mesmo desidratada. Nesses três, confie no estado geral, na diurese e no peso.</p></div>
+    </div>
+    <div class="frase">Sinais completam-se, não competem. Na dúvida entre duas colunas, trate pela mais grave.</div>
+  </div>
+</section>
+
+<section class="slide caso" data-t="Plantão: classificar em 60 segundos" data-src="D:MS/OMS — Plano B, 75 mL/kg em 4 h;D:SBP — zinco após a fase de reidratação;P:Faixa do MS: 50–100 mL/kg em 4–6 h · a OMS trabalha com 75 mL/kg em 4 h" data-nt="É o caso 1 do material de origem, agora com o cálculo aberto e o porquê de cada linha. Aproveite para mostrar que o volume de 75 mL/kg não é mágico: é uma estimativa de déficit de 5 a 8 por cento reposta em 4 horas, e por isso a reavaliação horária é obrigatória.">
+  <div class="corpo">
+    <div class="kicker"><span class="kn">Par 4</span> · Você está no plantão</div>
+    <h2>Lactente, 8 meses, 8 kg</h2>
+    <div class="grid2" style="flex:1;min-height:0">
+      <div style="display:flex;flex-direction:column;gap:10px;min-height:0">
+        <div class="cx">
+          <div class="tag vm">vinheta</div>
+          <p style="margin-bottom:6px"><b>HDA:</b> diarreia líquida há 2 dias, vômitos ocasionais, sem sangue nas fezes.</p>
+          <p style="margin-bottom:6px"><b>Exame:</b> irritado, olhos encovados, lágrimas ausentes, sedento — bebe água avidamente, prega desfaz lentamente. Diurese presente, porém escassa.</p>
+          <p style="margin:0"><b>Peso na semana passada:</b> 8,6 kg. Hoje: 8,0 kg.</p>
+        </div>
+        <div class="cx nv"><h3>Antes de virar</h3><p style="margin:0;font-size:13px">Quantos sinais, qual coluna, qual plano — e quantos mL? Some também o que a diferença de peso lhe conta.</p></div>
+      </div>
+      <div class="cort" onclick="revelar(this)">
+        <div class="painel">
+          <div class="tag vd">conduta</div>
+          <h3 style="margin-bottom:8px">4 sinais na coluna do meio → Plano B</h3>
+          <ul class="presc">
+            <li><b>1 ·</b> Irritado + olhos encovados + lágrimas ausentes + sede ávida + prega lenta = <b>com desidratação</b>. A queda de 0,6 kg em 8,6 kg ≈ <b>7% de perda</b> — coerente com o exame.</li>
+            <li><b>2 ·</b> <b>Plano B</b>, TRO supervisionada na unidade. Não mandar para casa.</li>
+            <li><b>3 ·</b> <b>SRO 75 mL/kg em 4 h = <span class="dose">600 mL</span></b> (faixa do MS: 50–100 mL/kg em 4–6 h). Oferecer <b>de colher, 5 em 5 minutos</b>, aumentando conforme aceitação.</li>
+            <li><b>4 ·</b> Sem antibiótico, sem antidiarreico. <b>Zinco 20 mg/dia por 10–14 dias</b> iniciado após a reidratação. Ondansetrona só se o vômito impedir a TRO.</li>
+            <li><b>5 ·</b> <b>Manter o aleitamento materno durante a TRO</b>; demais alimentos são reintroduzidos assim que hidratado, na dieta habitual.</li>
+            <li><b>6 ·</b> Reavaliação <b>de hora em hora</b>: estado geral, olhos, sede, prega, diurese e peso. Nenhum exame de rotina.</li>
+            <li><b>7 ·</b> Alta quando hidratado, aceitando líquidos, com diurese e com <b>SRO para casa (50–100 mL após cada evacuação)</b> + sinais de alarme por escrito.</li>
+          </ul>
+          <div class="cx am" style="margin-top:8px;padding:8px 10px"><p style="margin:0;font-size:12.8px"><b>De onde vem o 75:</b> repõe um déficit estimado de 5–8% em 4 horas. Como é estimativa, quem manda é a reavaliação horária — não o volume prescrito.</p></div>
+        </div>
+        <div class="veu"><div class="t">Escreva a sua conduta primeiro</div><div class="s">Conte os sinais, escolha a coluna, calcule o volume. Só então revele.</div><button class="rv" onclick="event.stopPropagation();revelar(this.closest('.cort'))">Revelar a conduta</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PAR 5 ================= -->
+<section class="slide" data-t="SRO de osmolaridade reduzida" data-src="D:OMS/UNICEF 2002 — SRO de osmolaridade reduzida, 245 mOsm/L;D:SBP — SRO padrão é o de osmolaridade reduzida;P:Soro caseiro é recurso de exceção quando não há SRO disponível" data-nt="A frase para levar: o SRO não interrompe a diarreia, ele impede a morte por desidratação. Se a família espera que a diarreia pare com o sachê, ela vai abandonar o tratamento no segundo dia. Explique também por que refrigerante e isotônico de atleta pioram: açúcar demais, sódio de menos.">
+  <div class="corpo">
+    <div class="kicker"><span class="kn">Par 5</span> · Conceito</div>
+    <h2>O sachê certo, e os líquidos que atrapalham</h2>
+    <div class="grid2">
+      <div class="cx az">
+        <h3>SRO de osmolaridade reduzida — 245 mOsm/L</h3>
+        <table style="margin-top:5px"><tr><th>Componente</th><th>mmol/L</th></tr>
+        <tr><td>Sódio</td><td class="mono">75</td></tr><tr><td>Glicose</td><td class="mono">75</td></tr>
+        <tr><td>Cloreto</td><td class="mono">65</td></tr><tr><td>Potássio</td><td class="mono">20</td></tr>
+        <tr><td>Citrato</td><td class="mono">10</td></tr></table>
+        <p style="margin:6px 0 0;font-size:12.8px">Sódio e glicose em proporção próxima de 1:1 para "abrir" o cotransportador SGLT1. Diluir em <b>1 litro de água tratada ou fervida</b>, usar em até 24 h.</p>
+      </div>
+      <div class="cx vm">
+        <h3>O que não serve como SRO</h3>
+        <ul style="margin-bottom:0">
+          <li><b>Refrigerante e suco de caixinha:</b> muita glicose, quase nada de sódio → puxam água para a luz e <b>pioram</b> a diarreia.</li>
+          <li><b>Isotônico de atleta:</b> feito para perda por suor (sódio baixo), não para perda fecal.</li>
+          <li><b>Água pura ou chá isolados em grande volume:</b> repõem água sem sódio → risco de <b>hiponatremia</b>.</li>
+          <li><b>Soro caseiro:</b> aceitável apenas quando não há sachê disponível; a medida errada da colher já causou hipernatremia grave.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="cx am" style="margin-top:12px"><div class="tag am">o que dizer à família</div><p style="margin:0">"O soro não vai parar a diarreia — ele vai impedir que seu filho desidrate enquanto a diarreia passa sozinha." Sem essa frase, a família abandona o SRO no segundo dia porque "não está funcionando".</p></div>
+    <div class="frase">O SRO é a intervenção que mais salvou crianças no século XX. Ele só falha quando é oferecido errado.</div>
+  </div>
+</section>
+
+<section class="slide caso" data-t="Plantão: dois dias de chá e refrigerante" data-src="D:SBP — manutenção do aleitamento e da dieta habitual;D:MS — Plano A: volumes de SRO após cada evacuação;C:Material de origem cita 'evitar açúcar' sem explicar o mecanismo osmótico" data-nt="Caso de correção de conduta domiciliar. O aprendizado é a linguagem: em vez de dizer que a mãe fez errado, mostre o que trocar. E lembre-se de perguntar o que a criança recebeu antes de perguntar o que ela tem.">
+  <div class="corpo">
+    <div class="kicker"><span class="kn">Par 5</span> · Você está no plantão</div>
+    <h2>Pré-escolar, 3 anos, 14 kg</h2>
+    <div class="grid2" style="flex:1;min-height:0">
+      <div style="display:flex;flex-direction:column;gap:10px;min-height:0">
+        <div class="cx">
+          <div class="tag vm">vinheta</div>
+          <p style="margin-bottom:6px"><b>HDA:</b> 2 dias de diarreia aquosa, 5–6 vezes ao dia, sem sangue, sem febre. Um vômito ontem.</p>
+          <p style="margin-bottom:6px"><b>Conduta em casa:</b> a família suspendeu a comida, ofereceu chá adoçado e refrigerante "para repor o sal" e deu um comprimido de antidiarreico do avô. A diarreia aumentou.</p>
+          <p style="margin:0"><b>Exame:</b> ativo, brincando, mucosas úmidas, lágrimas presentes, bebe normalmente, prega desfaz rápido. Diurese normal.</p>
+        </div>
+        <div class="cx nv"><h3>Antes de virar</h3><p style="margin:0;font-size:13px">Sem desidratação — então o que exatamente você prescreve, e o que você desprescreve?</p></div>
+      </div>
+      <div class="cort" onclick="revelar(this)">
+        <div class="painel">
+          <div class="tag vd">conduta</div>
+          <h3 style="margin-bottom:8px">Plano A — e retirar o que está piorando</h3>
+          <ul class="presc">
+            <li><b>1 ·</b> Sem desidratação: nenhum sinal da coluna do meio.</li>
+            <li><b>2 · Plano A</b>, tratamento domiciliar.</li>
+            <li><b>3 · SRO após cada evacuação: 100–200 mL</b> (maior de 1 ano) — entregar sachês e ensinar o preparo em 1 litro na frente da família.</li>
+            <li><b>4 · Zinco 20 mg/dia por 10–14 dias</b> = sulfato de zinco 4 mg/mL, <span class="dose">5 mL/dia</span>. <b>Suspender o antidiarreico imediatamente</b>.</li>
+            <li><b>5 · Voltar a comer hoje:</b> dieta habitual para a idade, refeições menores e mais frequentes. Nada de jejum, nada de diluir leite, nada de dieta de "banana-arroz-maçã-torrada".</li>
+            <li><b>6 ·</b> Nenhum exame. Reavaliar em 24–48 h ou antes, se piorar.</li>
+            <li><b>7 · Retorno imediato:</b> vômitos repetidos, sede intensa, sangue nas fezes, febre alta, criança prostrada, urina escassa ou recusa alimentar.</li>
+          </ul>
+          <div class="cx vm" style="margin-top:8px;padding:8px 10px"><p style="margin:0;font-size:12.8px"><b>Por que piorou:</b> refrigerante e chá adoçado têm carga osmótica alta e sódio quase nulo — arrastam água para a luz intestinal. O antidiarreico (loperamida) <b>não é para crianças</b>: mascara a perda, distende a alça e pode causar íleo e depressão do sistema nervoso central.</p></div>
+        </div>
+        <div class="veu"><div class="t">Escreva a sua conduta primeiro</div><div class="s">Metade da prescrição aqui é uma lista do que retirar. Escreva as duas listas.</div><button class="rv" onclick="event.stopPropagation();revelar(this.closest('.cort'))">Revelar a conduta</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ================= PAR 6 ================= -->
+<section class="slide" data-t="Plano A = A.G.U.A." data-src="D:MS/OMS — Plano A: os quatro pilares do tratamento domiciliar;D:OMS/UNICEF — zinco 10–14 dias reduz duração e recorrência;P:Apresentação brasileira mais comum: sulfato de zinco solução oral 4 mg/mL — conferir o rótulo do serviço" data-nt="A.G.U.A. é o mnemônico central da aula. Peça que escrevam as quatro letras na receita, literalmente, para não esquecer o zinco — que é o item mais esquecido do Plano A no Brasil. Lembre que o zinco entra DEPOIS da fase de reidratação, porque em jejum e de estômago vazio ele provoca vômito.">
+  <div class="corpo">
+    <div class="kicker"><span class="kn">Par 6</span> · Conceito</div>
+    <h2>Plano A cabe em quatro letras: A.G.U.A.</h2>
+    <div class="grid4">
+      <div class="cx az"><div class="tag az">A</div><h3>Aumentar líquidos</h3><p style="margin:0;font-size:13px">SRO após <b>cada</b> evacuação:<br>&lt; 1 ano: <b>50–100 mL</b><br>1–10 anos: <b>100–200 mL</b><br>&gt; 10 anos: quanto aceitar.<br>Mais água, sopa, caldo e leite materno em livre demanda.</p></div>
+      <div class="cx vd"><div class="tag vd">G</div><h3>Garantir alimentação</h3><p style="margin:0;font-size:13px">Manter a <b>dieta habitual</b> e o aleitamento. Porções menores, mais vezes ao dia. Uma refeição extra por dia por 2 semanas após a melhora, para recuperar o que se perdeu.</p></div>
+      <div class="cx am"><div class="tag am">U</div><h3>Urgência: quando voltar</h3><p style="margin:0;font-size:13px">Piora da diarreia, <b>vômitos repetidos</b>, <b>sede intensa</b>, recusa alimentar, <b>sangue nas fezes</b>, febre alta, criança prostrada ou urina escassa. Entregar <b>por escrito</b>.</p></div>
+      <div class="cx az"><div class="tag az">A</div><h3>Adicionar zinco</h3><p style="margin:0;font-size:13px">1 vez ao dia, por <b>10 a 14 dias</b>:<br>&lt; 6 meses: <b>10 mg/dia</b><br>≥ 6 meses: <b>20 mg/dia</b><br>Sulfato de zinco 4 mg/mL → <b>2,5 mL</b> e <b>5 mL</b>.</p></div>
+    </div>
+    <div class="grid2" style="margin-top:12px">
+      <div class="cx vd"><h3>Por que o zinco entra na receita</h3><p style="margin:0;font-size:13.2px">Restaura a barreira e o transporte de água do enterócito e modula a resposta imune. Encurta a duração do episódio, reduz o volume das fezes e <b>diminui novos episódios nos 2 a 3 meses seguintes</b>. O benefício é maior onde há deficiência de zinco — o que sustenta a recomendação universal no Brasil.</p></div>
+      <div class="cx am"><h3>Detalhes que fazem falhar</h3><ul style="margin-bottom:0;font-size:13.2px"><li>Dar em jejum ou durante o vômito → <b>a criança vomita o zinco</b>. Ofereça após a reidratação, com alimento.</li><li>Prescrever "por 5 dias" → sem efeito na recorrência. São <b>10 a 14 dias</b>, inclusive depois que a diarreia parar.</li><li>Confundir com xarope multivitamínico — o item é <b>sulfato de zinco</b>.</li></ul></div>
+    </div>
+    <div class="frase">Se a sua receita de Plano A não tem as quatro letras, ela está incompleta — e a que mais falta é a última.</div>
+  </div>
+</section>
+
+<section class="slide caso" data-t="Plantão: a receita do Plano A" data-src="D:MS — Plano A;D:OMS — zinco 10 mg/dia em menores de 6 meses;C:Material de origem traz a posologia do zinco, mas não a apresentação em mL — a fonte de erro na ponta" data-nt="Aqui o exercício é escrever a receita mesmo, com apresentação e volume em mL, do jeito que a mãe vai ler na farmácia. Quem só escreve 'zinco 10 mg/dia' transfere o cálculo para o balconista.">
+  <div class="corpo">
+    <div class="kicker"><span class="kn">Par 6</span> · Você está no plantão</div>
+    <h2>Lactente, 4 meses, 6,2 kg</h2>
+    <div class="grid2" style="flex:1;min-height:0">
+      <div style="display:flex;flex-direction:column;gap:10px;min-height:0">
+        <div class="cx">
+          <div class="tag vm">vinheta</div>
+          <p style="margin-bottom:6px"><b>HDA:</b> diarreia aquosa há 1 dia, 4 episódios, sem sangue, sem febre. Mamando bem no peito.</p>
+          <p style="margin-bottom:6px"><b>Exame:</b> alerta, sorri, mucosas úmidas, lágrimas presentes, prega desfaz rápido, diurese normal. Peso estável.</p>
+          <p style="margin:0"><b>Mãe pergunta:</b> "posso dar o soro de sachê? E não é melhor dar uma fórmula sem lactose por uns dias?"</p>
+        </div>
+        <div class="cx nv"><h3>Antes de virar</h3><p style="margin:0;font-size:13px">Escreva a receita completa, com apresentação e volume em mL — como a mãe vai ler.</p></div>
+      </div>
+      <div class="cort" onclick="revelar(this)">
+        <div class="painel">
+          <div class="tag vd">receita</div>
+          <h3 style="margin-bottom:8px">Plano A · lactente em aleitamento materno exclusivo</h3>
+          <ul class="presc">
+            <li><b>Aleitamento materno em livre demanda</b> — aumentar a frequência das mamadas. É o melhor líquido que existe aqui.</li>
+            <li><b>Sais para reidratação oral (sachê): 50–100 mL após cada evacuação diarreica</b>, de colher. Diluir 1 sachê em 1 litro de água tratada ou fervida e fria; desprezar sobra após 24 h.</li>
+            <li><b>Sulfato de zinco 4 mg/mL — dar <span class="dose">2,5 mL (10 mg) 1×/dia por 10 a 14 dias</span></b>, após as mamadas.</li>
+            <li><b>Não</b> introduzir fórmula sem lactose, água, chá ou suco. <b>Não</b> suspender o peito.</li>
+            <li>Retorno imediato se: vômitos repetidos, sangue nas fezes, febre, criança prostrada, boca seca/sem lágrimas ou fralda seca por muitas horas.</li>
+            <li>Reavaliação em 48 h, com <b>peso</b>.</li>
+          </ul>
+          <div class="cx am" style="margin-top:8px;padding:8px 10px"><p style="margin:0;font-size:12.8px"><b>Resposta à mãe sobre a lactose:</b> não. O leite materno não se suspende nem se dilui em nenhum grau de diarreia; a fórmula sem lactose só entra em intolerância documentada, com quadro clínico compatível — não como profilaxia.</p></div>
+        </div>
+        <div class="veu"><div class="t">Escreva a sua conduta primeiro</div><div class="s">Quantos mL de zinco por dia, e por quantos dias? Escreva a receita antes de revelar.</div><button class="rv" onclick="event.stopPropagation();revelar(this.closest('.cort'))">Revelar a conduta</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PAR 7 ================= -->
+<section class="slide" data-t="Alimentação: mitos caros" data-src="D:SBP — manter dieta habitual · sem indicação de dietas restritivas;D:OMS — realimentação precoce reduz duração e perda ponderal;P:Fórmula sem lactose apenas em intolerância documentada, por tempo limitado" data-nt="Este slide desfaz a herança cultural mais forte do tema. Jejum, chá, dieta BRAT e leite diluído já foram conduta e hoje são erro. O argumento decisivo é nutricional: a criança já está perdendo nutrientes pelas fezes; tirar comida é somar uma segunda agressão.">
+  <div class="corpo">
+    <div class="kicker"><span class="kn">Par 7</span> · Conceito</div>
+    <h2>Comer é tratamento. Jejum é dano.</h2>
+    <div class="grid2">
+      <div class="cx vd"><h3>O que fazer</h3><ul style="margin-bottom:0"><li><b>Manter o aleitamento materno</b>, sempre e em qualquer plano — inclusive durante a TRO.</li><li><b>Retomar a dieta habitual</b> assim que a criança estiver hidratada (não esperar a diarreia parar).</li><li>Porções <b>menores e mais frequentes</b>; alimentos de fácil digestão e boa densidade energética.</li><li><b>Uma refeição a mais por dia, por 2 semanas</b>, após a melhora — recuperação nutricional.</li></ul></div>
+      <div class="cx vm"><h3>O que não fazer</h3><ul style="margin-bottom:0"><li><b>Jejum "para descansar o intestino"</b> — atrofia a mucosa e prolonga a diarreia.</li><li><b>Diluir o leite</b> ou trocar rotineiramente por fórmula sem lactose.</li><li><b>Dieta restritiva de banana, arroz, maçã e torrada</b> — pobre em energia e proteína, sem benefício demonstrado.</li><li><b>Refrigerantes e sucos industrializados</b> — carga osmótica alta.</li></ul></div>
+    </div>
+    <div class="cx am" style="margin-top:12px">
+      <div class="tag am">a exceção que existe de verdade</div>
+      <p style="margin:0"><b>Intolerância transitória à lactose pós-infecciosa</b> (clássica depois de rotavírus): a diarreia melhora, volta ao reintroduzir o leite, com fezes explosivas, ácidas, muita flatulência e <b>assadura perianal intensa</b>. Aí sim vale retirar a lactose <b>por tempo limitado</b> (cerca de 2 a 4 semanas), com reintrodução programada. <b>Nunca</b> se retira o leite materno.</p>
+    </div>
+    <div class="frase">A criança não morre da diarreia de hoje — ela adoece da desnutrição que a nossa dieta de fome causa depois.</div>
+  </div>
+</section>
+
+<section class="slide caso" data-t="Plantão: a diarreia que volta com o leite" data-src="D:SBP — intolerância transitória à lactose pós-infecciosa;P:Duração da exclusão de lactose varia entre serviços (2–4 semanas em média)" data-nt="Bom caso para interleaving: obriga a diferenciar diarreia aguda que continua, diarreia persistente e intolerância pós-infecciosa. O detalhe de exame que decide é a assadura perianal com eritema vivo — fezes ácidas queimam a pele.">
+  <div class="corpo">
+    <div class="kicker"><span class="kn">Par 7</span> · Você está no plantão</div>
+    <h2>Escolar pequeno, 2 anos, 12 kg</h2>
+    <div class="grid2" style="flex:1;min-height:0">
+      <div style="display:flex;flex-direction:column;gap:10px;min-height:0">
+        <div class="cx">
+          <div class="tag vm">vinheta</div>
+          <p style="margin-bottom:6px"><b>HDA:</b> teve rotavírus confirmado há 12 dias, melhorou no 5º dia. Voltou a ter fezes líquidas, <b>explosivas e com muito gás</b>, sempre logo depois do leite de vaca. Sem febre, sem sangue, mantém o apetite.</p>
+          <p style="margin-bottom:6px"><b>Exame:</b> hidratada, ativa, abdome timpânico, <b>eritema perianal vivo, quase escoriado</b>.</p>
+          <p style="margin:0"><b>Peso:</b> perdeu 400 g desde o início do quadro.</p>
+        </div>
+        <div class="cx nv"><h3>Antes de virar</h3><p style="margin:0;font-size:13px">É diarreia persistente? É recaída infecciosa? O que a assadura está lhe dizendo?</p></div>
+      </div>
+      <div class="cort" onclick="revelar(this)">
+        <div class="painel">
+          <div class="tag vd">conduta</div>
+          <h3 style="margin-bottom:8px">Intolerância transitória à lactose pós-rotavírus</h3>
+          <ul class="presc">
+            <li><b>1 ·</b> Hidratada — nenhum sinal da coluna do meio.</li>
+            <li><b>2 ·</b> Manejo ambulatorial. Não é indicação de internação nem de antibiótico.</li>
+            <li><b>3 ·</b> SRO 100–200 mL após cada evacuação, se voltar a evacuar líquido.</li>
+            <li><b>4 ·</b> Nenhuma droga nova. Se ainda não completou, <b>manter o zinco até 10–14 dias</b>.</li>
+            <li><b>5 · Retirar a lactose por 2 a 4 semanas</b> (fórmula/leite sem lactose para a idade), mantendo o restante da dieta com boa densidade energética. <b>Reintroduzir de forma programada</b> — a exclusão não é definitiva. Cuidado perianal com barreira (óxido de zinco), trocas frequentes.</li>
+            <li><b>6 ·</b> Nenhum exame obrigatório; se houver dúvida, pH fecal ácido e substâncias redutoras nas fezes apoiam o diagnóstico. <b>Acompanhar o peso.</b></li>
+            <li><b>7 ·</b> Retorno em 7 dias com peso; antes disso, se houver sangue, febre, vômitos, desidratação ou perda ponderal progressiva. Se ultrapassar 14 dias de diarreia contínua, reclassifique como <b>diarreia persistente</b> e investigue.</li>
+          </ul>
+          <div class="cx am" style="margin-top:8px;padding:8px 10px"><p style="margin:0;font-size:12.8px"><b>Pista de ouro:</b> fezes ácidas queimam a pele. Assadura perianal intensa depois de uma gastroenterite viral é intolerância à lactose até prova em contrário.</p></div>
+        </div>
+        <div class="veu"><div class="t">Escreva a sua conduta primeiro</div><div class="s">Qual o diagnóstico, o que você retira da dieta e por quanto tempo?</div><button class="rv" onclick="event.stopPropagation();revelar(this.closest('.cort'))">Revelar a conduta</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ================= PAR 8 ================= -->
+<section class="slide" data-t="Plano B por dentro" data-src="D:MS — Plano B: SRO 50–100 mL/kg em 4–6 h, na unidade, com reavaliação;D:OMS — 75 mL/kg em 4 h;D:MS — gastróclise por sonda 20–30 mL/kg/h na falha da via oral;C:O material de origem não menciona a gastróclise, etapa que evita boa parte das punções venosas" data-nt="O Plano B falha por técnica, não por fisiologia. Insista nos três detalhes: colher em vez de copo cheio, pausa de 10 minutos após o vômito e reavaliação de hora em hora. E apresente a gastróclise: no Brasil ela é a etapa esquecida entre a boca e a veia.">
+  <div class="corpo">
+    <div class="kicker"><span class="kn">Par 8</span> · Conceito</div>
+    <h2>Plano B: o volume é fácil; a técnica é que salva</h2>
+    <div class="grid2">
+      <div class="cx az">
+        <h3>Como se faz</h3>
+        <ul style="margin-bottom:0">
+          <li><b>Onde:</b> na unidade de saúde, sob supervisão. A criança do Plano B <b>não vai para casa com o sachê</b>.</li>
+          <li><b>Quanto:</b> <b>75 mL/kg em 4 h</b> (faixa do MS: 50–100 mL/kg em 4–6 h).</li>
+          <li><b>Como:</b> colher ou copo, <b>pequenos volumes a cada 5 minutos</b>, aumentando conforme a aceitação.</li>
+          <li><b>Vomitou:</b> pausa de <b>10 minutos</b> e reinício mais lento e em volume menor.</li>
+          <li><b>Durante as 4 h:</b> apenas SRO e <b>leite materno</b>; os demais alimentos voltam após a reidratação.</li>
+          <li><b>Reavaliar a cada hora</b>: estado geral, olhos, sede, prega, diurese e peso.</li>
+        </ul>
+      </div>
+      <div class="cx vd">
+        <h3>Depois de 4 h, só existem três saídas</h3>
+        <p style="margin-bottom:6px"><b>Hidratou</b> → passa para o <b>Plano A</b>, com SRO após cada evacuação e orientação por escrito.</p>
+        <p style="margin-bottom:6px"><b>Continua com desidratação</b> → repete mais um ciclo de TRO e reavalia; considere gastróclise.</p>
+        <p style="margin:0"><b>Piorou ou surgiu sinal grave</b> → <b>Plano C</b>, imediatamente.</p>
+        <div class="cx am" style="margin-top:9px;padding:9px 10px">
+          <h3 style="margin-bottom:3px">Falhou a via oral? Antes da veia, a sonda.</h3>
+          <p style="margin:0;font-size:13px"><b>Gastróclise: SRO 20–30 mL/kg/h por sonda nasogástrica</b>, em infusão contínua. Indicada em vômitos persistentes ou recusa, <b>desde que não haja choque, íleo, rebaixamento de consciência ou distensão abdominal importante</b>.</p>
+        </div>
+      </div>
+    </div>
+    <div class="frase">Quem oferece o copo cheio recebe vômito. Quem oferece a colher recebe uma criança hidratada.</div>
+  </div>
+</section>
+
+<section class="slide caso" data-t="Plantão: recusa o soro" data-src="D:MS — gastróclise 20–30 mL/kg/h;D:MS — contraindicações à sonda: choque, íleo, rebaixamento" data-nt="O objetivo do caso é fazê-los subir um degrau em vez de dois. Muita gente pula direto para o acesso venoso, que é mais demorado, mais doloroso e mais arriscado numa criança sem choque.">
+  <div class="corpo">
+    <div class="kicker"><span class="kn">Par 8</span> · Você está no plantão</div>
+    <h2>Lactente, 1 ano, 10 kg</h2>
+    <div class="grid2" style="flex:1;min-height:0">
+      <div style="display:flex;flex-direction:column;gap:10px;min-height:0">
+        <div class="cx">
+          <div class="tag vm">vinheta</div>
+          <p style="margin-bottom:6px"><b>HDA:</b> diarreia há 3 dias, agora com vômitos. Está há 1 hora na sala de TRO e aceitou apenas 60 mL — cospe, chora e vomitou duas vezes.</p>
+          <p style="margin-bottom:6px"><b>Exame:</b> irritado mas <b>consciente e reativo</b>, olhos encovados, lágrimas ausentes, sede ávida, prega lenta. Enchimento capilar 2 s, pulsos cheios, abdome plano e sem distensão.</p>
+          <p style="margin:0">Não há acesso venoso. A enfermagem pergunta se "vai puncionar".</p>
+        </div>
+        <div class="cx nv"><h3>Antes de virar</h3><p style="margin:0;font-size:13px">Qual o próximo degrau? Calcule a velocidade da infusão em mL/h.</p></div>
+      </div>
+      <div class="cort" onclick="revelar(this)">
+        <div class="painel">
+          <div class="tag vd">conduta</div>
+          <h3 style="margin-bottom:8px">Falha da via oral, sem choque → gastróclise, não punção</h3>
+          <ul class="presc">
+            <li><b>1 ·</b> Com desidratação, <b>sem</b> sinais de gravidade: consciente, bebe, perfundido.</li>
+            <li><b>2 ·</b> Segue no <b>Plano B</b>, agora por sonda nasogástrica — ainda é terapia de reidratação oral, só muda a porta de entrada.</li>
+            <li><b>3 · SRO em gastróclise 20–30 mL/kg/h = <span class="dose">200 a 300 mL/h</span></b>, em infusão contínua, começando na parte baixa da faixa e subindo conforme tolerância.</li>
+            <li><b>4 ·</b> Se o vômito for o obstáculo principal, <b>ondansetrona em dose única</b> (8–15 kg: 2 mg) e nova tentativa por via oral antes da sonda — as duas estratégias se somam.</li>
+            <li><b>5 ·</b> Manter o aleitamento materno; demais alimentos após reidratar.</li>
+            <li><b>6 · Reavaliar a cada hora.</b> Vigiar distensão abdominal, vômitos ao redor da sonda e piora do estado geral.</li>
+            <li><b>7 · Converter para acesso venoso (Plano C)</b> se surgir choque, rebaixamento de consciência, íleo/distensão importante, convulsão ou se a criança piorar apesar da gastróclise.</li>
+          </ul>
+          <div class="cx am" style="margin-top:8px;padding:8px 10px"><p style="margin:0;font-size:12.8px"><b>Por que não puncionar já:</b> na criança sem choque, a via enteral repõe com menos risco de sobrecarga e de distúrbio eletrolítico, e não exige punções repetidas numa veia colabada. A veia é para quem não pode usar o intestino — não para quem chora.</p></div>
+        </div>
+        <div class="veu"><div class="t">Escreva a sua conduta primeiro</div><div class="s">Sonda ou veia? Escreva a velocidade em mL/h e a justificativa.</div><button class="rv" onclick="event.stopPropagation();revelar(this.closest('.cort'))">Revelar a conduta</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PAR 9 ================= -->
+<section class="slide" data-t="Ondansetrona" data-src="D:SBP — antiemético como ferramenta para viabilizar a TRO, em dose única;P:Faixas de peso 2/4/8 mg e alternativa 0,15 mg/kg;C:O material de origem traz a dose, mas não as cautelas — idade mínima, QT e aumento do número de evacuações" data-nt="Ondansetrona não trata diarreia: ela compra a janela para o SRO entrar. Dose única, no serviço, com reavaliação. Deixe claro o efeito colateral que confunde a turma: ao bloquear o vômito, o número de evacuações pode aumentar — isso não é falha do tratamento.">
+  <div class="corpo">
+    <div class="kicker"><span class="kn">Par 9</span> · Conceito</div>
+    <h2>O antiemético que existe para salvar a via oral</h2>
+    <div class="grid2">
+      <div class="cx az">
+        <h3>Ondansetrona — dose única, via oral</h3>
+        <table style="margin-top:5px"><tr><th>Peso</th><th>Dose</th></tr>
+          <tr><td>8 a 15 kg</td><td class="mono"><b>2 mg</b></td></tr>
+          <tr><td>15 a 30 kg</td><td class="mono"><b>4 mg</b></td></tr>
+          <tr><td>&gt; 30 kg</td><td class="mono"><b>8 mg</b></td></tr></table>
+        <p style="margin:6px 0 0;font-size:13px">Alternativa por peso: <b>0,15 mg/kg</b>. Aguardar <b>15 a 20 minutos</b> e reiniciar a TRO em pequenos volumes.</p>
+      </div>
+      <div class="cx am">
+        <h3>As cautelas que faltam na maioria dos slides</h3>
+        <ul style="margin-bottom:0;font-size:13.2px">
+          <li>Uso em <b>maiores de 6 meses</b>; abaixo disso a evidência é insuficiente.</li>
+          <li><b>Dose única e no serviço</b>, com reavaliação. Não é receita para casa nem para uso repetido.</li>
+          <li>Pode <b>aumentar o número de evacuações</b> nas horas seguintes — avise a família; não é piora do quadro.</li>
+          <li>Prolonga o intervalo QT: cuidado com cardiopatia, QT longo, distúrbio eletrolítico ou uso de outras drogas que alargam o QT.</li>
+          <li>Se o vômito persistir depois da dose, o problema já não é náusea — reavalie o diagnóstico.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="cx vm" style="margin-top:12px"><div class="tag vm">não use no lugar dela</div><p style="margin:0"><b>Metoclopramida e dimenidrinato</b> em lactentes e pré-escolares: risco de reação extrapiramidal e sedação, que mascara o rebaixamento da desidratação grave. <b>Nenhum antiemético substitui a reavaliação clínica.</b></p></div>
+    <div class="frase">A ondansetrona não trata a diarreia. Ela compra os 20 minutos de que o soro precisa.</div>
+  </div>
+</section>
+
+<section class="slide caso" data-t="Plantão: vomita tudo" data-src="D:SBP — ondansetrona por faixa de peso;D:MS — Plano B e reavaliação horária" data-nt="Peça a dose pelas duas regras (faixa de peso e 0,15 mg/kg) e mostre que convergem. Depois pergunte o que fazer se, mesmo assim, vomitar: aí é gastróclise ou veia, conforme a gravidade.">
+  <div class="corpo">
+    <div class="kicker"><span class="kn">Par 9</span> · Você está no plantão</div>
+    <h2>Escolar, 5 anos, 22 kg</h2>
+    <div class="grid2" style="flex:1;min-height:0">
+      <div style="display:flex;flex-direction:column;gap:10px;min-height:0">
+        <div class="cx">
+          <div class="tag vm">vinheta</div>
+          <p style="margin-bottom:6px"><b>HDA:</b> vômitos há 12 h, 6 episódios, agora com diarreia aquosa. Não consegue reter nem água. Sem sangue nas fezes. Colega da escola com o mesmo quadro.</p>
+          <p style="margin-bottom:6px"><b>Exame:</b> quieto porém responsivo, olhos encovados, boca seca, sedento, prega lenta. FC 128 bpm, enchimento capilar 2 s, PA normal.</p>
+          <p style="margin:0"><b>Antecedentes:</b> hígido, sem cardiopatia, sem uso de medicações.</p>
+        </div>
+        <div class="cx nv"><h3>Antes de virar</h3><p style="margin:0;font-size:13px">Dose da ondansetrona pelas duas regras, volume de SRO em mL e o que você faz se vomitar de novo.</p></div>
+      </div>
+      <div class="cort" onclick="revelar(this)">
+        <div class="painel">
+          <div class="tag vd">conduta</div>
+          <h3 style="margin-bottom:8px">Plano B com antiemético para viabilizar a TRO</h3>
+          <ul class="presc">
+            <li><b>1 ·</b> Com desidratação (4 sinais). Sem sinais de choque.</li>
+            <li><b>2 · Plano B</b> na unidade, sob supervisão.</li>
+            <li><b>3 · <span class="dose">Ondansetrona 4 mg VO, dose única</span></b> — faixa 15–30 kg; conferindo por peso: 0,15 mg/kg × 22 kg = 3,3 mg, arredondado para a apresentação de 4 mg. Aguardar 15–20 min.</li>
+            <li><b>4 · SRO 75 mL/kg em 4 h = <span class="dose">1.650 mL</span></b>, em pequenos volumes a cada 5 minutos.</li>
+            <li><b>5 ·</b> Dieta suspensa apenas durante as 4 h de reidratação; depois, alimentação habitual. <b>Zinco 20 mg/dia por 10–14 dias</b> após hidratar.</li>
+            <li><b>6 ·</b> Reavaliação horária. Sem exames de rotina; solicitar eletrólitos apenas se houver rebaixamento, convulsão ou necessidade de hidratação venosa.</li>
+            <li><b>7 ·</b> Alta quando hidratado e aceitando líquidos, com SRO domiciliar, sinais de alarme por escrito e retorno em 24 h. <b>Avisar que as evacuações podem aumentar</b> nas próximas horas.</li>
+          </ul>
+          <div class="cx vm" style="margin-top:8px;padding:8px 10px"><p style="margin:0;font-size:12.8px"><b>Se vomitar de novo após a dose:</b> não repita o antiemético em sequência. Suba o degrau — gastróclise se não houver contraindicação, ou hidratação venosa se surgirem sinais de gravidade.</p></div>
+        </div>
+        <div class="veu"><div class="t">Escreva a sua conduta primeiro</div><div class="s">Dose em mg, volume em mL, plano B ou C. Depois revele.</div><button class="rv" onclick="event.stopPropagation();revelar(this.closest('.cort'))">Revelar a conduta</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ================= PAR 10 ================= -->
+<section class="slide" data-t="Plano C: SBP 2023 — 30 + 70" data-src="D:SBP 2023 — Diarreia Aguda Infecciosa: Plano C com solução isotônica, 30 + 70 mL/kg;D:MS 2023 — fluxograma incorporado pela SBP;P:Choque franco exige raciocínio de ressuscitação separado, sem transformar 20 mL/kg em etapa universal do Plano C" data-nt="Ponto-chave: não ensine 20 mL/kg antes do 30+70 como sequência obrigatória do Plano C. Na SBP 2023, o Plano C é 100 mL/kg em duas fases: 30 + 70. A primeira fase já é rápida. Se houver instabilidade hemodinâmica/choque franco, trate a ressuscitação do choque conforme protocolo de emergência pediátrica e reavalie, mas deixe claro que isso é uma camada adicional de ressuscitação, não a definição do Plano C.">
+  <div class="corpo">
+    <div class="kicker"><span class="kn">Par 10</span> · Conceito</div>
+    <h2>Plano C na SBP 2023: 30 + 70, não “20 antes de tudo”</h2>
+    <div class="grid2">
+      <div class="cx vm">
+        <h3>Plano C · reidratação venosa</h3>
+        <p style="margin-bottom:5px"><b>SF 0,9% ou Ringer lactato · total 100 mL/kg</b>, divididos em:</p>
+        <ul style="margin-bottom:0;font-size:13.2px">
+          <li><b>1ª fase: 30 mL/kg</b>.</li>
+          <li><b>2ª fase: 70 mL/kg</b>.</li>
+          <li><b>&lt; 1 ano:</b> 30 em 1 h + 70 em 5 h.</li>
+          <li><b>≥ 1 ano:</b> 30 em 30 min + 70 em 2 h 30 min.</li>
+        </ul>
+      </div>
+      <div class="cx am">
+        <h3>🚨 E se houver choque franco?</h3>
+        <p style="margin-bottom:6px">A criança pode chegar com hipoperfusão importante dentro do espectro da desidratação grave.</p>
+        <p style="margin:0"><b>Não transforme isso em “todo Plano C recebe 20 mL/kg antes”.</b> Ressuscitação de choque é uma decisão hemodinâmica separada, guiada por protocolo de emergência e reavaliação seriada. Depois, o déficit hídrico continua sendo corrigido conforme o Plano C.</p>
+      </div>
+    </div>
+    <div class="grid2" style="margin-top:12px">
+      <div class="cx vd"><h3>A boca volta cedo</h3><p style="margin:0;font-size:13.2px">Assim que a criança conseguir beber, introduza SRO em pequenos volumes durante a reidratação, conforme tolerância e protocolo.</p></div>
+      <div class="cx az"><h3>O que a primeira fase faz?</h3><p style="margin:0;font-size:13.2px">Os <b>30 mL/kg iniciais</b> são a fase rápida do próprio Plano C. Depois vem a fase de <b>70 mL/kg</b>. Reavalie perfusão, consciência, pulso, diurese e tolerância oral.</p></div>
+    </div>
+    <div class="frase">Memória: <b>Plano C SBP = 30 + 70.</b> Choque é uma camada hemodinâmica adicional, não um “20 obrigatório” antes.</div>
+  </div>
+</section>
+
+<section class="slide caso" data-t="Plantão: choque hipovolêmico" data-src="D:SBP 2023 — Plano C: solução isotônica em 30 + 70 mL/kg;P:choque franco exige ressuscitação hemodinâmica conforme protocolo de emergência, sem confundir com etapa universal do Plano C" data-nt="Este é o caso 2 do material de origem, expandido. O ponto novo é o depois: o material para no primeiro bolus. Cobre a reavaliação, o segundo bolus, o retorno precoce da via oral e a decisão de UTI se não responder.">
+  <div class="corpo">
+    <div class="kicker"><span class="kn">Par 10</span> · Você está no plantão</div>
+    <h2>Pré-escolar, 3 anos, 14 kg</h2>
+    <div class="grid2" style="flex:1;min-height:0">
+      <div style="display:flex;flex-direction:column;gap:10px;min-height:0">
+        <div class="cx">
+          <div class="tag vm">vinheta</div>
+          <p style="margin-bottom:6px"><b>HDA:</b> diarreia e vômitos há 3 dias, hoje quase sem urinar. Chegou no colo, mole.</p>
+          <p style="margin-bottom:6px"><b>Exame:</b> <b>letargia profunda</b>, olhos muito encovados, <b>não consegue beber</b>, prega desfaz muito lentamente. Enchimento capilar 5 s, extremidades frias, FC 178 bpm, pulsos periféricos finos.</p>
+          <p style="margin:0">Punção venosa periférica difícil; a equipe tenta há 3 minutos.</p>
+        </div>
+        <div class="cx nv"><h3>Antes de virar</h3><p style="margin:0;font-size:13px">Volume do bolus em mL, tempo, via alternativa — e o que você faz aos 20 minutos.</p></div>
+      </div>
+      <div class="cort" onclick="revelar(this)">
+        <div class="painel">
+          <div class="tag vd">conduta</div>
+          <h3 style="margin-bottom:8px">Plano C com hipoperfusão — duas decisões paralelas</h3>
+          <ul class="presc">
+            <li><b>1 ·</b> Desidratação <b>grave com choque</b>: letargia, não bebe, prega muito lenta, enchimento capilar &gt; 3 s.</li>
+            <li><b>2 · Plano C</b>, sala de emergência, monitorização contínua.</li>
+            <li><b>3 · Plano C SBP 2023:</b> Ringer lactato ou SF 0,9% em <b>30 + 70 mL/kg</b>. Para 14 kg: <span class="dose">420 mL na 1ª fase + 980 mL na 2ª fase</span>. Como tem 3 anos: 1ª fase em 30 min; 2ª fase em 2 h 30 min.</li>
+            <li><b>4 ·</b> Há sinais de hipoperfusão/choque? Trate essa instabilidade <b>como problema hemodinâmico adicional</b>, com monitorização e ressuscitação conforme protocolo pediátrico do serviço. Não ensine “20 mL/kg antes do Plano C” como sequência obrigatória da SBP 2023.</li>
+            <li><b>5 ·</b> Assim que conseguir beber, <b>SRO 5 mL/kg/h = 70 mL/h</b> por via oral, junto com a infusão. Aleitamento/dieta retornam após a estabilização.</li>
+            <li><b>6 ·</b> Glicemia capilar imediata (hipoglicemia é frequente e simula rebaixamento), <b>sódio, potássio, gasometria, ureia e creatinina</b>. Diurese, peso e balanço hídrico.</li>
+            <li><b>7 ·</b> Reavaliar durante e após as fases do Plano C; depois separar claramente <b>déficit, manutenção e perdas continuadas</b>. Alta só com tolerância oral, perfusão e diurese adequadas e responsável orientado.</li>
+          </ul>
+          <div class="cx am" style="margin-top:8px;padding:8px 10px"><p style="margin:0;font-size:12.8px"><b>Cuidado com o rótulo:</b> letargia em criança desidratada também pode ser <b>hipoglicemia</b> ou <b>hipernatremia</b>. Glicemia capilar é conduta, não exame de rotina.</p></div>
+        </div>
+        <div class="veu"><div class="t">Escreva a sua conduta primeiro</div><div class="s">Quantos mL, em quantos minutos, por qual via — e o que muda aos 20 minutos?</div><button class="rv" onclick="event.stopPropagation();revelar(this.closest('.cort'))">Revelar a conduta</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PAR 11 ================= -->
+<section class="slide" data-t="Manutenção: volume e tonicidade" data-src="D:Holliday-Segar — regra 100/50/20 mL/kg/dia (volume);D:AAP 2018 / SBP — fluidos de manutenção ISOTÔNICOS em crianças de 28 dias a 18 anos;C:A régua clássica de 3 mEq de sódio por 100 mL produz solução hipotônica (~30 mEq/L) — hoje desaconselhada" data-nt="Aqui está a correção mais importante da aula, e a que mais vai gerar discussão na sala. Holliday-Segar continua valendo para o VOLUME. O que mudou foi a COMPOSIÇÃO: a solução de manutenção deve ser isotônica, porque a criança com gastroenterite tem ADH elevado e retém água livre. Diga com todas as letras: houve mortes por encefalopatia hiponatrêmica com soro de manutenção hipotônico.">
+  <div class="corpo">
+    <div class="kicker"><span class="kn">Par 11</span> · Conceito</div>
+    <h2>Holliday-Segar diz o volume. Não diz o sódio.</h2>
+    <div class="grid2">
+      <div class="cx az">
+        <h3>Volume de manutenção em 24 h</h3>
+        <table style="margin-top:5px"><tr><th>Peso</th><th>Volume/dia</th></tr>
+          <tr><td>Até 10 kg</td><td class="mono">100 mL/kg</td></tr>
+          <tr><td>10 a 20 kg</td><td class="mono">1.000 mL + 50 mL/kg acima de 10</td></tr>
+          <tr><td>Acima de 20 kg</td><td class="mono">1.500 mL + 20 mL/kg acima de 20</td></tr></table>
+        <p style="margin:6px 0 0;font-size:13px"><b>Somar as perdas que continuam:</b> ≈ 10 mL/kg por evacuação líquida e ≈ 2 mL/kg por vômito — repostas de preferência com <b>SRO</b>, não aumentando a bolsa.</p>
+      </div>
+      <div class="cx vm">
+        <h3>Tonicidade: o que mudou</h3>
+        <p style="margin-bottom:6px">A conta clássica (3 mEq de Na e 2 mEq de K por 100 mL) entrega um soro com <b>≈ 30 mEq/L de sódio</b> — uma solução <b>hipotônica</b>.</p>
+        <p style="margin-bottom:6px">Na criança doente, com vômito, dor e hipovolemia, o <b>ADH está alto</b>: ela retém água livre. Soro hipotônico nesse cenário produziu <b>hiponatremia iatrogênica, convulsão e encefalopatia</b>.</p>
+        <p style="margin:0"><b>Recomendação atual: solução isotônica</b> (sódio ≈ 130–154 mEq/L) com glicose e potássio, sempre com sódio sérico monitorado.</p>
+      </div>
+    </div>
+    <div class="cx nv" style="margin-top:12px"><h3>Concentrações que você precisa saber de cor</h3>
+      <p style="margin:0;font-size:13.4px"><b>NaCl 20% = 3,4 mEq/mL</b> · <b>KCl 10% = 1,34 mEq/mL</b> · <b>Glicose 50% = 0,5 g/mL</b> · <b>SF 0,9% = 154 mEq/L de Na</b> · <b>microgotas/min = mL/h</b> (macrogotas/min = mL/h ÷ 3).</p></div>
+    <div class="frase">Manutenção é <b>ISO</b>, não <b>HIPO</b>. O volume vem de Holliday-Segar; a composição, da bolsa isotônica.</div>
+  </div>
+</section>
+
+<section class="slide caso" data-t="Plantão: prescrever a manutenção" data-src="D:Holliday-Segar — volume;D:AAP 2018 — manutenção isotônica com glicose e KCl;C:O exemplo do material de origem (SG 5% + 2,7 mL de NaCl 20%) resulta em ~29 mEq/L de sódio" data-nt="Faça-os prescrever antes. Depois mostre lado a lado: mesma velocidade, mesmo volume, quatro vezes mais sódio. É o slide que eles vão fotografar.">
+  <div class="corpo">
+    <div class="kicker"><span class="kn">Par 11</span> · Você está no plantão</div>
+    <h2>Criança de 15 kg, hidratada após a expansão</h2>
+    <div class="grid2" style="flex:1;min-height:0">
+      <div style="display:flex;flex-direction:column;gap:10px;min-height:0">
+        <div class="cx">
+          <div class="tag vm">vinheta</div>
+          <p style="margin-bottom:6px">Após a fase inicial do Plano C e reavaliação, a criança melhorou: acordada, perfundida, <b>urinou</b>. Ainda vomita e não aceita volume suficiente por via oral, então será mantida com hidratação venosa por 24 h.</p>
+          <p style="margin:0"><b>Sódio sérico: 138 mEq/L. Potássio: 3,6 mEq/L.</b></p>
+        </div>
+        <div class="cx nv"><h3>Antes de virar</h3><p style="margin:0;font-size:13px">Calcule o volume de 24 h, monte as etapas de 6/6 h e escreva a velocidade em microgotas/min.</p></div>
+      </div>
+      <div class="cort" onclick="revelar(this)">
+        <div class="painel">
+          <div class="tag vd">prescrição</div>
+          <h3 style="margin-bottom:6px">Volume: 1.000 + (5 × 50) = <b>1.250 mL/24 h</b> → 4 etapas de ~312 mL de 6/6 h</h3>
+          <ul class="presc">
+            <li><b>Soro glicofisiológico montado (isotônico), por etapa:</b><br><span class="dose">SG 5% 300 mL + NaCl 20% 12 mL + KCl 10% 5 mL</span> — EV de 6/6 h, 4 etapas.</li>
+            <li><b>Confere:</b> Na ≈ 41 mEq/etapa → <b>≈ 129 mEq/L</b> (isotônico) e ≈ 163 mEq em 24 h. K ≈ 6,7 mEq/etapa → <b>≈ 21 mEq/L</b> e ≈ 27 mEq/dia (1,8 mEq/kg/dia). Glicose ≈ 4,7%.</li>
+            <li><b>Velocidade:</b> 317 mL ÷ 6 h ≈ 53 mL/h = <span class="dose">53 microgotas/min</span> (≈ 18 macrogotas/min).</li>
+            <li><b>Alternativa igualmente correta:</b> SF 0,9% 280 mL + glicose 50% 30 mL + KCl 10% 5 mL por etapa (Na ≈ 137 mEq/L).</li>
+            <li><b>Potássio liberado</b> porque a criança <b>urinou</b> — e apenas por isso.</li>
+            <li><b>Perdas que continuarem:</b> repor com <b>SRO 10 mL/kg por evacuação</b>, e não aumentando a velocidade da bomba.</li>
+            <li><b>Monitorizar:</b> balanço hídrico, diurese, peso e <b>sódio sérico em 12–24 h</b>. Reduzir a via venosa assim que a via oral suprir.</li>
+          </ul>
+          <div class="cx vm" style="margin-top:8px;padding:8px 10px"><p style="margin:0;font-size:12.8px"><b>Comparação:</b> a prescrição clássica (SG 5% 312 mL + <b>2,7 mL</b> de NaCl 20% + KCl 4,7 mL) tem o mesmo volume e a mesma velocidade, mas apenas <b>≈ 29 mEq/L de sódio</b> — hipotônica. Mesma bolsa, quatro vezes menos sódio, risco muito maior de hiponatremia.</p></div>
+        </div>
+        <div class="veu"><div class="t">Escreva a sua conduta primeiro</div><div class="s">Volume de 24 h, composição de cada etapa e microgotas/min. Depois compare com a sua.</div><button class="rv" onclick="event.stopPropagation();revelar(this.closest('.cort'))">Revelar a prescrição</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ================= PAR 12 ================= -->
+<section class="slide" data-t="Potássio e sódio: as duas travas" data-src="D:MS/SBP — não iniciar potássio antes de confirmar diurese;P:Limites de concentração e velocidade do KCl variam por serviço — em veia periférica, até ~40 mEq/L;P:NaCl 3% na hiponatremia sintomática: 3–5 mL/kg conforme protocolo institucional" data-nt="Duas travas de segurança que o material original só cita de passagem. Potássio sem diurese pode matar por arritmia; sódio corrigido rápido demais pode causar lesão cerebral. Ensine também a fórmula caseira de preparo do NaCl 3%, porque em muitos serviços ele não vem pronto.">
+  <div class="corpo">
+    <div class="kicker"><span class="kn">Par 12</span> · Conceito</div>
+    <h2>Potássio depois do xixi. Sódio devagar.</h2>
+    <div class="grid2">
+      <div class="cx vm">
+        <h3>Potássio — a regra que não se negocia</h3>
+        <ul style="margin-bottom:0;font-size:13.3px">
+          <li><b>Não iniciar KCl sem diurese confirmada.</b> Sem rim funcionando, a dose terapêutica vira dose letal.</li>
+          <li>Necessidade diária: <b>2 a 3 mEq/kg/dia</b> (ou 2 mEq/100 mL de soro).</li>
+          <li>Em <b>veia periférica</b>, concentração até cerca de <b>40 mEq/L</b>; acima disso, veia central e monitorização.</li>
+          <li>Velocidade de infusão habitual até <b>0,3 mEq/kg/h</b> — acima, monitorização cardíaca contínua.</li>
+          <li>Hipocalemia da diarreia: <b>íleo, distensão, hipotonia, arritmia</b>. É a causa mais comum de abdome distendido no 2º dia de internação.</li>
+        </ul>
+      </div>
+      <div class="cx az">
+        <h3>Sódio — cada distúrbio, um ritmo</h3>
+        <p style="margin-bottom:5px"><b>Hiponatremia sintomática</b> (convulsão, rebaixamento): <b>NaCl 3% 3–5 mL/kg EV em 15–30 min</b>, buscando elevar 4–6 mEq/L e cessar a crise — depois, correção lenta.</p>
+        <p style="margin-bottom:5px"><b>Correção máxima: 8 a 10 mEq/L em 24 h</b>, para qualquer direção. Subir rápido demais lesa a mielina; descer rápido demais causa edema cerebral.</p>
+        <p style="margin:0;font-size:12.9px"><b>Preparo prático de ~100 mL de NaCl 3%:</b> SF 0,9% 89 mL + NaCl 20% 11 mL (confira o protocolo do seu serviço).</p>
+      </div>
+    </div>
+    <div class="cx am" style="margin-top:12px"><div class="tag am">a armadilha do soro hipotônico</div><p style="margin:0">Criança internada por gastroenterite, em soro com pouco sódio, que no segundo dia fica sonolenta, vomita e convulsiona: pense em <b>hiponatremia iatrogênica</b> antes de pensar em neuroinfecção. Dose o sódio.</p></div>
+    <div class="frase">Duas frases para levar do plantão: "só reponho potássio depois do xixi" e "sódio não se corrige com pressa".</div>
+  </div>
+</section>
+
+<section class="slide caso" data-t="Plantão: convulsão no 2º dia" data-src="D:AAP/SBP — hiponatremia iatrogênica por fluido hipotônico;P:NaCl 3% 3–5 mL/kg conforme protocolo institucional" data-nt="Caso desconfortável de propósito: o erro é nosso, não da doença. Peça que apontem a causa antes de tratar. É o momento em que a correção da manutenção deixa de ser detalhe acadêmico e vira segurança do paciente.">
+  <div class="corpo">
+    <div class="kicker"><span class="kn">Par 12</span> · Você está no plantão</div>
+    <h2>Lactente, 18 meses, 11 kg — segundo dia de internação</h2>
+    <div class="grid2" style="flex:1;min-height:0">
+      <div style="display:flex;flex-direction:column;gap:10px;min-height:0">
+        <div class="cx">
+          <div class="tag vm">vinheta</div>
+          <p style="margin-bottom:6px"><b>História:</b> internado por gastroenterite com desidratação. Recebeu expansão e está há 30 h em <b>SG 5% com 3 mEq de NaCl por 100 mL</b>, mais reposição das perdas com o mesmo soro.</p>
+          <p style="margin-bottom:6px"><b>Agora:</b> sonolento desde a manhã, dois vômitos, e há 2 minutos <b>crise convulsiva tônico-clônica generalizada</b>.</p>
+          <p style="margin:0"><b>Exame:</b> afebril, bem perfundido, sem sinais meníngeos, sem desidratação. Glicemia capilar 92 mg/dL.</p>
+        </div>
+        <div class="cx nv"><h3>Antes de virar</h3><p style="margin:0;font-size:13px">Qual a hipótese número 1? Que exame você pede na mesma frase em que trata?</p></div>
+      </div>
+      <div class="cort" onclick="revelar(this)">
+        <div class="painel">
+          <div class="tag vd">conduta</div>
+          <h3 style="margin-bottom:8px">Hiponatremia iatrogênica — sódio 124 mEq/L</h3>
+          <ul class="presc">
+            <li><b>1 ·</b> Não está desidratado: o problema é de <b>composição</b>, não de volume. Soro hipotônico + ADH elevado = retenção de água livre.</li>
+            <li><b>2 ·</b> Emergência neurológica. Monitorização, oxigênio, glicemia (já normal), <b>sódio sérico imediato</b>.</li>
+            <li><b>3 · <span class="dose">NaCl 3% 3–5 mL/kg EV em 15–30 min</span></b> (≈ 33 a 55 mL para 11 kg), objetivando elevar o sódio em <b>4–6 mEq/L</b> e cessar a crise. Repetir conforme protocolo se a convulsão persistir.</li>
+            <li><b>4 ·</b> <b>Suspender imediatamente o soro hipotônico</b> e trocar por solução <b>isotônica</b> com glicose e potássio.</li>
+            <li><b>5 ·</b> Benzodiazepínico se a crise não ceder com o sódio — mas nesta situação o anticonvulsivante isolado não resolve a causa.</li>
+            <li><b>6 · Correção total limitada a 8–10 mEq/L em 24 h.</b> Sódio seriado a cada 2–4 h no início; balanço hídrico rigoroso; restringir água livre.</li>
+            <li><b>7 ·</b> Registrar como <b>evento adverso evitável</b> e revisar a prescrição-padrão da enfermaria. A conduta que evita o próximo caso é institucional, não individual.</li>
+          </ul>
+          <div class="cx vm" style="margin-top:8px;padding:8px 10px"><p style="margin:0;font-size:12.8px"><b>A lição:</b> na criança internada com gastroenterite, convulsão sem febre e sem hipoglicemia é hiponatremia até prova em contrário — e a causa, quase sempre, está pendurada no suporte de soro.</p></div>
+        </div>
+        <div class="veu"><div class="t">Escreva a sua conduta primeiro</div><div class="s">Hipótese, exame, droga e volume em mL. Só então revele.</div><button class="rv" onclick="event.stopPropagation();revelar(this.closest('.cort'))">Revelar a conduta</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PAR 13 ================= -->
+<section class="slide" data-t="Desidratação hipernatrêmica" data-src="D:SBP — desidratação hipertônica: reidratação lenta em 48 h;D:MS — risco do preparo incorreto do soro caseiro;C:O material de origem não distingue desidratação isonatrêmica, hipo e hipernatrêmica" data-nt="A hipernatrêmica é a mais traiçoeira porque a criança parece menos desidratada do que está: o líquido sai do intracelular e sustenta o extracelular. Por isso pele em massa de pão, sede desproporcional e irritabilidade extrema, com pouca taquicardia. Reidratação lenta, em 48 horas.">
+  <div class="corpo">
+    <div class="kicker"><span class="kn">Par 13</span> · Conceito</div>
+    <h2>Nem toda desidratação tem o mesmo sódio</h2>
+    <div class="grid3">
+      <div class="cx az"><h3>Isonatrêmica (130–150)</h3><p style="margin:0;font-size:13.2px">A mais comum (cerca de 80%). Perde água e sal em proporção. É o quadro clássico dos planos A, B e C.</p></div>
+      <div class="cx am"><h3>Hiponatrêmica (&lt; 130)</h3><p style="margin:0;font-size:13.2px">Perde mais sal que água — típica de quem repôs com <b>água, chá ou refrigerante</b>. Desidrata mais rápido para a mesma perda; risco de convulsão.</p></div>
+      <div class="cx vm"><h3>Hipernatrêmica (&gt; 150)</h3><p style="margin:0;font-size:13.2px">Perde mais água que sal, ou recebeu sal demais (soro caseiro mal preparado, fórmula concentrada). <b>Parece menos grave do que é.</b></p></div>
+    </div>
+    <div class="grid2" style="margin-top:12px">
+      <div class="cx vm"><h3>Como a hipernatrêmica se apresenta</h3><ul style="margin-bottom:0;font-size:13.2px"><li><b>Sede intensa e irritabilidade desproporcionais</b>, alternando com letargia.</li><li>Pele com consistência <b>"de massa de pão"</b>; a prega pode enganar.</li><li>Hipertonia, hiperreflexia, às vezes convulsão.</li><li>Choque aparece <b>tarde</b> — o volume extracelular é preservado às custas da célula.</li></ul></div>
+      <div class="cx vd"><h3>Como tratar</h3><ul style="margin-bottom:0;font-size:13.2px"><li>Choque, se houver, se trata igual: <b>bolus isotônico</b>.</li><li>Depois, <b>reidratação lenta ao longo de 48 h</b>, preferencialmente pela via oral/SRO quando possível.</li><li><b>Queda máxima do sódio: 0,5 mEq/L por hora</b> (≈ 10–12 mEq/L/dia). Rápido demais → <b>edema cerebral</b>.</li><li>Sódio seriado a cada 4 h no início, e glicemia — hiperglicemia é frequente.</li></ul></div>
+    </div>
+    <div class="frase">Na hipernatremia, pressa é a complicação. Reidrate em 48 horas, não em 6.</div>
+  </div>
+</section>
+
+<section class="slide caso" data-t="Plantão: o soro caseiro salgado" data-src="D:MS — soro caseiro apenas na ausência de SRO, pelo risco de erro de preparo;D:SBP — correção lenta na desidratação hipertônica" data-nt="Este caso fecha o argumento sobre o soro caseiro sem culpar a família: a receita é frágil, não a mãe. Se a turma sair daqui entregando sachê e ensinando o preparo na frente da mãe, a aula cumpriu seu papel.">
+  <div class="corpo">
+    <div class="kicker"><span class="kn">Par 13</span> · Você está no plantão</div>
+    <h2>Lactente, 5 meses, 6,0 kg</h2>
+    <div class="grid2" style="flex:1;min-height:0">
+      <div style="display:flex;flex-direction:column;gap:10px;min-height:0">
+        <div class="cx">
+          <div class="tag vm">vinheta</div>
+          <p style="margin-bottom:6px"><b>HDA:</b> diarreia há 4 dias. Sem sachê na unidade, a família preparou soro caseiro "com uma colher de sopa cheia de sal" em 1 litro, e ofereceu por 3 dias.</p>
+          <p style="margin-bottom:6px"><b>Exame:</b> muito irritado ao toque, chora sem lágrimas, <b>sede voraz</b>, hipertônico, pele com consistência pastosa. FC 152 bpm, enchimento capilar 2 s, PA normal.</p>
+          <p style="margin:0"><b>Laboratório:</b> sódio <b>168 mEq/L</b>, potássio 3,9, glicemia 168 mg/dL.</p>
+        </div>
+        <div class="cx nv"><h3>Antes de virar</h3><p style="margin:0;font-size:13px">Em quanto tempo você reidrata? Qual a velocidade máxima de queda do sódio?</p></div>
+      </div>
+      <div class="cort" onclick="revelar(this)">
+        <div class="painel">
+          <div class="tag vd">conduta</div>
+          <h3 style="margin-bottom:8px">Desidratação hipernatrêmica — reidratar em 48 h</h3>
+          <ul class="presc">
+            <li><b>1 ·</b> Com desidratação, tipo <b>hipernatrêmico</b> (Na 168). Sem choque: perfundida, PA normal.</li>
+            <li><b>2 ·</b> Internação com monitorização. <b>Não</b> há indicação de bolus agora — bolus só se houver choque.</li>
+            <li><b>3 ·</b> Como bebe avidamente e está consciente, <b>iniciar SRO</b> (a osmolaridade reduzida é adequada e reduz o sódio de forma gradual). Se não tolerar, hidratação venosa com <b>solução isotônica</b> programada para <b>48 h</b>, somando manutenção + déficit + perdas.</li>
+            <li><b>4 · Queda máxima de 0,5 mEq/L/h</b> — cerca de 10 a 12 mEq/L em 24 h. Meta: sódio próximo de 145 apenas no segundo dia.</li>
+            <li><b>5 ·</b> Manter aleitamento materno. Nada de fórmula concentrada nem de novos preparos caseiros.</li>
+            <li><b>6 · Sódio a cada 4 h</b> no início, glicemia, potássio, cálcio e diurese. Vigiar <b>convulsão durante a correção</b> — sinal de edema cerebral por queda rápida.</li>
+            <li><b>7 ·</b> Alta com <b>sachês de SRO</b> e demonstração do preparo. Explicar sem culpar: a medida caseira de sal é imprecisa por natureza — por isso o sachê existe.</li>
+          </ul>
+          <div class="cx am" style="margin-top:8px;padding:8px 10px"><p style="margin:0;font-size:12.8px"><b>Detalhe que engana:</b> nesta criança a prega cutânea pode estar quase normal e o enchimento capilar preservado. Quem classifica só pela prega subestima a gravidade.</p></div>
+        </div>
+        <div class="veu"><div class="t">Escreva a sua conduta primeiro</div><div class="s">Tempo de reidratação, via, velocidade de queda do sódio e o que você diz à família.</div><button class="rv" onclick="event.stopPropagation();revelar(this.closest('.cort'))">Revelar a conduta</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ================= PAR 14 ================= -->
+<section class="slide" data-t="Antibióticos: quase nunca" data-src="D:SBP/MS — antibiótico restrito a cólera, disenteria com critérios, sepse e imunossupressão;D:OMS — azitromicina 20 mg/kg dose única na cólera;C:O material de origem lista giardíase e amebíase como indicação, mas oferece apenas ceftriaxona e azitromicina — que não tratam protozoários" data-nt="A mensagem central é a contenção. Mais de 90 por cento das diarreias agudas da infância não levam antibiótico. Depois cubra a lacuna do material original: parasitose se trata com nitroimidazólico, não com cefalosporina.">
+  <div class="corpo">
+    <div class="kicker"><span class="kn">Par 14</span> · Conceito</div>
+    <h2>Quando entra antibiótico — e quando ele piora</h2>
+    <div class="grid2">
+      <div class="cx vd">
+        <h3>Indicações</h3>
+        <table style="margin-top:5px"><tr><th>Situação</th><th>Esquema</th></tr>
+          <tr><td><b>Disenteria</b> (suspeita de <i>Shigella</i>) com febre alta ou toxemia</td><td>Azitromicina <b>12 mg/kg</b> no D1 e <b>6 mg/kg/dia</b> do D2 ao D5 · ou ceftriaxona <b>50–100 mg/kg/dia</b> por 2–5 dias</td></tr>
+          <tr><td><b>Cólera</b></td><td>Azitromicina <b>20 mg/kg</b> em dose única</td></tr>
+          <tr><td><b>Giardíase</b></td><td>Metronidazol <b>15 mg/kg/dia</b> ÷ 3× por 5–7 dias · ou secnidazol <b>30 mg/kg</b> dose única</td></tr>
+          <tr><td><b>Amebíase</b></td><td>Metronidazol <b>35–50 mg/kg/dia</b> ÷ 3× por 7–10 dias</td></tr>
+          <tr><td><b>Sepse, imunossupressão, lactente jovem toxemiado</b></td><td>Antibiótico parenteral, conforme o foco e o protocolo local</td></tr></table>
+      </div>
+      <div class="cx vm">
+        <h3>Quando o antibiótico faz mal</h3>
+        <ul style="margin-bottom:0;font-size:13.2px">
+          <li><b>Suspeita de <i>E. coli</i> produtora de toxina Shiga</b> (diarreia sanguinolenta com febre baixa, dor intensa): antibiótico e antiespasmódico <b>aumentam o risco de síndrome hemolítico-urêmica</b>.</li>
+          <li><b>Salmonelose não tifoide</b> em criança previamente hígida: prolonga o estado de portador, sem encurtar a doença.</li>
+          <li><b>Diarreia aquosa sem sangue</b>: é viral na imensa maioria — antibiótico só acrescenta risco e resistência.</li>
+          <li><b>Coprocultura antes do antibiótico</b>, sempre que a indicação existir.</li>
+        </ul>
+        <div class="cx am" style="margin-top:9px;padding:8px 10px"><p style="margin:0;font-size:12.7px"><b>Correção do material de origem:</b> ceftriaxona e azitromicina <b>não tratam</b> <i>Giardia</i> nem <i>Entamoeba</i>. Para protozoário, nitroimidazólico.</p></div>
+      </div>
+    </div>
+    <div class="frase">Antibiótico em diarreia aguda é exceção com nome e sobrenome. Na dúvida, hidrate e reavalie.</div>
+  </div>
+</section>
+
+<section class="slide caso" data-t="Plantão: a diarreia que não passa" data-src="D:SBP — diarreia persistente: reavaliar nutrição e investigar parasitose;P:Esquemas de metronidazol e secnidazol variam entre serviços" data-nt="Interleaving com a definição do primeiro par: passou de 14 dias, mudou de categoria. Aqui o antibiótico entra — mas é antiparasitário, e o exame vem antes.">
+  <div class="corpo">
+    <div class="kicker"><span class="kn">Par 14</span> · Você está no plantão</div>
+    <h2>Escolar, 6 anos, 20 kg</h2>
+    <div class="grid2" style="flex:1;min-height:0">
+      <div style="display:flex;flex-direction:column;gap:10px;min-height:0">
+        <div class="cx">
+          <div class="tag vm">vinheta</div>
+          <p style="margin-bottom:6px"><b>HDA:</b> 3 semanas de fezes amolecidas, <b>volumosas, claras e com gordura</b>, muita flatulência e cólica. Sem sangue, sem febre. Frequenta creche com poço artesiano.</p>
+          <p style="margin-bottom:6px"><b>Exame:</b> hidratado, abdome distendido e timpânico, <b>perdeu 1,5 kg</b> em três semanas.</p>
+          <p style="margin:0">A mãe já deu, por conta própria, dois dias de amoxicilina sem melhora.</p>
+        </div>
+        <div class="cx nv"><h3>Antes de virar</h3><p style="margin:0;font-size:13px">Isso ainda é diarreia aguda? Que exame e que droga — com a dose para 20 kg?</p></div>
+      </div>
+      <div class="cort" onclick="revelar(this)">
+        <div class="painel">
+          <div class="tag vd">conduta</div>
+          <h3 style="margin-bottom:8px">Diarreia persistente com má absorção → giardíase provável</h3>
+          <ul class="presc">
+            <li><b>1 ·</b> Hidratado. Passou de 14 dias: já <b>não é diarreia aguda</b>, é <b>persistente</b> — muda o raciocínio.</li>
+            <li><b>2 ·</b> Manejo ambulatorial, com foco também na <b>recuperação nutricional</b>.</li>
+            <li><b>3 ·</b> SRO apenas se voltar a haver perda importante.</li>
+            <li><b>4 · Exame parasitológico de fezes, 3 amostras</b> (a <i>Giardia</i> é eliminada de forma intermitente); considerar pesquisa de antígeno se disponível.</li>
+            <li><b>5 · Tratamento: metronidazol 15 mg/kg/dia ÷ 3× por 5–7 dias = <span class="dose">100 mg de 8/8 h</span></b>. Alternativa de adesão: <b>secnidazol 30 mg/kg dose única = <span class="dose">600 mg</span></b> (máx. 2 g). Avisar sobre gosto metálico, náusea e urina escura.</li>
+            <li><b>6 · Suspender a amoxicilina</b> — não tem papel aqui e favorece diarreia associada a antibiótico.</li>
+            <li><b>7 ·</b> Dieta hipercalórica com refeição extra por 2 semanas; investigar a <b>água da creche</b> e tratar contactantes sintomáticos. Retorno em 15 dias <b>com peso</b>; se não melhorar, ampliar a investigação (doença celíaca, alergia alimentar, fibrose cística, imunodeficiência).</li>
+          </ul>
+          <div class="cx am" style="margin-top:8px;padding:8px 10px"><p style="margin:0;font-size:12.8px"><b>Marca clínica:</b> fezes gordurosas, distensão e perda de peso apontam para <b>má absorção</b>, não para infecção aguda. Parasitológico negativo isolado não exclui giardíase.</p></div>
+        </div>
+        <div class="veu"><div class="t">Escreva a sua conduta primeiro</div><div class="s">Categoria, exame, droga e dose em mg para 20 kg.</div><button class="rv" onclick="event.stopPropagation();revelar(this.closest('.cort'))">Revelar a conduta</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PAR 15 ================= -->
+<section class="slide" data-t="O que não prescrever" data-src="D:SBP/OMS — antidiarreicos, antiespasmódicos e adsorventes não indicados na criança;P:Probióticos e racecadotrila: adjuvantes de benefício modesto e inconsistente;C:O material de origem não lista as drogas proibidas nem discute adjuvantes" data-nt="Este slide é o que mais muda a prática do interno, porque a pressão da família é por 'alguma coisa que corte a diarreia'. Ofereça a frase pronta para devolver essa pressão sem confronto. Sobre probióticos, seja honesto: os grandes ensaios recentes foram negativos, então não é item obrigatório de receita.">
+  <div class="corpo">
+    <div class="kicker"><span class="kn">Par 15</span> · Conceito</div>
+    <h2>A metade da receita que é feita de "não"</h2>
+    <div class="grid2">
+      <div class="cx vm">
+        <h3>Não prescrever</h3>
+        <ul style="margin-bottom:0;font-size:13.2px">
+          <li><b>Loperamida e derivados opioides</b> — íleo, distensão, depressão do sistema nervoso central e sepse. Não usar em crianças.</li>
+          <li><b>Antiespasmódicos</b> (hioscina e similares) — mascaram e distendem.</li>
+          <li><b>Antibióticos "intestinais" não absorvíveis</b> e antissépticos de intestino — sem indicação.</li>
+          <li><b>Adsorventes</b> (carvão, caulim-pectina) — mudam o aspecto das fezes, não a perda de água.</li>
+          <li><b>Antieméticos de rotina</b> (metoclopramida, dimenidrinato) em lactentes — extrapiramidal e sedação.</li>
+          <li><b>Jejum, chá, refrigerante, dieta restritiva</b> — já discutidos, e ainda muito prescritos.</li>
+        </ul>
+      </div>
+      <div class="cx am">
+        <h3>Adjuvantes: o que dá para dizer com honestidade</h3>
+        <p style="margin-bottom:6px"><b>Probióticos</b> (<i>S. boulardii</i>, <i>L. rhamnosus</i> GG): estudos antigos sugeriam redução de cerca de um dia na duração; <b>grandes ensaios recentes não confirmaram benefício</b> em serviço de emergência. Podem ser considerados, <b>não são obrigatórios</b> e não substituem nada. Evitar em imunodeprimidos e em cateter central.</p>
+        <p style="margin:0"><b>Racecadotrila</b>: antissecretor, reduz o volume fecal em alguns estudos, como <b>adjuvante</b> do SRO — nunca no lugar dele. Disponibilidade e custo variam.</p>
+      </div>
+    </div>
+    <div class="cx nv" style="margin-top:12px"><h3>A frase para devolver a pressão da família</h3><p style="margin:0">"Não existe remédio que corte a diarreia com segurança nessa idade — os que existem escondem a perda e podem piorar. O que funciona é repor o líquido do jeito certo, manter a comida e dar zinco. E eu vou te ensinar exatamente como fazer isso em casa."</p></div>
+    <div class="frase">Prescrever menos, aqui, é prescrever melhor.</div>
+  </div>
+</section>
+
+<section class="slide caso" data-t="Plantão: desprescrever" data-src="D:SBP — antidiarreicos contraindicados em pediatria;D:MS — Plano A completo" data-nt="Exercício de coragem clínica: retirar o que outro colega prescreveu, sem desmoralizar ninguém diante da família. Ensine a fórmula: fala-se do remédio, nunca do médico.">
+  <div class="corpo">
+    <div class="kicker"><span class="kn">Par 15</span> · Você está no plantão</div>
+    <h2>Pré-escolar, 2 anos, 12 kg — segunda opinião</h2>
+    <div class="grid2" style="flex:1;min-height:0">
+      <div style="display:flex;flex-direction:column;gap:10px;min-height:0">
+        <div class="cx">
+          <div class="tag vm">vinheta</div>
+          <p style="margin-bottom:6px"><b>HDA:</b> diarreia aquosa há 2 dias, sem sangue, sem febre. Ontem foi a outro serviço e voltou com receita de <b>loperamida, hioscina, um antibiótico intestinal e dimenidrinato</b>.</p>
+          <p style="margin-bottom:6px"><b>Hoje:</b> "quase não evacuou mais", porém está com o <b>abdome distendido</b>, sonolenta e vomitou duas vezes.</p>
+          <p style="margin:0"><b>Exame:</b> sonolenta mas despertável, olhos encovados, boca seca, prega lenta, abdome timpânico com ruídos diminuídos.</p>
+        </div>
+        <div class="cx nv"><h3>Antes de virar</h3><p style="margin:0;font-size:13px">O que essa "melhora" da diarreia significa? Escreva o que você retira e o que você mantém.</p></div>
+      </div>
+      <div class="cort" onclick="revelar(this)">
+        <div class="painel">
+          <div class="tag vd">conduta</div>
+          <h3 style="margin-bottom:8px">A diarreia não parou — ela ficou presa dentro da alça</h3>
+          <ul class="presc">
+            <li><b>1 ·</b> Com desidratação, agora <b>mascarada</b>: a perda continua no terceiro espaço intestinal. Sonolência + distensão + ruídos diminuídos sugerem <b>íleo por opioide</b>, possivelmente somado a hipocalemia.</li>
+            <li><b>2 · Suspender as quatro drogas imediatamente.</b></li>
+            <li><b>3 ·</b> Observação na unidade. Tentar <b>TRO (Plano B): 75 mL/kg em 4 h = <span class="dose">900 mL</span></b>, em pequenos volumes. <b>Não passar sonda</b> enquanto houver distensão importante.</li>
+            <li><b>4 ·</b> Se não tolerar a via oral ou se a distensão progredir: <b>hidratação venosa com solução isotônica</b>, e dosar <b>potássio e sódio</b>.</li>
+            <li><b>5 ·</b> Manter dieta assim que houver tolerância; <b>zinco 20 mg/dia por 10–14 dias</b>.</li>
+            <li><b>6 ·</b> Vigiar sonolência progressiva, vômito bilioso, piora da distensão e ausência de ruídos — sinais de que a alça está parando.</li>
+            <li><b>7 ·</b> Alta somente com abdome normal, tolerância oral e diurese, com SRO, sinais de alarme por escrito e <b>a explicação de por que aqueles remédios saíram</b>.</li>
+          </ul>
+          <div class="cx am" style="margin-top:8px;padding:8px 10px"><p style="margin:0;font-size:12.8px"><b>Como dizer sem constranger:</b> "esses remédios seguram a diarreia dentro do intestino em vez de repor o que se perdeu; hoje a orientação é não usá-los em criança. Vamos fazer o tratamento que resolve de verdade." Fale do remédio — não do colega.</p></div>
+        </div>
+        <div class="veu"><div class="t">Escreva a sua conduta primeiro</div><div class="s">Duas colunas: retirar e manter. E como você explica isso à mãe.</div><button class="rv" onclick="event.stopPropagation();revelar(this.closest('.cort'))">Revelar a conduta</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ================= PAR 16 ================= -->
+<section class="slide" data-t="Exames, alta e alarme" data-src="D:SBP/MS — nenhum exame de rotina na diarreia aguda;D:MS — critérios de alta e sinais de alarme entregues por escrito;P:Pesquisa de antígeno de rotavírus tem valor epidemiológico, sem mudar a conduta individual" data-nt="Feche o raciocínio: exame nenhum substitui a reavaliação. E cobre o item que mais falta nos prontuários brasileiros: sinais de alarme registrados e entregues por escrito. A alta mal feita é o que traz a criança de volta em choque.">
+  <div class="corpo">
+    <div class="kicker"><span class="kn">Par 16</span> · Conceito</div>
+    <h2>Poucos exames, uma alta bem feita</h2>
+    <div class="grid2">
+      <div class="cx az">
+        <h3>Quando pedir alguma coisa</h3>
+        <ul style="margin-bottom:0;font-size:13.2px">
+          <li><b>Nenhum exame de rotina</b> na diarreia aguda com desidratação leve ou ausente.</li>
+          <li><b>Coprocultura:</b> disenteria, toxemia/sepse, imunossupressão, suspeita de cólera, surto ou lactente jovem grave — <b>antes</b> do antibiótico.</li>
+          <li><b>Parasitológico (3 amostras):</b> quadro arrastado, persistente ou epidemiologia sugestiva.</li>
+          <li><b>Sódio, potássio, gasometria, ureia e creatinina:</b> desidratação grave, hidratação venosa, rebaixamento, convulsão ou perdas muito volumosas.</li>
+          <li><b>Glicemia capilar:</b> em toda criança com rebaixamento de consciência.</li>
+          <li><b>Hemograma e PCR</b> não decidem antibiótico aqui; <b>leucócitos fecais</b> têm acurácia baixa.</li>
+        </ul>
+      </div>
+      <div class="cx vd">
+        <h3>Critérios de alta</h3>
+        <ul style="margin-bottom:6px;font-size:13.2px">
+          <li>Hidratada e <b>tolerando líquidos por via oral</b>.</li>
+          <li><b>Diurese presente.</b></li>
+          <li>Aceitando alimento e mantendo o aleitamento.</li>
+          <li><b>Acompanhante capaz</b> de manter o SRO em casa — e que soube repetir a orientação.</li>
+          <li>Retorno acessível e agendado.</li>
+        </ul>
+        <div class="cx vm" style="padding:9px 10px;margin:0">
+          <h3 style="margin-bottom:3px">Sinais de alarme — entregue por escrito</h3>
+          <p style="margin:0;font-size:12.9px">Piora da diarreia · vômitos repetidos · <b>sede intensa</b> · recusa de líquidos · <b>sangue nas fezes</b> · febre alta · criança prostrada ou muito irritada · <b>urina escassa ou ausente por muitas horas</b> · olhos encovados ou choro sem lágrimas · abdome distendido.</p>
+        </div>
+      </div>
+    </div>
+    <div class="frase">A consulta não termina no diagnóstico: termina quando a mãe consegue repetir, com as palavras dela, quando trazer a criança de volta.</div>
+  </div>
+</section>
+
+<section class="slide caso" data-t="Estação OSCE — 5 minutos" data-src="P:Estação de avaliação construída para esta aula, ancorada nos critérios do MS/SBP" data-nt="Rode como estação de verdade: um aluno atende, os outros cronometram e marcam. Cinco minutos, sem consulta. O gabarito é o próprio checklist — leia item a item ao final e some.">
+  <div class="corpo">
+    <div class="kicker"><span class="kn">Par 16</span> · Avaliação final</div>
+    <h2>Estação: 5 minutos, sem consulta</h2>
+    <div class="grid2" style="flex:1;min-height:0">
+      <div style="display:flex;flex-direction:column;gap:10px;min-height:0">
+        <div class="cx">
+          <div class="tag vm">cenário</div>
+          <p style="margin-bottom:6px"><b>Lactente de 11 meses, 9 kg.</b> Diarreia aquosa há 2 dias, 7 episódios/dia, dois vômitos hoje. Sem sangue. Febre 37,9 °C.</p>
+          <p style="margin-bottom:6px"><b>Exame:</b> irritado, olhos encovados, sem lágrimas, bebe com avidez, prega desfaz lentamente, enchimento capilar 2 s, diurese reduzida.</p>
+          <p style="margin:0;font-size:13px"><b>Tarefas:</b> classificar · definir o plano · calcular o volume · escrever a prescrição completa · orientar a mãe em linguagem leiga.</p>
+        </div>
+        <div class="cx nv"><h3>Regra da estação</h3><p style="margin:0;font-size:13px">Cinco minutos cronometrados. Cada item do gabarito vale 1 ponto; os marcados com ★ valem 2. <b>Aprovação: 70%.</b></p></div>
+      </div>
+      <div class="cort" onclick="revelar(this)">
+        <div class="painel">
+          <div class="tag vd">gabarito · 16 pontos</div>
+          <ul class="presc" style="font-size:12.9px">
+            <li>★ Classifica como <b>"com desidratação"</b>, citando ao menos 3 dos 5 sinais.</li>
+            <li>★ Indica <b>Plano B</b>, na unidade, e não manda para casa.</li>
+            <li>★ Calcula <b>SRO 75 mL/kg em 4 h = 675 mL</b> (aceitável 450–900 mL pela faixa de 50–100 mL/kg).</li>
+            <li>Explica a técnica: <b>colher, pequenos volumes, a cada 5 minutos</b>.</li>
+            <li>Prevê o vômito: <b>pausa de 10 minutos</b> e reinício mais lento.</li>
+            <li>★ Prescreve <b>zinco 20 mg/dia por 10–14 dias</b> (idade ≥ 6 meses), após reidratar.</li>
+            <li>Mantém o <b>aleitamento materno</b> durante a TRO.</li>
+            <li>Retoma a <b>dieta habitual</b> após a reidratação; não dilui leite, não indica jejum.</li>
+            <li><b>Não</b> prescreve antibiótico, antidiarreico ou antiespasmódico.</li>
+            <li>Cita <b>ondansetrona 2 mg em dose única</b> apenas se o vômito impedir a TRO (faixa 8–15 kg).</li>
+            <li>Não pede exames de rotina.</li>
+            <li>★ Reavalia <b>de hora em hora</b> e nomeia o que reavaliar.</li>
+            <li>Define as três saídas das 4 h: <b>Plano A / repetir / Plano C</b>.</li>
+            <li>★ Entrega os <b>sinais de alarme por escrito</b> e confirma que a mãe repetiu.</li>
+            <li>Prescreve <b>SRO domiciliar 50–100 mL após cada evacuação</b> (menor de 1 ano).</li>
+            <li>Agenda <b>retorno em 24 h com peso</b>.</li>
+          </ul>
+        </div>
+        <div class="veu"><div class="t">Atenda primeiro. Depois abra o gabarito.</div><div class="s">Cinco minutos no relógio. Escreva a prescrição inteira antes de revelar.</div><button class="rv" onclick="event.stopPropagation();revelar(this.closest('.cort'))">Abrir o gabarito</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FECHAMENTO ================= -->
+<section class="slide" data-t="Revisão de 60 segundos" data-src="D:Consolidação dos números da aula (MS/SBP/OMS)" data-nt="Leia em voz alta, rápido, apontando para cada número. Depois apague a projeção e peça que a turma repita. É a última chance de consolidar antes de sair da sala.">
+  <div class="corpo">
+    <div class="kicker">Revisão</div>
+    <h2>Sessenta segundos, todos os números</h2>
+    <div class="grid3">
+      <div class="cx az"><h3>Classificar</h3><p style="margin:0;font-size:13px"><b>5 sinais:</b> estado geral · olhos · lágrimas/boca · sede · prega.<br><b>2 ou mais</b> na mesma coluna classificam.<br>Na dúvida, suba de gravidade.</p></div>
+      <div class="cx vd"><h3>Plano A · A.G.U.A.</h3><p style="margin:0;font-size:13px">SRO após cada evacuação: <b>50–100 mL</b> (&lt;1 ano) · <b>100–200 mL</b> (1–10 anos).<br>Zinco <b>10 mg</b> (&lt;6 m) ou <b>20 mg</b> (≥6 m) por <b>10–14 dias</b>.<br>Dieta habitual mantida.</p></div>
+      <div class="cx am"><h3>Plano B</h3><p style="margin:0;font-size:13px"><b>75 mL/kg em 4 h</b> (faixa 50–100 mL/kg em 4–6 h), na unidade.<br>Vomitou: pausa de <b>10 min</b>.<br>Falhou a boca: <b>gastróclise 20–30 mL/kg/h</b>.<br>Ondansetrona: <b>2 / 4 / 8 mg</b> por faixa de peso, dose única.</p></div>
+      <div class="cx vm"><h3>Plano C · SBP 2023</h3><p style="margin:0;font-size:13px"><b>100 mL/kg = 30 + 70 mL/kg</b>, com solução isotônica.<br>&lt;1 ano: 1 h + 5 h · ≥1 ano: 30 min + 2 h30.<br><b>Choque franco:</b> ressuscitação hemodinâmica é uma decisão adicional, não um “20 mL/kg obrigatório” antes do Plano C.</p></div>
+      <div class="cx az"><h3>Manutenção</h3><p style="margin:0;font-size:13px">Holliday-Segar: <b>100 / 50 / 20 mL/kg</b>.<br>Solução <b>isotônica</b> (Na ≈ 130–154 mEq/L), nunca ~30.<br>K <b>2–3 mEq/kg/dia</b>, só <b>após a diurese</b>.<br>microgotas/min = mL/h.</p></div>
+      <div class="cx vd"><h3>Drogas</h3><p style="margin:0;font-size:13px">Zinco: quase sempre.<br>Ondansetrona: às vezes, dose única.<br>Antibiótico: quase nunca — disenteria com critérios, cólera, sepse, imunossupressão, parasitose.<br>Antidiarreico: <b>nunca</b>.</p></div>
+    </div>
+    <div class="frase">Se você lembrar de uma só coisa: <b>classifique pelos cinco sinais e reponha pela boca</b>. O resto é consequência.</div>
+  </div>
+</section>
+
+<section class="slide" data-t="As 6 correções desta aula" data-src="C:Divergências entre o material de origem e as fontes atuais, verificadas para esta aula" data-nt="Slide de honestidade intelectual. Não é para desqualificar o material de origem, e sim para mostrar à turma que material de aula envelhece e que a fonte precisa ser checada. Se quiser, use como slide de discussão em vez de exposição.">
+  <div class="corpo">
+    <div class="kicker">Onde o material clássico precisa de ajuste</div>
+    <h2>Seis pontos que esta aula corrigiu</h2>
+    <div class="grid2" style="gap:10px">
+      <div class="cx vm"><h3>1 · Soro de manutenção hipotônico</h3><p style="margin:0;font-size:13px">A conta de 3 mEq de Na por 100 mL gera ≈ 30 mEq/L. Hoje a manutenção é <b>isotônica</b>, pelo risco de hiponatremia iatrogênica.</p></div>
+      <div class="cx vm"><h3>2 · Plano C só do menor de 1 ano</h3><p style="margin:0;font-size:13px">Falta o esquema do <b>maior de 1 ano</b> (30 mL/kg em 30 min + 70 mL/kg em 2 h30) e a lógica de <b>bolus repetidos</b> do MS.</p></div>
+      <div class="cx vm"><h3>3 · "Desidratação moderada"</h3><p style="margin:0;font-size:13px">A nomenclatura do MS/OMS é <b>com desidratação</b> × <b>grave</b>, e classifica-se por <b>2 ou mais sinais</b> na mesma coluna.</p></div>
+      <div class="cx vm"><h3>4 · Parasitose com cefalosporina</h3><p style="margin:0;font-size:13px">Giardíase e amebíase aparecem como indicação de antibiótico, mas exigem <b>nitroimidazólico</b> — ceftriaxona e azitromicina não as tratam.</p></div>
+      <div class="cx vm"><h3>5 · Ondansetrona sem cautelas</h3><p style="margin:0;font-size:13px">Faltam <b>idade mínima, dose única, QT longo</b> e o aviso de que o número de evacuações pode aumentar.</p></div>
+      <div class="cx vm"><h3>6 · Etapas que somem</h3><p style="margin:0;font-size:13px">Sem <b>gastróclise</b> antes da veia, sem <b>o que não prescrever</b>, sem <b>prevenção e vacina de rotavírus</b>.</p></div>
+    </div>
+    <div class="frase">Nada disso é novidade de diretriz recente: são pontos que as fontes já diziam e que o material não incorporou.</div>
+  </div>
+</section>
+
+<section class="slide" data-t="Referências e encerramento" data-src="D:Fontes utilizadas nesta aula" data-nt="Encerre no argumento humano: a diarreia é a doença em que a diferença entre viver e morrer costuma ser um copo de soro oferecido de colher, com paciência, por alguém que sabia o que estava fazendo. Esse alguém é o aluno.">
+  <div class="corpo">
+    <div class="kicker">Encerramento</div>
+    <h2>Referências</h2>
+    <div class="grid2">
+      <div class="cx">
+        <ul style="margin-bottom:0;font-size:13.2px">
+          <li>Sociedade Brasileira de Pediatria. Departamento Científico de Gastroenterologia. <b>Diarreia aguda: diagnóstico e tratamento</b> — Guia Prático de Atualização.</li>
+          <li>Brasil. Ministério da Saúde. <b>Manejo da criança com diarreia aguda</b> — planos A, B e C.</li>
+          <li>World Health Organization. <b>The treatment of diarrhoea</b> / <b>Diarrhoeal disease: key facts</b>; OMS/UNICEF, <b>SRO de osmolaridade reduzida</b>.</li>
+          <li>Brasil. Ministério da Saúde. <b>Calendário Nacional de Vacinação</b> — vacina oral de rotavírus humano.</li>
+          <li>American Academy of Pediatrics. <b>Clinical Practice Guideline: Maintenance Intravenous Fluids in Children</b> (soluções isotônicas).</li>
+          <li>Kliegman RM et al. <b>Nelson — Tratado de Pediatria</b>, capítulo de diarreia aguda e desidratação.</li>
+        </ul>
+      </div>
+      <div class="cx nv" style="display:flex;flex-direction:column;justify-content:center">
+        <p style="color:#e8f1f8;font-size:15.5px;margin-bottom:10px">Nenhuma tecnologia da pediatria salvou tantas crianças quanto uma colher, um copo e alguém com paciência para oferecer o soro de cinco em cinco minutos.</p>
+        <p style="color:#e8f1f8;margin:0">É uma prescrição barata, antiga e quase sempre suficiente — desde que alguém a faça direito. Esse alguém é você.</p>
+        <div style="margin-top:14px"><span class="assin" style="color:#7fd1e6">Dr. André Rossanno</span></div>
+      </div>
+    </div>
+    <div class="frase">A doença não mata. A desidratação, sim — e ela tem tratamento desde 1970. <span style="font-family:var(--mono);font-size:12px;color:#94a3b4">memoriapotencial.com.br</span></div>
+  </div>
+</section>
+</main>
+<aside id="notas"><h4>Notas do professor</h4><p id="notasTxt"></p><div class="fon" id="notasFon"></div></aside>
+<div id="grade"><h3>Índice da aula</h3><div id="gwrap"></div></div>
+<script>
+(function(){
+  "use strict";
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var atual = 0;
+  var LABEL = {D:'Diretriz', P:'Protocolo / variação', C:'Correção'};
+
+  // ---- monta o trilho de fonte de cada slide ----
+  slides.forEach(function(s, i){
+    var rail = document.createElement('aside');
+    rail.className = 'rail';
+    var html = '<div class="kn">' + String(i+1).padStart(2,'0') + '</div><div class="rl">Procedência</div>';
+    var src = s.getAttribute('data-src') || '';
+    src.split(';').forEach(function(item){
+      item = item.trim();
+      if(!item) return;
+      var p = item.indexOf(':');
+      if(p < 0) return;
+      var k = item.slice(0,p).trim().toUpperCase();
+      var txt = item.slice(p+1).trim();
+      if(!LABEL[k]) return;
+      html += '<div class="chip ' + k + '"><b>' + LABEL[k] + '</b>' + txt + '</div>';
+    });
+    rail.innerHTML = html;
+    s.insertBefore(rail, s.firstChild);
+  });
+
+  // ---- índice ----
+  var gwrap = document.getElementById('gwrap');
+  slides.forEach(function(s, i){
+    var b = document.createElement('button');
+    if(s.classList.contains('caso')) b.className = 'cs';
+    b.innerHTML = '<i>' + String(i+1).padStart(2,'0') + (s.classList.contains('caso') ? ' · plantão' : '') + '</i>' + (s.getAttribute('data-t') || 'Slide');
+    b.addEventListener('click', function(){ ir(i); toggleGrade(false); });
+    gwrap.appendChild(b);
+  });
+
+  // ---- navegação ----
+  function ir(n){
+    if(n < 0) n = 0;
+    if(n > slides.length-1) n = slides.length-1;
+    slides[atual].classList.remove('on');
+    atual = n;
+    slides[atual].classList.add('on');
+    slides[atual].scrollTop = 0;
+    document.getElementById('progi').style.width = ((atual+1)/slides.length*100) + '%';
+    document.getElementById('contador').textContent = (atual+1) + ' / ' + slides.length;
+    atualizaNotas();
+    if(history.replaceState) history.replaceState(null, '', '#' + (atual+1));
+  }
+  function prox(){ ir(atual+1); }
+  function ant(){ ir(atual-1); }
+
+  function atualizaNotas(){
+    var s = slides[atual];
+    document.getElementById('notasTxt').textContent = s.getAttribute('data-nt') || 'Sem notas para este slide.';
+    var src = (s.getAttribute('data-src') || '').split(';').map(function(x){
+      var p = x.indexOf(':');
+      if(p < 0) return '';
+      var k = x.slice(0,p).trim().toUpperCase();
+      return LABEL[k] ? '[' + LABEL[k] + '] ' + x.slice(p+1).trim() : '';
+    }).filter(Boolean).join('<br>');
+    document.getElementById('notasFon').innerHTML = src || '';
+  }
+
+  // ---- cortina ----
+  function revelar(el){ if(el) el.classList.add('aberta'); }
+  function revelarAtual(){
+    var c = slides[atual].querySelector('.cort');
+    if(c) revelar(c);
+  }
+
+  // ---- painéis ----
+  function toggleNotas(forca){
+    var n = document.getElementById('notas');
+    var abrir = (typeof forca === 'boolean') ? forca : !n.classList.contains('on');
+    n.classList.toggle('on', abrir);
+  }
+  function toggleGrade(forca){
+    var g = document.getElementById('grade');
+    var abrir = (typeof forca === 'boolean') ? forca : !g.classList.contains('on');
+    g.classList.toggle('on', abrir);
+  }
+  function toggleAprs(){ document.body.classList.toggle('aprs'); }
+  function fullscreen(){
+    if(!document.fullscreenElement){
+      if(document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
+    } else if(document.exitFullscreen){ document.exitFullscreen(); }
+  }
+  function pularPara(e){
+    var r = e.currentTarget.getBoundingClientRect();
+    ir(Math.round((e.clientX - r.left) / r.width * (slides.length-1)));
+  }
+
+  // ---- teclado ----
+  document.addEventListener('keydown', function(e){
+    if(e.target && /INPUT|TEXTAREA/.test(e.target.tagName)) return;
+    var k = e.key;
+    if(k === 'ArrowRight' || k === 'PageDown'){ prox(); e.preventDefault(); }
+    else if(k === 'ArrowLeft' || k === 'PageUp'){ ant(); e.preventDefault(); }
+    else if(k === ' '){ revelarAtual(); prox(); e.preventDefault(); }
+    else if(k === 'r' || k === 'R'){ revelarAtual(); }
+    else if(k === 'n' || k === 'N'){ toggleNotas(); }
+    else if(k === 'g' || k === 'G'){ toggleGrade(); }
+    else if(k === 'p' || k === 'P'){ toggleAprs(); }
+    else if(k === 'f' || k === 'F'){ fullscreen(); }
+    else if(k === 'Home'){ ir(0); }
+    else if(k === 'End'){ ir(slides.length-1); }
+    else if(k === 'Escape'){ toggleGrade(false); toggleNotas(false); }
+  });
+
+  // ---- toque ----
+  var x0 = null, y0 = null;
+  document.getElementById('palco').addEventListener('touchstart', function(e){
+    x0 = e.changedTouches[0].clientX; y0 = e.changedTouches[0].clientY;
+  }, {passive:true});
+  document.getElementById('palco').addEventListener('touchend', function(e){
+    if(x0 === null) return;
+    var dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
+    if(Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy)*1.5){ dx < 0 ? prox() : ant(); }
+    x0 = null; y0 = null;
+  }, {passive:true});
+
+  // ---- expõe o que o HTML chama ----
+  window.ir = ir; window.revelar = revelar; window.toggleNotas = toggleNotas;
+  window.toggleGrade = toggleGrade; window.toggleAprs = toggleAprs;
+  window.fullscreen = fullscreen; window.pularPara = pularPara;
+
+  // ---- início ----
+  var inicial = parseInt((location.hash || '').replace('#',''), 10);
+  slides[0].classList.add('on');
+  ir(isNaN(inicial) ? 0 : inicial-1);
+})();
+</script>
+</body>
+</html>
